@@ -1,0 +1,13 @@
+.serviceList .item{width: 92%;margin-bottom: 30rpx;background: #fff;padding: 4%;position: relative;}
+.serviceList .tip{flex-wrap:wrap;margin: 20rpx 0;}
+.serviceList .tip .tip-item{padding:10rpx;border-radius: 25rpx;margin:5rpx  30rpx 5rpx 0;}
+.serviceList .imgbox .lisThree{ width:200rpx;height: 130rpx; overflow: hidden; margin-right: 15rpx;}
+.serviceList .imgbox .lisThree:nth-child(3n){margin-right: 0;}
+.serviceList .imgbox .lisOne{width: 100%; height: 360rpx;}
+.serviceList .imgbox .lisTwo{width:240rpx; height: 240rpx;margin-right: 30rpx;}
+.serviceList .imgbox .lisTwo:nth-child(2n){margin-right: 0;}
+.serviceList .imgbox .img{margin-top: 20rpx;}
+.serviceList .imgbox image{width: 100%;height: 100%;display: block;border-radius: 10rpx;}
+.serviceList .info{margin-top: 20rpx;}
+.serviceList .info image{width: 24rpx;height: 24rpx;margin-right: 20rpx;}
+.serviceList .phone{margin-right: 50rpx;}
