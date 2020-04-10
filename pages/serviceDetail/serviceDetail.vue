@@ -1,36 +1,25 @@
 <template>
 	<view>
-		
+		<view class="banner-box">
+			<swiper style="width: 100%;height: 400rpx;" class="swiper-box" indicator-dots="true" autoplay="true" interval="3000" duration="1000" indicator-active-color="#757575">
+				<block v-for="(item,index) in bannerImg" :key="index">
+					<swiper-item class="swiper-item">
+						<image style="width: 100%;height: 400rpx;" :src="item.url" class="slide-image" />
+					</swiper-item>
+				</block>
+			</swiper>
+		</view>
 		<view class="mglr4 pdtb15">
 			<view class="compayTit flex">
-				<view class="text pubColor fs15">广州专业10年注册公司记账报税</view>
-			</view>
-			<view class="flexRowBetween">
-				<view class="ll fs12">
-					<view class="color9 mgt10 fs11">更新时间：<text>2019-12-19</text></view>
-				</view>
-				<view class="reward mgt10 flex">
-					<image src="../../static/images/qiugou-icon2.png"></image>
-					<view class="fs11 colorffad">赚2金币</view>
-				</view>
+				<view class="text color2 fs15" style="font-weight: bold;">广州专业10年注册公司记账报税</view>
 			</view>
 		</view>
 		<view class="f5H5"></view>
 		
-		<view class="buyPeople  mglr4">
-			<view class="flexRowBetween">
-				<view class="flex">
-					<view class="headImg">
-						<image src="../../static/images/service-details-img.png"></image>
-					</view>
-					<view style="margin-left: 20rpx;">发布人：张宇</view>
-				</view>
-				<view class="red">156789008908</view>
-			</view>
-		</view>
+		
 		<view class="f5H5"></view>
 		<view class="mglr4 pdtb15">
-			<view class="flex fs14 ftw"><image class="TitIcon" src="../../static/images/service-details-icon.png" mode=""></image><text>基本信息</text></view>
+			<view class="flex fs14 ftw"><image class="TitIcon" src="../../static/images/service-details-icon.png" mode=""></image><text>服务内容</text></view>
 			<view class="msgInfor fs12">
 				<view class="item">
 					<text class="color6">服务区域：</text>
@@ -43,15 +32,10 @@
 			</view>
 		</view>
 		<view class="f5H5"></view>
-
 		<view class="mglr4 pdtb15">
-			<view class="flex fs14 ftw"><image class="TitIcon" src="../../static/images/service-details-icon1.png" mode=""></image><text>公司图集</text></view>
+			<view class="flex fs14 ftw"><image class="TitIcon" src="../../static/images/service-details-icon3.png" mode=""></image><text>更多服务</text></view>
 			<view class="msgInfor fs12">
-				<view class="item">
-					<image class="img" src="../../static/images/service-details-img1.png"></image>
-					<image class="img" src="../../static/images/service-details-img1.png"></image>
-					<image class="img" src="../../static/images/service-details-img1.png"></image>
-				</view>
+				
 			</view>
 		</view>
 		<view class="f5H5"></view>
@@ -66,10 +50,16 @@
 			</view>
 		</view>
 		<view class="f5H5"></view>
-		<view class="mglr4 pdtb15">
-			<view class="flex fs14 ftw"><image class="TitIcon" src="../../static/images/service-details-icon3.png" mode=""></image><text>更多服务</text></view>
-			<view class="msgInfor fs12">
-				
+		
+		<view class="buyPeople  mglr4">
+			<view class="flexRowBetween">
+				<view class="flex" style="width: 50%;">
+					<view class="headImg flexCenter">
+						<image src="../../static/images/service-details-img.png"></image>
+					</view>
+					<view style="margin-left: 20rpx;">发布人：张宇</view>
+				</view>
+				<view class="red">156789008908</view>
 			</view>
 		</view>
 		<!-- 
@@ -106,7 +96,10 @@
 				wx_info:{},
 				is_show:false,
 				num:false,
-				is_xuzhiShow:false
+				is_xuzhiShow:false,
+				bannerImg:[
+					{url:'../../static/images/service-details-img1.png'}
+				]
 			}
 		},
 		
@@ -157,6 +150,7 @@
 		color: #000000;
 		background: none;
 	}
-	.buyPeople .headImg{width: 30%;}
+	
+	.buyPeople .headImg{width: 25%;}
 	.buyPeople .headImg image{width: 80rpx;height: 80rpx;}
 </style>

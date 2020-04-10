@@ -27,11 +27,11 @@
 		
 		<view class="mglr4  companyList pdtb15">
 			<view class="item radius10 whiteBj" v-for="(item,index) in mainData" @click="Router.navigateTo({route:{path:'/pages/companyDetail/companyDetail'}})">
-				<view class="no fs11 color9">公司编号：432423423</view>
-				<view class="name fs15 pubColor center">深圳市***教育公司</view>
-				<view class="text fs13 color2">成立时间:<span class="fs13 color6">2018.02.23</span></view>
-				<view class="text fs13 color2">注册资本:<span class="fs13 color6">100万人民币</span></view>
-				<view class="text fs13 color2">实缴资本:<span class="fs13 color6">12万人民币</span></view>
+				<view class="no fs11 color9">公司编号：{{item.id}}</view>
+				<view class="name fs15 pubColor center">{{item.title}}</view>
+				<view class="text fs13 color2">成立时间:<span class="fs13 color6">{{item.description}}</span></view>
+				<view class="text fs13 color2">注册资本:<span class="fs13 color6">{{item.small_title}}</span></view>
+				<view class="text fs13 color2">实缴资本:<span class="fs13 color6">{{item.passage1}}</span></view>
 				<view class="flex tip">
 					<view class="tip-item fs12 color6" style="background-color: #fff0f0;">空壳</view>
 					<view class="tip-item fs12 color6" style="background-color: #f0f3ff;">买过保险</view>
@@ -39,7 +39,7 @@
 				</view>
 				<view class="type">
 					<image class="icon" src="../../static/images/2.png" mode=""></image>
-					<view class="text fs11 white">物流类</view>
+					<view class="text fs11 white">{{item.label&&item.label[item.menu_id]?item.label[item.menu_id].title:''}}</view>
 				</view>
 				<view class="button">
 					<view class="underBtn flexCenter">
@@ -93,26 +93,20 @@
 		data() {
 			return {
 				Router:this.$Router,
-				showView: false,
-				wx_info:{},
-				is_show:false,
-				labelData: [
-					"../../static/images/home-banner.png",
-					"../../static/images/home-banner.png"
-				],
-				productData:[{},{},{},{},{},{}],
-				sliderData:{},
-				mainData:[{},{}],
+				mainData:[],
 				searchItem:{
-					thirdapp_id:2
-				}
+					thirdapp_id:2,
+					menu_id:9
+				},
+				labelData:[],
+				idArray:[]
 			}
 		},
 		
 		onLoad() {
 			const self = this;
 			self.paginate = self.$Utils.cloneForm(self.$AssetsConfig.paginate);
-			//self.$Utils.loadAll(['getSliderData','getMainData','getUserInfoData'], self);
+			self.$Utils.loadAll(['getLabelData'], self);
 		},
 		
 		onReachBottom() {
@@ -126,36 +120,22 @@
 		
 		methods: {
 			
-			getUserInfoData() {
-				const self = this;
-				const postData = {};
-				postData.tokenFuncName = 'getProjectToken';
-				postData.searchItem = {
-					user_no:uni.getStorageSync('user_info').user_no
-				};
-				const callback = (res) => {
-					if (res.info.data.length > 0) {
-						self.userInfoData = res.info.data[0];
-					}
-					console.log('self.userInfoData', self.userInfoData)
-					self.$Utils.finishFunc('getUserInfoData');
-				};
-				self.$apis.userInfoGet(postData, callback);
-			},
-			
-			getSliderData() {
+			getLabelData() {
 				const self = this;
 				const postData = {};
 				postData.searchItem = {
-					title:'首页轮播',
+					parentid:9
 				};
 				const callback = (res) => {
 					if (res.info.data.length > 0) {
-						self.sliderData = res.info.data[0]
+						self.labelData.push.apply(self.labelData,res.info.data)
+						for (var i = 0; i < self.labelData.length; i++) {
+							self.idArray.push(self.labelData[i].id)
+						}
+						self.getMainData()
 					}
-					self.$Utils.finishFunc('getSliderData');
 				};
-				self.$apis.labelGet(postData, callback);
+				self.$apis.labelGet	(postData, callback);
 			},
 			
 			getMainData(isNew) {
@@ -171,17 +151,27 @@
 				};
 				const postData = {};
 				postData.paginate = self.$Utils.cloneForm(self.paginate);
-				postData.searchItem = self.$Utils.cloneForm(self.searchItem);
-				postData.order = {
-					listorder:'desc'
+				postData.searchItem = {
+					menu_id:['in',self.idArray]
+				};
+				postData.getAfter = {
+					spu:{
+						tableName:'SkuLabel',
+						middleKey:'spu_item',
+						key:'id',
+						searchItem:{
+							status:1
+						},
+						condition:'in'
+					}
 				};
 				const callback = (res) => {
 					if (res.info.data.length > 0) {
 						self.mainData.push.apply(self.mainData,res.info.data)
 					}
-					self.$Utils.finishFunc('getMainData');
+					self.$Utils.finishFunc('getLabelData');
 				};
-				self.$apis.productGet(postData, callback);
+				self.$apis.articleGet(postData, callback);
 			},
 		}
 	};

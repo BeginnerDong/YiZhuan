@@ -40,15 +40,13 @@
 					</view>
 				</view>
 				<view class="buyPeople flex">
-					<view class="headImg">
-						<image src="../../static/images/qiugou-img.png"></image>
-					</view>
+					
 					<view class="phone center">
 						<button class="flexCenter">
 							<image class="icon" src="../../static/images/qiugou-icon.png"></image>
 							<view class="fs12 white">联系他</view>
 						</button>
-						<view class="fs12 color6">156****3423</view>
+						
 					</view>
 					<view class="name center">
 						<button class="flexCenter">
@@ -56,9 +54,10 @@
 							<view class="fs12 white">担保交易</view>
 							
 						</button>
-						<view class="fs12 color6">发布人：张宇</view>
+						
 					</view>
 				</view>
+				<view class="fs12 color9 mgt10">发布人位置：西安市</view>
 			</view>
 			 
 		</view>
@@ -205,8 +204,9 @@
 	button{
 		background: none;
 		line-height: 1.5;
-		height:50rpx;
+		height:80rpx;
 		padding: 10rpx 50rpx;
+		width: 300rpx;
 	}
 	button::after{
 		border: none;

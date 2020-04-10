@@ -9,7 +9,7 @@
 .TitIcon{width: 30rpx;height: 30rpx;display: block; margin-right: 20rpx;}
 
 .msgInfor .item{margin-top: 16rpx;}
-.msgInfor .item image{width: 220rpx;height: 150rpx;margin-right: 14rpx;}
+.msgInfor .item image{width: 220rpx;height: 150rpx;margin-right: 10rpx;}
 .fx-subBtn{position: fixed;left: 0;right: 0;bottom: 0;}
 
 .reward image{width: 20rpx;height:20rpx;margin-right: 10rpx;}
@@ -17,6 +17,6 @@
 .buyPeople .headImg{width: 25%}
 .buyPeople .headImg image{width: 120rpx;height: 120rpx;}
 .buyPeople .phone button{background-color: #f55b5b;}
-.buyPeople .name{margin-left: 40rpx;}
+.buyPeople .name{margin-left: 30rpx;}
 .buyPeople .name button{background-color: #36b6ee;}
 .buyPeople .icon{width: 25rpx;height:25rpx;margin-right: 10rpx;}

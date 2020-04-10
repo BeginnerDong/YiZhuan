@@ -105,6 +105,41 @@
 			}
 		},
 		{
+			"path": "pages/user-company/user-company",
+			"style": {
+				"navigationBarTitleText": "我的企业",//设置页面标题文字
+				"onReachBottomDistance":100
+			}
+		},
+		{
+			"path": "pages/user-setUp-password/user-setUp-password",
+			"style": {
+				"navigationBarTitleText": "修改密码",//设置页面标题文字
+				"onReachBottomDistance":100
+			}
+		},
+		{
+			"path": "pages/user-phone/user-phone",
+			"style": {
+				"navigationBarTitleText": "绑定手机号",//设置页面标题文字
+				"onReachBottomDistance":100
+			}
+		},
+		{
+			"path": "pages/user-recharge/user-recharge",
+			"style": {
+				"navigationBarTitleText": "充值",//设置页面标题文字
+				"onReachBottomDistance":100
+			}
+		},
+		{
+			"path": "pages/user-myInfor/user-myInfor",
+			"style": {
+				"navigationBarTitleText": "基本信息",//设置页面标题文字
+				"onReachBottomDistance":100
+			}
+		},
+		{
 			"path": "pages/user-myFaBu/user-myFaBu",
 			"style": {
 				"navigationBarTitleText": "我的发布",//设置页面标题文字

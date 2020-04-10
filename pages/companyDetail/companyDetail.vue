@@ -1,10 +1,18 @@
 <template>
 	<view>
-		
+		<view class="banner-box">
+			<swiper style="width: 100%;height: 400rpx;" class="swiper-box" indicator-dots="true" autoplay="true" interval="3000" duration="1000" indicator-active-color="#757575">
+				<block v-for="(item,index) in bannerImg" :key="index">
+					<swiper-item class="swiper-item">
+						<image style="width: 100%;height: 400rpx;" :src="item.url" class="slide-image" />
+					</swiper-item>
+				</block>
+			</swiper>
+		</view>
 		<view class="mglr4 pdtb15">
 			<view class="compayTit flex mgb10">
-				<view class="icon"><image src="../../static/images/2.png" mode=""></image></view>
-				<view class="text pubColor fs15">深圳市****教育有限公司</view>
+				
+				<view class="text color2 fs16" style="font-weight: 700;">深圳市****教育有限公司</view>
 			</view>
 			<view class="fs12 color9 mgb20">公司编号：23143243</view>
 			<view class="flexRowBetween">
@@ -21,23 +29,21 @@
 		<view class="f5H5"></view>
 		
 		<view class="buyPeople flex mglr4">
-			<view class="headImg">
-				<image src="../../static/images/service-details-img.png"></image>
-			</view>
+			
 			<view class="phone center">
 				<button class="flexCenter">
 					<image class="icon" src="../../static/images/qiugou-icon.png"></image>
-					<view class="fs12 white">联系他</view>
+					<view class="fs14 white">联系他</view>
 				</button>
-				<view class="fs12 color6">156****3423</view>
+				
 			</view>
 			<view class="name center">
 				<button class="flexCenter">
 					<image class="icon" src="../../static/images/qiugou-icon1.png"></image>
-					<view class="fs12 white">担保交易</view>
+					<view class="fs14 white">担保交易</view>
 					
 				</button>
-				<view class="fs12 color6">发布人：张宇</view>
+				
 			</view>
 		</view>
 		<view class="f5H5"></view>
@@ -191,7 +197,10 @@
 				wx_info:{},
 				is_show:false,
 				num:false,
-				is_xuzhiShow:false
+				is_xuzhiShow:false,
+				bannerImg:[
+					{url:'../../static/images/service-details-img1.png'}
+				]
 			}
 		},
 		
@@ -232,8 +241,9 @@
 	button{
 		background: none;
 		line-height: 1.5;
-		height:50rpx;
+		height:80rpx;
 		padding: 10rpx 50rpx;
+		width: 330rpx;
 	}
 	button::after{
 		border: none;
