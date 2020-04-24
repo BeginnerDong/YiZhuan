@@ -1,36 +1,42 @@
 <template>
 	<view>
-		
-		<view class="center" style="margin-top: 110rpx;">
-			<image style="width:260rpx;height: 340rpx;" src="../../static/images/icon2.png"></image>
-			<view class="fs14 color2" style="margin-top: 70rpx;">绑定手机号：41748748487</view>
-		</view>
-		
-		
-		
-		<view class="submitbtn" style="margin-top: 100rpx;">
-			<button class="btn" type="submint">更换手机号</button>
-		</view>
-		<view class="editLine">
-			<view class="item flexRowBetween">
-				
-				<view class="rr">
-					<input type="number" value="" placeholder="请输入手机号" placeholder-class="placeholder" />
-				</view>
+		<view v-if="!isEdit">
+			<view class="center" style="margin-top: 110rpx;">
+				<image style="width:260rpx;height: 340rpx;" src="../../static/images/icon2.png"></image>
+				<view class="fs14 color2" style="margin-top: 70rpx;">绑定手机号：{{mainData.phone}}</view>
 			</view>
-			<view class="item flexRowBetween">
-				
-				<view class="rr">
-					<view style="width: 50%;">
-						<input type="number" value="" placeholder="请输入验证码" placeholder-class="placeholder" />
+			
+			
+			
+			<view class="submitbtn" style="margin-top: 100rpx;">
+				<button class="btn" type="submint" @click="goEdit">更换手机号</button>
+			</view>
+		</view>
+		
+		
+		<view v-if="isEdit">
+			<view class="editLine">
+				<view class="item flexRowBetween">
+					
+					<view class="rr">
+						<input type="number" maxlength="11" v-model="submitData.phone" placeholder="请输入手机号" placeholder-class="placeholder" />
 					</view>
-					<view class="pubColor mgl10">获取验证码</view>
+				</view>
+				<view class="item flexRowBetween">
+					
+					<view class="rr flexRowBetween" style="width: 100%;">
+						<view style="width: 50%;">
+							<input type="number" value="" placeholder="请输入验证码" placeholder-class="placeholder" />
+						</view>
+						<view class="pubColor mgl10">获取验证码</view>
+					</view>
 				</view>
 			</view>
+			<view class="submitbtn" style="margin-top: 100rpx;">
+				<button class="btn" type="submint" @click="Utils.stopMultiClick(userInfoUpdate)">完成</button>
+			</view>
 		</view>
-		<view class="submitbtn" style="margin-top: 100rpx;">
-			<button class="btn" type="submint">完成</button>
-		</view>
+		
 	</view>
 </template>
 
@@ -40,78 +46,75 @@
 			return {
 				Router: this.$Router,
 				Utils: this.$Utils,
-				index: 0,
-				is_show: false,
-				type: '',
-				mode: '',
-				submitData: {
-					o_password: '',
-					n_password: '',
-					passwordCopy: ''
+				isEdit:false,
+				mainData:{},
+				submitData:{
+					phone:''
 				}
 			}
 		},
-		onLoad(options) {
+		
+		onLoad() {
 			const self = this;
-			uni.setStorageSync('canClick', true);
+			self.$Utils.loadAll(['getMainData'], self);
 		},
 
 		methods: {
-
-
-
-			submit() {
+			
+			userInfoUpdate() {
 				const self = this;
 				uni.setStorageSync('canClick', false);
-				var newObject = self.$Utils.cloneForm(self.submitData);
-
-				const pass = self.$Utils.checkComplete(newObject);
-				console.log('pass', pass);
-				console.log('self.submitData', self.submitData)
-				if (pass) {
-					if (self.submitData.o_password != uni.getStorageSync('user_info').password) {
-						uni.setStorageSync('canClick', true);
-						self.$Utils.showToast('原密码错误', 'none');
-						return
-					};
-					if (self.submitData.n_password != self.submitData.passwordCopy) {
-						uni.setStorageSync('canClick', true);
-						self.$Utils.showToast('两次输入密码不一致', 'none');
-						return
-					};
-					self.passwordUpdate();
-				} else {
+				if(self.submitData.phone==''){
+					self.$Utils.showToast('请输入手机号', 'none', 1000);
 					uni.setStorageSync('canClick', true);
-					self.$Utils.showToast('请补全信息', 'none')
+					return
 				};
-			},
-
-			passwordUpdate() {
-				const self = this;
 				const postData = {};
-				
-				postData.tokenFuncName = 'getUserToken';
+				postData.tokenFuncName = 'getProjectToken';
 				postData.data = {
-					password:self.submitData.n_password
+					phone:self.submitData.phone
+				};
+				postData.searchItem = {
+					user_no:uni.getStorageSync('user_info').user_no
 				};
 				const callback = (data) => {
 					if (data.solely_code == 100000) {
-						self.$Utils.showToast('修改成功,请重新登陆', 'none');
+						self.$Utils.showToast('修改成功', 'none', 1000)
 						setTimeout(function() {
-							uni.removeStorageSync('user_token');
-							uni.removeStorageSync('user_info');
-							uni.reLaunch({
-								url: '/pages/index/index'
-							});
-						}, 800);
+							uni.navigateBack({
+								delta:1
+							})
+						}, 1000);
 					} else {
 						uni.setStorageSync('canClick', true);
 						self.$Utils.showToast(data.msg, 'none', 1000)
 					}
 				};
-				self.$apis.userUpdate(postData, callback);
+				self.$apis.userInfoUpdate(postData, callback);
 			},
 
+			goEdit(){
+				const self = this;
+				self.isEdit = !self.isEdit
+			},
+			
+			getMainData() {
+				const self = this;
+				const postData = {};
+				postData.tokenFuncName = 'getProjectToken';
+				postData.searchItem = {
+					user_no: uni.getStorageSync('user_info').user_no
+				};
+				const callback = (res) => {
+					if (res.info.data.length > 0) {
+						self.mainData = res.info.data[0];
+					}
+					console.log('self.mainData', self.mainData)
+					self.$Utils.finishFunc('getMainData');
+				};
+				self.$apis.userInfoGet(postData, callback);
+			},
+			
 		},
 	};
 </script>

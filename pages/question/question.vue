@@ -3,22 +3,14 @@
 		
 		<view class="mglr4">
 			<view class="">
-				<view class="item">
+				<view class="item" style="border-bottom: 1px solid #f5f5f5" v-for="(item,index) in mainData" :key="index">
 					<view class="flexRowBetween pdtb15">
-						<view class="fs13 color2">1.如何得到金币？</view>
-						<view><image src="../../static/images/about-icon4.png" mode=""></image></view>
+						<view class="fs13 color2">{{index+1}}.{{item.title}}</view>
+						<view @click="viewThis(index)"><image class="qimage" :src="viewIndex==index?'../../static/images/about-icon4.png':'../../static/images/about-icon3.png'" mode=""></image></view>
 					</view>
-					
-					<view class="fs12 color6 pdb15">付水电费水电费水电费第三方对方水电费水电费</view>
+					<view class="fs12 color6 pdb15" v-if="viewIndex==index">{{item.description}}</view>
 				</view>
-				<view class="item flexRowBetween pdtb15">
-					<view  class="fs13 color2">2.如何得到金币？</view>
-					<view><image src="../../static/images/about-icon3.png" mode=""></image></view>
-				</view>
-				<view class="item flexRowBetween pdtb15">
-					<view class="fs13 color2">3.如何得到金币？</view>
-					<view><image src="../../static/images/about-icon3.png" mode=""></image></view>
-				</view>
+				
 			</view>
 		</view>
 		
@@ -40,17 +32,18 @@
 				],
 				productData:[{},{},{},{},{},{}],
 				sliderData:{},
-				mainData:[{},{}],
+				mainData:[],
 				searchItem:{
 					thirdapp_id:2
-				}
+				},
+				viewIndex:-1,
 			}
 		},
 		
 		onLoad() {
 			const self = this;
 			self.paginate = self.$Utils.cloneForm(self.$AssetsConfig.paginate);
-			//self.$Utils.loadAll(['getSliderData','getMainData','getUserInfoData'], self);
+			self.$Utils.loadAll(['getMainData'], self);
 		},
 		
 		onReachBottom() {
@@ -64,7 +57,51 @@
 		
 		methods: {
 			
-		
+			viewThis(index){
+				const self = this;
+				if(index!=self.viewIndex){
+					self.viewIndex = index
+				}else{
+					self.viewIndex = -1
+				}
+			},
+			
+			getMainData() {
+				const self = this;
+				const postData = {};
+				postData.searchItem = {
+					thirdapp_id:2
+				};
+				postData.paginate={
+					count: 0,
+					currentPage:1,
+					pagesize:3,
+					is_page:true,
+				},
+				postData.getBefore = {
+					article:{
+						tableName:'Label',
+						middleKey:'menu_id',
+						key:'id',
+						searchItem:{
+							title: ['in', ['常见问题']],
+						},
+						condition:'in'
+					}
+				};
+				postData.order = {
+					listorder:'desc'
+				};
+				const callback = (res) => {
+					if (res.info.data.length > 0) {
+						self.mainData.push.apply(self.mainData,res.info.data)
+					};
+					console.log(self.mainData.content)
+					self.$Utils.finishFunc('getMainData');
+				};
+				self.$apis.articleGet(postData, callback);
+			},
+			
 		}
 	};
 </script>
@@ -85,7 +122,7 @@
 		line-height:100rpx; */
 		border-bottom: 1px solid #f5f5f5;
 	}
-	.question image{
+	.qimage{
 		width: 20rpx;
 		height:20rpx;
 		

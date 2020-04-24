@@ -5,238 +5,121 @@
 			
 			<view class="editLine fs13">
 				<view class="item flexRowBetween">
-					<view class="ll">公司类型：</view>
-					<view class="rr flexEnd">
-						<view class="flex mgr20" @click="seltType('1')">
-							<image class="setIcon" :src="currType==1?'../../static/images/add-icon1.png':'../../static/images/add-icon.png'" mode=""></image>
-							<view>空壳公司</view>
-						</view>
-						<view class="flex" @click="seltType('2')">
-							<image class="setIcon" :src="currType==2?'../../static/images/add-icon1.png':'../../static/images/add-icon.png'" mode=""></image>
-							<view>实体公司</view>
-						</view>
-					</view>
-				</view>
-				<view class="item flexRowBetween">
 					<view class="ll">公司名称：</view>
 					<view class="rr">
-						<input type="text" value="" placeholder="请输入完整公司名称" placeholder-class="placeholder" />
+						<input type="text" v-model="submitData.title" placeholder="请输入完整公司名称" placeholder-class="placeholder" />
 					</view>
 				</view>
-				
-				<view class="item flexRowBetween">
-					<view class="ll flex" style="line-height: 36rpx;">
-						
-						<view>社会信用代码：</view>
-					</view>
-					<view class="rr">
-						<input type="text" value="" placeholder="请填写正确的社会信用代码" placeholder-class="placeholder" />
-					</view>
-				</view>
-				
 				<view class="item flexRowBetween">
 					<view class="ll">注册资本：</view>
 					<view class="rr">
-						<input type="text" value="" placeholder="请填写" placeholder-class="placeholder" />
+						<input type="text" v-model="submitData.registered_capital" placeholder="请填写(单位为万元)" placeholder-class="placeholder" />
 					</view>
 				</view>
 				
 				<view class="item flexRowBetween">
 					<view class="ll">实缴资本：</view>
-					<!-- <view class="rr flexEnd">
-						<view class="w200"><input type="text" value=" " placeholder=" " placeholder-class="placeholder" /></view>
-						<view class="selt-R mgl15">
-							<picker class="" @change="actualBayChange" :value="bayIndex" :range="bayArray">
-								<view class="adrs flexRowBetween">
-									<view class="text">{{bayArray[bayIndex]}}</view>
-									
-								</view>
-							</picker>
-						</view>
-					</view> -->
 					<view class="rr">
-						<input type="text" value="" placeholder="请填写" placeholder-class="placeholder" />
+						<input type="text" v-model="submitData.paid_in_capital" placeholder="请填写(单位为万元)" placeholder-class="placeholder" />
 					</view>
 				</view>
 				
 				<view class="item flexRowBetween">
 					<view class="ll">成立日期：</view>
 					<view class="rr">
-						<input type="text" value="" placeholder="以执照上的成立日期为准" placeholder-class="placeholder" />
+						<picker mode="date" @change="chooseDate">
+							<view>{{submitData.establish_time!=''?submitData.establish_time:'以执照上的成立日期为准'}}</view>
+						</picker>
 					</view>
 				</view>
 				
 				<view class="item flexRowBetween">
 					<view class="ll">经营范围：</view>
 					<view class="rr selt-R flex">
-						<textarea value="" placeholder="完整的经营范围更便于快速卖出,请于执照上的经营范围保持一致" placeholder-class="placeholder" />
+						<textarea v-model="submitData.business_scope" placeholder="完整的经营范围更便于快速卖出,请于执照上的经营范围保持一致" placeholder-class="placeholder" />
 					</view>
 				</view>
 				
 				<view class="item flexRowBetween">
 					<view class="ll">注册地址：</view>
 					<view class="rr selt-R flexEnd">
-						<picker mode="region" >
-							<view>请选择</view>
+						<picker mode="region" @change="chooseAddress">
+							<view>{{submitData.province!=''?submitData.province+submitData.city+submitData.country:'请选择'}}</view>
 						</picker>
 					</view>
 				</view>
 				
-			</view>
-		</view>
-		<view class="f5H5"></view>
-		<view class="">
-			<view class="pdtb15 ftw mglr4">资产信息</view>
-			<view class="editLine fs13">
 				<view class="item flexRowBetween">
-					<view class="ll">热门标签：</view>
-					<view class="rr flex canDoList hotLable">
-						<view class="lis flexEnd" v-for="(item,index) in canDoDate" :key="index" @click="canDoChange(index)">
-							<image class="setIcon" :src="item.check==true?'../../static/images/add-icon1.png':'../../static/images/add-icon.png'" mode=""></image>
-							<view>{{item.title}}</view>
-						</view>
-					</view>
-				</view>
-				<view class="item flexRowBetween whether">
-					<view class="ll">是否有资质：</view>
-					<view class="rr flexEnd canDoList">
-						<view class="lis flexEnd">
-							<image class="setIcon" src="../../static/images/add-icon.png" mode=""></image>
-							<view>有</view>
-						</view>
-						<view class="lis flexEnd">
-							<image class="setIcon" src="../../static/images/add-icon.png" mode=""></image>
-							<view>否</view>
-						</view>
-					</view>
-				</view>
-				<view class="item flexRowBetween whether">
-					<view class="ll w45">是否有商标：</view>
-					<view class="rr w55 flexEnd canDoList">
-						<view class="lis flexEnd">
-							<image class="setIcon" src="../../static/images/add-icon.png" mode=""></image>
-							<view>有</view>
-						</view>
-						<view class="lis flexEnd">
-							<image class="setIcon" src="../../static/images/add-icon.png" mode=""></image>
-							<view>否</view>
-						</view>
-					</view>
-				</view>
-				<view class="item flexRowBetween whether">
-					<view class="ll w45">是否有网络资产：</view>
-					<view class="rr w55 flexEnd canDoList">
-						<view class="lis flexEnd">
-							<image class="setIcon" src="../../static/images/add-icon.png" mode=""></image>
-							<view>有</view>
-						</view>
-						<view class="lis flexEnd">
-							<image class="setIcon" src="../../static/images/add-icon.png" mode=""></image>
-							<view>否</view>
-						</view>
-					</view>
-				</view>
-				<view class="item flexRowBetween whether">
-					<view class="ll w45">是否有车牌指标：</view>
-					<view class="rr w55 flexEnd canDoList">
-						<view class="lis flexEnd">
-							<image class="setIcon" src="../../static/images/add-icon.png" mode=""></image>
-							<view>有</view>
-						</view>
-						<view class="lis flexEnd">
-							<image class="setIcon" src="../../static/images/add-icon.png" mode=""></image>
-							<view>否</view>
-						</view>
-					</view>
-				</view>
-				<view class="item flexRowBetween whether">
-					<view class="ll w45">是否有专利/著作权：</view>
-					<view class="rr w55 flexEnd canDoList">
-						<view class="lis flexEnd">
-							<image class="setIcon" src="../../static/images/add-icon.png" mode=""></image>
-							<view>有</view>
-						</view>
-						<view class="lis flexEnd">
-							<image class="setIcon" src="../../static/images/add-icon.png" mode=""></image>
-							<view>否</view>
-						</view>
-					</view>
-				</view>
-			</view>	
-		</view>
-		<view class="f5H5"></view>
-		
-		<view class="">
-			<view class="pdtb15 ftw mglr4">税务信息</view>
-			<view class="editLine fs13">
-				<view class="item flexRowBetween whether">
-					<view class="ll w45">是否报到/开业：</view>
-					<view class="rr w55 flexEnd canDoList">
-						<view class="lis flexEnd">
-							<image class="setIcon" src="../../static/images/add-icon.png" mode=""></image>
-							<view>有</view>
-						</view>
-						<view class="lis flexEnd">
-							<image class="setIcon" src="../../static/images/add-icon.png" mode=""></image>
-							<view>否</view>
-						</view>
-					</view>
-				</view>
-			</view>
-		</view>
-		<view class="f5H5"></view>
-		
-		<view class="">
-			<view class="pdtb15 ftw mglr4">银行信息</view>
-			<view class="editLine fs13">
-				<view class="item flexRowBetween">
-					<view class="ll">银行账户：</view>
-					<view class="rr flexEnd">
-						<view class="flex mgr20">
-							<image class="setIcon" src="../../static/images/add-icon.png" mode=""></image>
-							<view>已开基本户</view>
-						</view>
-						<view class="flex">
-							<image class="setIcon" src="../../static/images/add-icon.png" mode=""></image>
-							<view>未开基本户</view>
-						</view>
-					</view>
-				</view>
-			</view>
-		</view>
-		<view class="f5H5"></view>
-		
-		<view class="">
-			<view class="pdtb15 ftw mglr4">装让信息</view>
-			<view class="editLine fs13">
-				<view class="item flexRowBetween">
-					<view class="ll">转让价格：</view>
-					<view class="rr flexEnd">
-						<view class="flex mgr20">
-							<image class="setIcon" src="../../static/images/add-icon.png" mode=""></image>
-							<view>免费转</view>
-						</view>
-						<view class="flex mgr20">
-							<image class="setIcon" src="../../static/images/add-icon.png" mode=""></image>
-							<view>面议</view>
-						</view>
-						<view class="flex">
-							<image class="setIcon" src="../../static/images/add-icon.png" mode=""></image>
-							<view>一口价</view>
-						</view>
-					</view>
-				</view>
-				<view class="item flexRowBetween">
-					<view class="ll">其他信息：</view>
-					<view class="rr flexEnd">
-						<textarea value="" placeholder="未尽信息或公司资产,可再次详细描述" placeholder-class="placeholder" />
+					<view class="ll">详细地址：</view>
+					<view class="rr">
+						<input type="text" v-model="submitData.address" placeholder="请填写" placeholder-class="placeholder" />
 					</view>
 				</view>
 				
 			</view>
 		</view>
 		<view class="f5H5"></view>
+		<view class="" v-for="(item,index) in mainData" :key="index">
+			<view class="pdtb15 ftw mglr4">{{item.menu}}</view>
+			<view class="editLine fs13">
+				
+				<view class="item flexRowBetween whether" v-for="(c_item,c_index) in item.data" :key="c_index">
+					<view class="ll">{{c_item.title}}：</view>
+					<view class="rr flexEnd canDoList">
+						<view class="lis flexEnd"  v-if="cc_item.style==1" v-for="(cc_item,cc_index) in c_item.child" :key="cc_index">
+							<!-- <view>{{cc_item.style}}</view> -->
+							<image class="setIcon" :data-id="c_item.id" :data-c_id="cc_item.id" 
+							@click="choose($event.currentTarget.dataset.id,$event.currentTarget.dataset.c_id)"
+							:src="Utils.inArray(cc_item.id,submitData.spu_item)>-1?'../../static/images/add-icon1.png':'../../static/images/add-icon.png'" mode=""></image>
+							<view>{{cc_item.title}}</view>
+						</view>
+						<view class="lis  flexEnd"  v-if="cc_item.style==2" v-for="(cc_item,cc_index) in c_item.child" :key="cc_index">
+							<input type="text" v-model="text" @blur="inputIn($event.currentTarget.dataset.id)" :data-id="cc_item.id"   placeholder-class="placeholder" />
+						</view>
+						<view class="rr flexEnd"  v-if="cc_item.style==3" v-for="(cc_item,cc_index) in c_item.child" :key="cc_index">
+							<textarea  placeholder="未尽信息或公司资产,可再次详细描述" placeholder-class="placeholder" />
+						</view>
+					</view>
+					
+				</view>
+				
+			</view>	
+			<view class="f5H5"></view>
+		</view>
 		
+		<view class="">
+			<view class="pdtb15 ftw mglr4">公司图集</view>
+			<view class="mglr4 flex pdb10">
+				<view class="upImg flex" style="justify-content: center;">
+					<view class="" style="width: 100%;height: 100%;" v-for="(item,index) in submitData.mainImg" :key="index">
+						<image :src="item.url" mode=""></image>
+					</view>
+					<view class="uni-hello-addfile" style="width: 50%;height: 50%;" @click="upLoadImg('mainImg')">
+						<image src="../../static/images/release-icon.png" mode=""></image>
+					</view>
+				</view>
+				<view class="fs11 color9" v-if="submitData.mainImg.length==0">可上传多张</view>
+			</view>
+		</view>
+		<view class="f5H5"></view>
+		
+		
+		
+		<view class="">
+			<view class="pdtb15 ftw mglr4">执照资质</view>
+			<view class="mglr4 flex pdb10">
+				<view class="upImg flex" style="justify-content: center;"> 
+					<view class="" style="width: 100%;height: 100%;" v-for="(item,index) in submitData.bannerImg" :key="index">
+						<image :src="item.url" mode=""></image>
+					</view>
+					<view class="uni-hello-addfile" style="width: 50%;height: 50%;" @click="upLoadImg('bannerImg')">
+						<image src="../../static/images/release-icon.png" mode=""></image>
+					</view>
+				</view>
+				<view class="fs11 color9" v-if="submitData.bannerImg.length==0">可上传多张</view>
+			</view>
+		</view>
+		<view class="f5H5"></view>
 		
 		<view class="">
 			<view class="pdtb15 ftw mglr4">联系方式</view>
@@ -244,53 +127,21 @@
 				<view class="item flexRowBetween">
 					<view class="ll">联系电话：</view>
 					<view class="rr flexEnd">
-						<input type="text" value=" " placeholder="" placeholder-class="placeholder" />
+						<input type="text" v-model="submitData.phone"  placeholder-class="placeholder" />
 					</view>
 				</view>
 				<view class="item flexRowBetween">
 					<view class="ll">联系人：</view>
 					<view class="rr flexEnd">
-						<input type="text" value=" " placeholder="" placeholder-class="placeholder" />
+						<input type="text" v-model="submitData.name"  placeholder-class="placeholder" />
 					</view>
 				</view>
 			</view>
 		</view>
-		<view class="f5H5"></view>
 		
-		<view class="">
-			<view class="pdtb15 ftw mglr4">悬赏设置</view>
-			<view class="editLine fs13">
-				<view class="item flexRowBetween">
-					<view class="ll" style="width: 35%;">是否设置悬赏：</view>
-					<view class="rr flexEnd canDoList">
-						<view class="lis flexEnd" @click="seltCurr('1')">
-							<image class="setIcon" :src="curr==1?'../../static/images/add-icon1.png':'../../static/images/add-icon.png'" mode=""></image>
-							<view>是</view>
-						</view>
-						<view class="lis flexEnd" @click="seltCurr('2')">
-							<image class="setIcon" :src="curr==2?'../../static/images/add-icon1.png':'../../static/images/add-icon.png'" mode=""></image>
-							<view>否</view>
-						</view>
-					</view>
-				</view>
-				<view class="item flexRowBetween">
-					<view class="ll">悬赏金额：</view>
-					<view class="rr flexEnd">
-						<input type="number" value="" placeholder="请输入悬赏金额(每次分享的金额)" placeholder-class="placeholder" />
-					</view>
-				</view>
-				<view class="item flexRowBetween">
-					<view class="ll">悬赏次数：</view>
-					<view class="rr flexEnd">
-						<input type="text" value="" placeholder="请输入悬赏次数" placeholder-class="placeholder" />
-					</view>
-				</view>
-			</view>
-		</view>
-		<view class="f5H5"></view>
 		
 		<view class="submitbtn pdb25" style="margin-top: 80rpx;">
-			<button class="btn" type="button">确定</button>
+			<button class="btn" type="button" open-type="getUserInfo"  @getuserinfo="Utils.stopMultiClick(submit)">确定</button>
 		</view>
 		
 	</view>
@@ -302,64 +153,217 @@
 		data() {
 			return {
 				Router:this.$Router,
-				showView: false,
-				wx_info:{},
-				is_show:false,
-				currType:0,
-				curr:0,
-				canDoDate:[
-					{check:false,title:'买过社保'},
-					{check:false,title:'银行流水大'},
-					{check:false,title:'政府/国企背景'},
-					{check:false,title:'外资背景'},
-					{check:false,title:'国家局名称'}
-				],
-				index: 0,
-				array:['人民币','美元','韩元','英镑'],
-				bayIndex:0,
-				bayArray:['人民币','美元','韩元','英镑'],
-				checked:false
+				Utils:this.$Utils,
+				mainData:[],
+				submitData:{
+					title:'',
+					name:'',
+					phone:'',
+					mainImg:[],
+					bannerImg:[],
+					registered_capital:'',
+					paid_in_capital:'',
+					establish_time:'',
+					province:'',
+					city:'',
+					country:'',
+					address:'',
+					business_scope:'',
+					spu_item:[],
+					spu_content:{}
+				},
+				middleArray:{},
+				middleInput:{},
+				text:''
 			}
 		},
 		
-		onLoad() {
+		onLoad(options) {
 			const self = this;
-			// self.$Utils.loadAll(['getMainData'], self);
+			self.id = options.id;
+			self.submitData.menu_id = self.id;
+			self.$Utils.loadAll(['getMainData'], self);
 		},
+		
 		methods: {
-			seltType(currType){
+			
+			chooseAddress(e){
 				const self = this;
-				if(currType!=self.currType){
-					self.currType = currType
+				self.submitData.province = e.detail.value[0];
+				self.submitData.city = e.detail.value[1];
+				self.submitData.country = e.detail.value[2];
+			},
+			
+			chooseDate(e){
+				const self = this;
+				self.submitData.establish_time = e.detail.value
+				console.log(e)
+			},
+			
+			choose(id,c_id){
+				const self = this;
+				self.submitData.spu_item = [];
+				self.middleArray[id] = c_id;
+				console.log(self.middleArray)
+				for(let i in self.middleArray){
+					self.submitData.spu_item.push(self.middleArray[i])
 				}
+				console.log(self.submitData.spu_item)
 			},
-			canDoChange(i){
+			
+			inputIn(e){
 				const self = this;
-				self.canDoDate[i].check = !self.canDoDate[i].check
+				self.submitData.spu_content[e] = self.text;
+				console.log(self.submitData.spu_content)
 			},
-			seltCurr(curr){
+			
+			submit() {
 				const self = this;
-				if(curr!=self.curr){
-					self.curr = curr
-				}
+				uni.setStorageSync('canClick', false);
+				var newObject = self.$Utils.cloneForm(self.submitData);
+				delete newObject.spu_content;
+				delete newObject.bannerImg;
+				delete newObject.mainImg;
+				const pass = self.$Utils.checkComplete(newObject);
+				console.log('pass', pass);
+				console.log('self.submitData',self.submitData)
+				if (pass) {	
+					const callback = (user, res) => {
+						console.log(res)
+						self.articleAdd();
+					};
+					self.$Utils.getAuthSetting(callback);
+				} else {
+					uni.setStorageSync('canClick', true);
+					self.$Utils.showToast('请补全信息', 'none')
+				};
 			},
-			// 注册资本
-			registerZBChange(e) {
+			
+			articleAdd() {
 				const self = this;
-				self.index = e.target.value
-			},
-			// 实际缴纳
-			actualBayChange(e) {
-				const self = this;
-				self.bayIndex = e.target.value
-			},
-			getMainData() {
-				const self = this;
-				console.log('852369')
+				
 				const postData = {};
 				postData.tokenFuncName = 'getProjectToken';
-				self.$apis.orderGet(postData, callback);
-			}
+				postData.data = self.$Utils.cloneForm(self.submitData);
+				const callback = (res) => {
+					uni.setStorageSync('canClick',true);
+				};
+				self.$apis.articleAdd(postData, callback);
+			},
+			
+			getMainData() {
+				const self = this;
+				const postData = {};
+				postData.searchItem = {
+					id:self.id
+				};
+				const callback = (res) => {
+					if (res.info.data.length > 0) {
+						self.labelData = res.info.data[0];
+						self.getSkuLabelData()
+					}
+				};
+				self.$apis.labelGet	(postData, callback);
+			},
+			
+			getSkuLabelData() {
+				const self = this;
+				const postData = {};
+				postData.searchItem = {
+					id:['in',self.labelData.spu_array]
+				};
+				postData.getAfter = {
+					child:{
+						tableName:'SkuLabel',
+						middleKey:'id',
+						key:'parentid',
+						searchItem:{
+							status:1
+						},
+						condition:'in',
+						order:{
+							listorder:'desc'
+						}
+					}
+				};
+				postData.order = {
+					listorder:'desc'
+				};
+				const callback = (res) => {
+					if (res.info.data.length > 0) {
+						for (var i = 0; i < res.info.data.length; i++) {
+							if (self.mainData.length > 0) {
+								var hasone = false;
+								for (var j = 0; j < self.mainData.length; j++) {
+									if (res.info.data[i].group == self.mainData[j].menu) {
+										self.mainData[j].data.push(res.info.data[i]);
+										hasone = true;
+									};
+								};
+								if (!hasone) {
+									self.mainData.push({
+										menu: res.info.data[i].group,
+										data: [res.info.data[i]],
+						
+									});
+								};
+							} else {
+								self.mainData.push({
+									menu: res.info.data[i].group,
+									data: [res.info.data[i]],
+								})
+							};
+						};
+						console.log('mainData',self.mainData)
+					}
+					self.$Utils.finishFunc('getMainData');
+				};
+				self.$apis.skuLabelGet(postData, callback);
+			},
+			
+			upLoadImg(type) {
+				const self = this;	
+				if (self.submitData[type].length > 8) {
+					api.showToast('仅限9张', 'fail');
+					return;
+				};
+				wx.showLoading({
+					mask: true,
+					title: '上传中',
+				});
+				const callback = (res) => {
+					console.log('res', res)
+					if (res.solely_code == 100000) {
+						self.submitData[type].push({url:res.info.url,type:'image'})
+						console.log('type',type)
+						console.log(self.submitData)
+						wx.hideLoading()
+					} else {
+						self.$Utils.showToast('网络故障', 'none')
+					}
+				};				
+				wx.chooseImage({
+					count: 9,
+					success: function(res) {
+						console.log(res);
+						var tempFilePaths = res.tempFilePaths;
+						console.log(callback)
+						for (var i = 0; i < tempFilePaths.length; i++) {
+							var file = res.tempFiles[i];
+							var obj = res.tempFiles[i].path.lastIndexOf(".");
+							var ext = res.tempFiles[i].path.substr(obj+1);
+							self.$Utils.uploadFile(tempFilePaths[i], 'file', {
+								tokenFuncName: 'getProjectToken',ext:ext,md5:'md5',totalSize:file.size,start:0,chunkSize:file.size,originName:'img'
+							}, callback)
+						}
+					},
+					fail: function(err) {
+						wx.hideLoading();
+					},			
+				})			
+			},
+			
+			
 		}
 	};
 </script>

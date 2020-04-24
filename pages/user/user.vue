@@ -3,10 +3,10 @@
 		<view class="userInfo pubBj flexRowBetween">
 			<view class="ll flex">
 				<view class="headImg">
-					<image src="../../static/images/about-img.png"></image>
+					<view class="headImg"  style="overflow: hidden;border-radius: 50%;"><open-data type="userAvatarUrl"></open-data></view>
 				</view>
 				<view style="margin-left: 20rpx;">
-					<view class="name fs15">多啦a梦</view>
+					<view class="name fs15"><open-data type="userNickName"></open-data></view>
 					
 				</view>
 			</view>
@@ -21,7 +21,8 @@
 		style="height: 130rpx;width: 84%;margin: 0 auto;background-color: #fff;position: absolute;top: 21%;left: 4%;padding: 0 4%;border-radius: 10rpx;">
 			<view class="ll flex">
 				<image style="width: 50rpx;height: 50rpx;" src="../../static/images/icon1.png"></image>
-				<view class="fs13 color2" style="margin-left: 20rpx;">金币：<span style="color: #fdc72f;font-size: 34rpx;font-weight: bold;">5620</span></view>
+				<view class="fs13 color2" style="margin-left: 20rpx;">金币：<span style="color: #fdc72f;font-size: 34rpx;font-weight: bold;">
+				{{userInfoData.score?userInfoData.score:'0.00'}}</span></view>
 			</view>
 			<view><button @click="Router.navigateTo({route:{path:'/pages/user-recharge/user-recharge'}})" style="width: 150rpx;height: 60rpx;line-height: 60rpx;color: #fff;border-radius: 50rpx;" class="fs14  pubBj">充值</button></view>
 		</view>
@@ -45,7 +46,7 @@
 					</view>
 					<view class="fs13 color2" style="text-align: center;margin-top: 30rpx;">我的发布</view>
 				</view>
-				<view class="item" @click="Router.navigateTo({route:{path:'/pages/user-company/user-company'}})">
+				<view class="item" @click="viewOradd">
 					<view  class="flexCenter">
 						<image src="../../static/images/about-icon2.png"></image>
 					</view>
@@ -62,22 +63,16 @@
 						</view>
 					</view>
 					
-					<view class="item">
+					<view class="item" v-for="(item,index) in mainData" :key="index">
 						<view class="flexRowBetween pdtb15">
-							<view class="fs13 color2">1.如何得到金币？</view>
-							<view><image src="../../static/images/about-icon4.png" mode=""></image></view>
+							<view class="fs13 color2">{{index+1}}.{{item.title}}</view>
+							<view @click="viewThis(index)"><image :src="viewIndex==index?'../../static/images/about-icon4.png':'../../static/images/about-icon3.png'" mode="">
+							</image></view>
 						</view>
 						
-						<view class="fs12 color6 pdb15">付水电费水电费水电费第三方对方水电费水电费</view>
+						<view class="fs12 color6 pdb15" v-if="viewIndex==index">{{item.description}}</view>
 					</view>
-					<view class="item flexRowBetween pdtb15">
-						<view  class="fs13 color2">2.如何得到金币？</view>
-						<view><image src="../../static/images/about-icon3.png" mode=""></image></view>
-					</view>
-					<view class="item flexRowBetween pdtb15">
-						<view class="fs13 color2">3.如何得到金币？</view>
-						<view><image src="../../static/images/about-icon3.png" mode=""></image></view>
-					</view>
+					
 				</view>
 			</view>
 		</view>
@@ -129,30 +124,97 @@
 				],
 				productData:[{},{},{},{},{},{}],
 				sliderData:{},
-				mainData:[{},{}],
+				mainData:[],
 				searchItem:{
 					thirdapp_id:2
-				}
+				},
+				viewIndex:-1,
+				userInfoData:{}
 			}
 		},
 		
 		onLoad() {
 			const self = this;
 			self.paginate = self.$Utils.cloneForm(self.$AssetsConfig.paginate);
-			//self.$Utils.loadAll(['getSliderData','getMainData','getUserInfoData'], self);
+			self.$Utils.loadAll(['getMainData'], self);
 		},
 		
-		onReachBottom() {
-			console.log('onReachBottom')
+		onShow() {
 			const self = this;
-			if (!self.isLoadAll && uni.getStorageSync('loadAllArray')) {
-				self.paginate.currentPage++;
-				self.getMainData()
-			};
+			self.$Utils.loadAll(['getUserInfoData'], self);
 		},
 		
 		methods: {
 			
+			viewThis(index){
+				const self = this;
+				if(index!=self.viewIndex){
+					self.viewIndex = index
+				}else{
+					self.viewIndex = -1
+				}
+			},
+			
+			viewOradd(){
+				const self = this;
+				if(self.userInfoData.company>0){
+					self.Router.navigateTo({route:{path:'/pages/serviceDetail/serviceDetail?id='+self.userInfoData.company}})
+				}else{
+					self.Router.navigateTo({route:{path:'/pages/user-company/user-company'}})
+				}
+			},
+			
+			getUserInfoData() {
+				const self = this;
+				const postData = {};
+				postData.tokenFuncName = 'getProjectToken';
+				postData.searchItem = {
+					thirdapp_id:2
+				};
+				const callback = (res) => {
+					if (res.info.data.length > 0) {
+						self.userInfoData = res.info.data[0]
+					};
+					self.$Utils.finishFunc('getUserInfoData');
+				};
+				self.$apis.userInfoGet(postData, callback);
+			},
+			
+			getMainData() {
+				const self = this;
+				const postData = {};
+				postData.searchItem = {
+					thirdapp_id:2
+				};
+				postData.paginate={
+					count: 0,
+					currentPage:1,
+					pagesize:3,
+					is_page:true,
+				},
+				postData.getBefore = {
+					article:{
+						tableName:'Label',
+						middleKey:'menu_id',
+						key:'id',
+						searchItem:{
+							title: ['in', ['常见问题']],
+						},
+						condition:'in'
+					}
+				};
+				postData.order = {
+					listorder:'desc'
+				};
+				const callback = (res) => {
+					if (res.info.data.length > 0) {
+						self.mainData.push.apply(self.mainData,res.info.data)
+					};
+					console.log(self.mainData.content)
+					self.$Utils.finishFunc('getMainData');
+				};
+				self.$apis.articleGet(postData, callback);
+			},
 		
 		}
 	};

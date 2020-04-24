@@ -9,17 +9,17 @@
 		<view class="mglr4">
 			
 			<view class="companyList pdtb15"  v-show="curr==1">
-				<view class="item radius10 whiteBj" v-for="(item,index) in companyDate" @click="Router.navigateTo({route:{path:'/pages/companyDetail/companyDetail'}})">
-					<view class="no fs11 color9">公司编号：432423423</view>
-					<view class="name fs15 pubColor center">深圳市***教育公司</view>
-					<view class="text fs13 color2">成立时间:<span class="fs13 color6">2018.02.23</span></view>
-					<view class="text fs13 color2">注册资本:<span class="fs13 color6">100万人民币</span></view>
-					<view class="text fs13 color2">实缴资本:<span class="fs13 color6">12万人民币</span></view>
-					<view class="flex tip">
+				<view class="item radius10 whiteBj" v-for="(item,index) in mainData" @click="Router.navigateTo({route:{path:'/pages/companyDetail/companyDetail'}})">
+					<view class="no fs11 color9">公司编号：{{item.id}}</view>
+					<view class="name fs15 pubColor center">{{item.title}}</view>
+					<view class="text fs13 color2">成立时间:<span class="fs13 color6">{{item.establish_time}}</span></view>
+					<view class="text fs13 color2">注册资本:<span class="fs13 color6">{{item.registered_capital}}万元</span></view>
+					<view class="text fs13 color2">实缴资本:<span class="fs13 color6">{{item.paid_in_capital}}万元</span></view>
+					<!-- <view class="flex tip">
 						<view class="tip-item fs12 color6" style="background-color: #fff0f0;">空壳</view>
 						<view class="tip-item fs12 color6" style="background-color: #f0f3ff;">买过保险</view>
 						<view class="tip-item fs12 color6" style="background-color: #e4fff0;">小规模</view>
-					</view>
+					</view> -->
 					<view class="flexEnd">
 						<view class="flex mgr25">
 							<view class="mgr5"><image style="width: 25rpx;height:25rpx;" src="../../static/images/irelease-icon.png"></image></view>
@@ -32,7 +32,7 @@
 					</view>
 					<view class="type">
 						<image class="icon" src="../../static/images/2.png" mode=""></image>
-						<view class="text fs11 white">物流类</view>
+						<view class="text fs11 white">{{item.label&&item.label[item.menu_id]?item.label[item.menu_id].title:''}}</view>
 					</view>
 					<view class="button">
 						<view class="underBtn flexCenter">
@@ -46,8 +46,8 @@
 				</view>
 			</view>
 			<view class=" buyList pdtb15"  v-show="curr==2">
-				<view class="item radius10 whiteBj" v-for="(item,index) in companyDate">
-					<view class="title avoidOverflow3 fs14">业务急需收购几家香港贸易公司业务急需收购几家香港贸易公司业务急需收购几家香港贸易公司业务急需收购几家香港贸易公司业务急需收购几家香港贸易公司</view>
+				<view class="item radius10 whiteBj" v-for="(item,index) in mainData">
+					<view class="title avoidOverflow3 fs14">{{item.title}}</view>
 					<view class="flexRowBetween tip">
 						<view class="flex">
 							<view class="tip-item fs12 color6" style="background-color: #fff0f0;">空壳</view>
@@ -60,15 +60,13 @@
 						</view>
 					</view>
 					<view class="buyPeople flex">
-						<view class="headImg">
-							<image src="../../static/images/qiugou-img.png"></image>
-						</view>
+						
 						<view class="phone center">
 							<button class="flexCenter">
 								<image class="icon" src="../../static/images/qiugou-icon.png"></image>
 								<view class="fs12 white">联系他</view>
 							</button>
-							<view class="fs12 color6">156****3423</view>
+							
 						</view>
 						<view class="name center">
 							<button class="flexCenter">
@@ -76,9 +74,10 @@
 								<view class="fs12 white">担保交易</view>
 								
 							</button>
-							<view class="fs12 color6">发布人：张宇</view>
+							
 						</view>
 					</view>
+					<view class="fs12 color9 mgt10">发布人位置：{{item.city}}</view>
 					<view class="flexEnd">
 						<view class="flex mgr25">
 							<view class="mgr5"><image style="width: 25rpx;height:25rpx;" src="../../static/images/irelease-icon.png"></image></view>
@@ -93,7 +92,7 @@
 			</view>
 		
 			<view class="serviceList pdtb15"  v-show="curr==3">
-				<view class="item radius10 whiteBj" v-for="(item,index) in companyDate" 
+				<view class="item radius10 whiteBj" v-for="(item,index) in mainData" 
 				@click="Router.navigateTo({route:{path:'/pages/serviceDetail/serviceDetail'}})">
 					<view class="fs14 color2">西安纯粹云信息科技有限公司</view>
 					<view class="flex tip">
@@ -151,25 +150,109 @@
 				wx_info:{},
 				curr:1,
 				companyDate:[{},{}],
-				wantBuyDate:[{},{}]
+				wantBuyDate:[{},{}],
+				searchItem:{
+					thirdapp_id:2
+				},
+				labelData:[],
+				mainData:[],
+				idArray:[]
 			}
 		},
+		
 		onLoad() {
 			const self = this;
-			//self.$Utils.loadAll(['getMainData'], self);
+			self.paginate = self.$Utils.cloneForm(self.$AssetsConfig.paginate);
+			self.$Utils.loadAll(['getLabelData'], self);
 		},
+		
+		onReachBottom() {
+			console.log('onReachBottom')
+			const self = this;
+			if (!self.isLoadAll && uni.getStorageSync('loadAllArray')) {
+				self.paginate.currentPage++;
+				self.getMainData()
+			};
+		},
+		
 		methods: {
+			
 			tel(){
 				wx.makePhoneCall({
 					phoneNumber: '15623455454',
 				})
 			},
+			
 			changeCurr(curr){
 				const self = this;
 				if(curr!=self.curr){
 					self.curr = curr
+					if(self.curr==1){
+						self.searchItem.menu_id = ['in',self.idArray]
+					}else if(self.curr==2){
+						self.searchItem.menu_id = 8
+					}else if(self.curr==3){
+						self.searchItem.menu_id = 10
+					};
+					self.getMainData(true)
 				}
-			}
+			},
+			
+			getLabelData() {
+				const self = this;
+				const postData = {};
+				postData.searchItem = {
+					parentid:9
+				};
+				const callback = (res) => {
+					if (res.info.data.length > 0) {
+						self.labelData.push.apply(self.labelData,res.info.data)
+						for (var i = 0; i < self.labelData.length; i++) {
+							self.idArray.push(self.labelData[i].id)
+						}
+						self.searchItem.menu_id = ['in',self.idArray]
+						self.getMainData()
+					}
+				};
+				self.$apis.labelGet	(postData, callback);
+			},
+			
+			getMainData(isNew) {
+				const self = this;
+				if (isNew) {
+					self.mainData = [];
+					self.paginate = {
+						count: 0,
+						currentPage: 1,
+						is_page: true,
+						pagesize: 10
+					}
+				};
+				const postData = {};
+				postData.tokenFuncName = 'getProjectToken';
+				postData.paginate = self.$Utils.cloneForm(self.paginate);
+				postData.searchItem = self.$Utils.cloneForm(self.searchItem);
+				postData.getAfter = {
+					spu:{
+						tableName:'SkuLabel',
+						middleKey:'spu_item',
+						key:'id',
+						searchItem:{
+							status:1
+						},
+						condition:'in'
+					}
+				};
+				const callback = (res) => {
+					if (res.info.data.length > 0) {
+						self.mainData.push.apply(self.mainData,res.info.data)
+					}
+					self.$Utils.finishFunc('getLabelData');
+				};
+				self.$apis.articleGet(postData, callback);
+			},
+			
+			
 
 		},
 	};
@@ -185,8 +268,9 @@
 	button{
 		background: none;
 		line-height: 1.5;
-		height:50rpx;
+		height:80rpx;
 		padding: 10rpx 50rpx;
+		width: 300rpx;
 	}
 	button::after{
 		border: none;

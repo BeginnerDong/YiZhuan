@@ -16,7 +16,7 @@
 	
 	.canDoList{flex-wrap: wrap;align-items: flex-start;}
 	.canDoList .setIcon{width: 20rpx;height: 20rpx;margin:6rpx 10rpx 0 0;display: block;}
-	.canDoList .lis{width: 150rpx;padding:14rpx 20rpx 14rpx 0;line-height: 32rpx;align-items: flex-start;}
+	.canDoList .lis{margin-left: 40rpx;padding:14rpx 20rpx 14rpx 0;line-height: 32rpx;align-items: flex-start;}
 	.canDoList .lis:nth-of-type(3n){margin-right: 0;}
 	.canDoList .lis .tit{width: 110rpx;text-align: center;}
 

@@ -2,7 +2,7 @@
 	<view>
 		<view class="banner-box">
 			<swiper style="width: 100%;height: 400rpx;" class="swiper-box" indicator-dots="true" autoplay="true" interval="3000" duration="1000" indicator-active-color="#757575">
-				<block v-for="(item,index) in bannerImg" :key="index">
+				<block v-for="(item,index) in mainData.mainImg" :key="index">
 					<swiper-item class="swiper-item">
 						<image style="width: 100%;height: 400rpx;" :src="item.url" class="slide-image" />
 					</swiper-item>
@@ -11,7 +11,7 @@
 		</view>
 		<view class="mglr4 pdtb15">
 			<view class="compayTit flex">
-				<view class="text color2 fs15" style="font-weight: bold;">广州专业10年注册公司记账报税</view>
+				<view class="text color2 fs15" style="font-weight: bold;">{{mainData.title}}</view>
 			</view>
 		</view>
 		<view class="f5H5"></view>
@@ -23,11 +23,13 @@
 			<view class="msgInfor fs12">
 				<view class="item">
 					<text class="color6">服务区域：</text>
-					<text>广东·广州市</text>
+					<text>{{mainData.province?mainData.province:''}}·{{mainData.city?mainData.city:''}}</text>
 				</view>
 				<view class="item flexY">
-					<view class="color6" style="width: 21%;">代办项目：</view>
-					<view style="width: 100%;">广告设计、制作。代理、发布、灯饰设计、展览展示服务、会议服务、图文设计制作、绿化养护、礼仪服务、动漫设计、计算机软硬件、园林古建筑工程专业施工、建筑装饰建设工程专项设计。</view>
+					<view class="color6" style="width: 22%;">代办项目：</view>
+					<view style="width: 100%;">
+						{{mainData.spu_content&&mainData.spu_content[0]?mainData.spu_content[0].content:''}}
+					</view>
 				</view>
 			</view>
 		</view>
@@ -35,7 +37,7 @@
 		<view class="mglr4 pdtb15">
 			<view class="flex fs14 ftw"><image class="TitIcon" src="../../static/images/service-details-icon3.png" mode=""></image><text>更多服务</text></view>
 			<view class="msgInfor fs12">
-				
+				{{mainData.spu_content&&mainData.spu_content[0]?mainData.spu_content[0].content:''}}
 			</view>
 		</view>
 		<view class="f5H5"></view>
@@ -43,9 +45,8 @@
 			<view class="flex fs14 ftw"><image class="TitIcon" src="../../static/images/service-details-icon2.png" mode=""></image><text>执照资质</text></view>
 			<view class="msgInfor fs12">
 				<view class="item">
-					<image class="img" src="../../static/images/service-details-img2.png"></image>
-					<image class="img" src="../../static/images/service-details-img2.png"></image>
-					<image class="img" src="../../static/images/service-details-img2.png"></image>
+					<image class="img" v-for="item in mainData.bannerImg" :src="item.url"></image>
+					
 				</view>
 			</view>
 		</view>
@@ -55,11 +56,11 @@
 			<view class="flexRowBetween">
 				<view class="flex" style="width: 50%;">
 					<view class="headImg flexCenter">
-						<image src="../../static/images/service-details-img.png"></image>
+						<image style="border-radius: 50%;overflow: hidden;" :src="mainData.User?mainData.User.headImgUrl:''"></image>
 					</view>
-					<view style="margin-left: 20rpx;">发布人：张宇</view>
+					<view style="margin-left: 20rpx;">发布人：{{mainData.User?mainData.User.nickname:''}}</view>
 				</view>
-				<view class="red">156789008908</view>
+				<view class="red">{{mainData.phone}}</view>
 			</view>
 		</view>
 		<!-- 
@@ -99,15 +100,56 @@
 				is_xuzhiShow:false,
 				bannerImg:[
 					{url:'../../static/images/service-details-img1.png'}
-				]
+				],
+				mainData:{}
 			}
 		},
 		
-		onLoad() {
+		onLoad(options) {
 			const self = this;
-			// self.$Utils.loadAll(['getMainData'], self);
+			self.id = options.id;
+			self.$Utils.loadAll(['getMainData'], self);
 		},
+		
 		methods: {
+			
+			getMainData() {
+				const self = this;
+				const postData = {};
+				postData.searchItem = {
+					id:self.id
+				};
+				postData.getAfter = {
+					spu:{
+						tableName:'SkuLabel',
+						middleKey:'spu_item',
+						key:'id',
+						searchItem:{
+							status:1
+						},
+						condition:'in'
+					},
+					User:{
+						token:uni.getStorageSync('user_token'),
+						tableName:'User',
+						middleKey:'user_no',
+						key:'user_no',
+						searchItem:{
+							status:1
+						},
+						condition:'in',
+						info:['nickname','headImgUrl']
+					}
+				};
+				const callback = (res) => {
+					if (res.info.data.length > 0) {
+						self.mainData = res.info.data[0]
+					}
+					self.$Utils.finishFunc('getMainData');
+				};
+				self.$apis.articleGet(postData, callback);
+			},
+			
 			agrren(){
 				const self = this;
 				self.num = !self.num
@@ -121,13 +163,7 @@
 					phoneNumber: '15623455454',
 				})
 			},
-			getMainData() {
-				const self = this;
-				console.log('852369')
-				const postData = {};
-				postData.tokenFuncName = 'getProjectToken';
-				self.$apis.orderGet(postData, callback);
-			}
+			
 		}
 	};
 </script>

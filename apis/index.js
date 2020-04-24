@@ -19,13 +19,36 @@ export default {
 	},
 	
 	
-	
+	decryptWxInfo(param, callback) {
+		var allParams = {
+			url: 'Func/Common/decryptWxInfo',
+			type: 'post',
+			data: param,
+			sCallback: function(data) {
+				callback && callback(data);
+			}
+		};
+		http.HTTP(allParams);
+	},
 	
 
 	registerSuper(param, callback) {
 
 		var allParams = {
 			url: 'Project/Solely/registerSuper',
+			type: 'post',
+			data: param,
+			sCallback: function(data) {
+				callback && callback(data);
+			}
+		};
+		http.HTTP(allParams);
+	},
+	
+	getTree(param, callback) {
+	
+		var allParams = {
+			url: 'Project/Solely/getTree',
 			type: 'post',
 			data: param,
 			sCallback: function(data) {
@@ -156,6 +179,19 @@ export default {
 		http.HTTP(allParams);
 	},
 	
+	skuLabelGet(param, callback) {
+		var allParams = {
+			url: 'Common/SkuLabel/get',
+			type: 'post',
+			noToken: true,
+			data: param,
+			sCallback: function(data) {
+				callback && callback(data);
+			}
+		};
+		http.HTTP(allParams);
+	},
+	
 	messageGet(param, callback) {
 		var allParams = {
 			url: 'Common/Message/get',
@@ -225,6 +261,20 @@ export default {
 		
 		var allParams = {
 			url: 'Common/Article/get',
+			type: 'post',
+			noToken: true,
+			data: param,
+			sCallback: function(data) {
+				callback && callback(data);
+			}
+		};
+		http.HTTP(allParams);
+	},
+	
+	articleAdd(param, callback) {
+		
+		var allParams = {
+			url: 'Common/Article/add',
 			type: 'post',
 			noToken: true,
 			data: param,

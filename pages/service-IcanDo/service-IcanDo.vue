@@ -1,100 +1,100 @@
 <template>
 	<view>
 		<view class="">
-			<view class="pdtb15 ftw mglr4">代办服务</view>
+			
 			
 			<view class="editLine fs13">
-				<view class="item flexRowBetween">
-					<view class="ll flexRowBetween">图片：</view>
-					<view class="rr flexEnd">
-						<view class="fs11 color9">可上传多张</view>
-						<view class="upImg" @click="chooseImage"> 
-							<block v-if="imageSrc">
-								<image :src="imageSrc"></image>
-							</block>
-							<block v-else>
-								<view class="uni-hello-addfile">
-									<image src="../../static/images/can-do-icon.png" mode=""></image>
-								</view>
-							</block>
-						</view>
-						
-					</view>
-				</view>
+				
 				<view class="item flexRowBetween">
 					<view class="ll flexRowBetween">企业名称：</view>
 					<view class="rr flex">
-						<input type="text" value="" placeholder="请输入企业的名称" placeholder-class="placeholder" />
-					</view>
-				</view>
-				
-				<view class="item flexRowBetween">
-					<view class="ll flexRowBetween">营业执照：</view>
-					<view class="rr flexEnd">
-						<view class="fs11 color9">可上传多张</view>
-						<view class="upImg" @click="chooseLicenseImage">
-							<block v-if="licenseImageSrc">
-								<image :src="licenseImageSrc"></image>
-							</block>
-							<block v-else>
-								<view class="uni-hello-addfile">
-									<image src="../../static/images/can-do-icon.png" mode=""></image>
-								</view>
-							</block>
-						</view>
-					</view>
-				</view>
-				
-				<view class="item flexRowBetween">
-					<view class="ll flexRowBetween">标题：</view>
-					<view class="rr flex">
-						<input type="text" value="" placeholder="标题不得超出20字" placeholder-class="placeholder" />
+						<input type="text" v-model="submitData.title" placeholder="请输入企业的名称" placeholder-class="placeholder" />
 					</view>
 				</view>
 				
 				<view class="item flexRowBetween">
 					<view class="ll flexRowBetween">服务区域：</view>
 					<view class="rr selt-R flexEnd">
-						<picker mode="region" >
-							<view class="color9">请选择</view>
+						<picker mode="region" @change="chooseAddress">
+							<view>{{submitData.province!=''?submitData.province+submitData.city+submitData.country:'请选择'}}</view>
 						</picker>
 					</view>
 				</view>
 				
-				<view class="item flexRowBetween">
-					<view class="ll flexRowBetween">我能办：</view>
-					<view class="rr flex canDoList">
-						<view class="lis flexEnd" v-for="(item,index) in canDoDate" :key="index" @click="canDoChange(index)">
-							<image class="setIcon" :src="item.check==true?'../../static/images/add-icon1.png':'../../static/images/add-icon.png'" mode=""></image>
-							<view class="tit color9">{{item.title}}</view>
-						</view>
-					</view>
-				</view>
 				
-				<view class="item flexRowBetween">
-					<view class="ll flexRowBetween">服务介绍：</view>
-					<view class="rr selt-R flex">
-						<textarea value="" placeholder="" />
+				<view class="" v-for="(item,index) in mainData" :key="index">
+					<view class="pdtb15 ftw mglr4">{{item.menu}}</view>
+					<view class="editLine fs13">
+						<view class="item flexRowBetween whether" v-for="(c_item,c_index) in item.data" :key="c_index">
+							<view class="ll">{{c_item.title}}：</view>
+							<view class="rr flexEnd canDoList">
+								<view class="lis flexEnd"  v-if="cc_item.style==1" v-for="(cc_item,cc_index) in c_item.child" :key="cc_index">
+									<!-- <view>{{cc_item.style}}</view> -->
+									<image class="setIcon" :data-id="c_item.id" :data-c_id="cc_item.id" 
+									@click="choose($event.currentTarget.dataset.id,$event.currentTarget.dataset.c_id)"
+									:src="Utils.inArray(cc_item.id,submitData.spu_item)>-1?'../../static/images/add-icon1.png':'../../static/images/add-icon.png'" mode=""></image>
+									<view>{{cc_item.title}}</view>
+								</view>
+								<view class="lis  flexEnd"  v-if="cc_item.style==2" v-for="(cc_item,cc_index) in c_item.child" :key="cc_index">
+									<input type="text" v-model="text" @blur="inputIn($event.currentTarget.dataset.id)" :data-id="cc_item.id"   placeholder-class="placeholder" />
+								</view>
+								<view class="rr flexEnd" style="width: 100%;"  v-if="cc_item.style==4" v-for="(cc_item,cc_index) in c_item.child" :key="cc_index">
+									<textarea v-model="text" @blur="inputIn($event.currentTarget.dataset.id)" :data-id="cc_item.id"  placeholder="请填写" placeholder-class="placeholder" />
+								</view>
+							</view>
+						</view>
+					</view>	
+					<view class="f5H5"></view>
+				</view>
+			</view>
+		</view>
+		<view class="">
+			<view class="pdtb15 ftw mglr4">公司图集</view>
+			<view class="mglr4 flex pdb10">
+				<view class="upImg flex" style="justify-content: center;">
+					<view class="" style="width: 100%;height: 100%;" v-for="(item,index) in submitData.mainImg" :key="index">
+						<image :src="item.url" mode=""></image>
+					</view>
+					<view class="uni-hello-addfile" style="width: 50%;height: 50%;" @click="upLoadImg('mainImg')">
+						<image src="../../static/images/release-icon.png" mode=""></image>
 					</view>
 				</view>
+				<view class="fs11 color9" v-if="submitData.mainImg.length==0">可上传多张</view>
 			</view>
 		</view>
 		<view class="f5H5"></view>
 		
+		
+		
+		<view class="">
+			<view class="pdtb15 ftw mglr4">执照资质</view>
+			<view class="mglr4 flex pdb10">
+				<view class="upImg flex" style="justify-content: center;"> 
+					<view class="" style="width: 100%;height: 100%;" v-for="(item,index) in submitData.bannerImg" :key="index">
+						<image :src="item.url" mode=""></image>
+					</view>
+					<view class="uni-hello-addfile" style="width: 50%;height: 50%;" @click="upLoadImg('bannerImg')">
+						<image src="../../static/images/release-icon.png" mode=""></image>
+					</view>
+				</view>
+				<view class="fs11 color9" v-if="submitData.bannerImg.length==0">可上传多张</view>
+			</view>
+		</view>
+		<view class="f5H5"></view>
+
 		<view class="">
 			<view class="pdtb15 ftw mglr4">联系方式</view>
-			
 			<view class="editLine fs13">
 				<view class="item flexRowBetween">
 					<view class="ll flexRowBetween">联系电话：</view>
 					<view class="rr flex">
-						<input type="text" value="" placeholder="" placeholder-class="placeholder" />
+						<input type="text" v-model="submitData.phone" placeholder="请填写" placeholder-class="placeholder" />
 					</view>
 				</view>
 				<view class="item flexRowBetween">
 					<view class="ll flexRowBetween">联系人：</view>
 					<view class="rr flex">
-						<input type="text" value="" placeholder="" placeholder-class="placeholder" />
+						<input type="text" v-model="submitData.name" placeholder="请填写" placeholder-class="placeholder" />
 					</view>
 				</view>
 			</view>
@@ -102,7 +102,7 @@
 		<view class="f5H5"></view>
 		
 		<view class="submitbtn pdb25" style="margin-top: 80rpx;">
-			<button class="btn" type="button">确定</button>
+			<button class="btn" type="button" open-type="getUserInfo"  @getuserinfo="Utils.stopMultiClick(submit)">确定</button>
 		</view>
 		
 	</view>
@@ -114,122 +114,236 @@
 		data() {
 			return {
 				Router:this.$Router,
-				showView: false,
-				wx_info:{},
-				is_show:false,
-				curr:0,
-				check:false,
-				canDoDate:[
-					{check:false,title:'股票变更'},
-					{check:false,title:'公司买卖'},
-					{check:false,title:'代理记账'},
-					{check:false,title:'资质代办'},
-					{check:false,title:'商标过户'},
-					{check:false,title:'专利过户'},
-					{check:false,title:'挂靠地址'},
-					{check:false,title:'执照加快'},
-					{check:false,title:'代领发票'},
-					{check:false,title:'发票增量'},
-					{check:false,title:'资金过桥'},
-					{check:false,title:'尽业调查'},
-					{check:false,title:'疑难核名'},
-					{check:false,title:'法律援助'},
-					{check:false,title:'工商疑难处理'},
-					{check:false,title:'税务疑难处理'}
-				],
-				imageSrc: '',
-				licenseImageSrc:''
+				Utils:this.$Utils,
+				mainData:[],
+				submitData:{
+					title:'',
+					name:'',
+					phone:'',
+					mainImg:[],
+					bannerImg:[],
+					province:'',
+					city:'',
+					country:'',
+					spu_item:[],
+					spu_content:{}
+				},
+				middleArray:{},
+				middleInput:{},
+				text:''
 			}
 		},
-		onUnload() {
+		
+		onLoad(options) {
 			const self = this;
-			self.imageSrc = '';
-			self.licenseImageSrc = '';
+			self.id = options.id;
+			self.submitData.menu_id = self.id;
+			self.$Utils.loadAll(['getMainData'], self);
 		},
+		
 		methods: {
-			canDoChange(i){
+			
+			chooseAddress(e){
 				const self = this;
-				self.canDoDate[i].check = !self.canDoDate[i].check
+				self.submitData.province = e.detail.value[0];
+				self.submitData.city = e.detail.value[1];
+				self.submitData.country = e.detail.value[2];
 			},
-			chooseImage(){
-				uni.chooseImage({
-					count: 1,
-					sizeType: ['compressed'],
-					sourceType: ['album'],
-					success: (res) => {
-						console.log('chooseImage success, temp path is', res.tempFilePaths[0])
-						var imageSrc = res.tempFilePaths[0]
-						uni.uploadFile({
-							url: 'https://unidemo.dcloud.net.cn/upload',
-							filePath: imageSrc,
-							fileType: 'image',
-							name: 'data',
-							success: (res) => {
-								console.log('uploadImage success, res is:', res)
-								uni.showToast({
-									title: '上传成功',
-									icon: 'success',
-									duration: 1000
-								})
-								this.imageSrc = imageSrc
-							},
-							fail: (err) => {
-								console.log('uploadImage fail', err);
-								uni.showModal({
-									content: err.errMsg,
-									showCancel: false
-								});
-							}
-						});
-					},
-					fail: (err) => {
-						console.log('chooseImage fail', err)
-					}
-				})
-			},
-			chooseLicenseImage(){
-				uni.chooseImage({
-					count: 1,
-					sizeType: ['compressed'],
-					sourceType: ['album'],
-					success: (res) => {
-						console.log('chooseImage success, temp path is', res.tempFilePaths[0])
-						var licenseImageSrc = res.tempFilePaths[0]
-						uni.uploadFile({
-							url: 'https://unidemo.dcloud.net.cn/upload',
-							filePath: licenseImageSrc,
-							fileType: 'image',
-							name: 'data',
-							success: (res) => {
-								console.log('uploadImage success, res is:', res)
-								uni.showToast({
-									title: '上传成功',
-									icon: 'success',
-									duration: 1000
-								})
-								this.licenseImageSrc = licenseImageSrc
-							},
-							fail: (err) => {
-								console.log('uploadImage fail', err);
-								uni.showModal({
-									content: err.errMsg,
-									showCancel: false
-								});
-							}
-						});
-					},
-					fail: (err) => {
-						console.log('chooseImage fail', err)
-					}
-				})
-			},
-			getMainData() {
+			
+			
+			
+			choose(id,c_id){
 				const self = this;
-				console.log('852369')
+				self.submitData.spu_item = [];
+				self.middleArray[id] = c_id;
+				console.log(self.middleArray)
+				for(let i in self.middleArray){
+					self.submitData.spu_item.push(self.middleArray[i])
+				}
+				console.log(self.submitData.spu_item)
+			},
+			
+			inputIn(e){
+				const self = this;
+				self.submitData.spu_content[e] = self.text;
+				console.log(self.submitData.spu_content)
+			},
+			
+			submit() {
+				const self = this;
+				uni.setStorageSync('canClick', false);
+				var newObject = self.$Utils.cloneForm(self.submitData);
+				
+				const pass = self.$Utils.checkComplete(newObject);
+				console.log('pass', pass);
+				console.log('self.submitData',self.submitData)
+				if (pass) {	
+					const callback = (user, res) => {
+						console.log(res)
+						self.articleAdd();
+					};
+					self.$Utils.getAuthSetting(callback);
+				} else {
+					uni.setStorageSync('canClick', true);
+					self.$Utils.showToast('请补全信息', 'none')
+				};
+			},
+			
+			articleAdd() {
+				const self = this;
+				
 				const postData = {};
 				postData.tokenFuncName = 'getProjectToken';
-				self.$apis.orderGet(postData, callback);
-			}
+				postData.data = self.$Utils.cloneForm(self.submitData);
+				
+				const callback = (res) => {
+					uni.setStorageSync('canClick',true);
+					if(res.solely_code==100000){
+						self.userInfoUpdate(res.info.id)
+					}
+				};
+				self.$apis.articleAdd(postData, callback);
+			},
+			
+			userInfoUpdate(id) {
+				const self = this;
+				const postData = {};
+				
+				postData.tokenFuncName = 'getProjectToken';
+				postData.data = {
+					company:id
+				};
+				postData.searchItem = {
+					user_no:uni.getStorageSync('user_info').user_no
+				};
+				const callback = (data) => {
+					if (data.solely_code == 100000) {
+						self.$Utils.showToast('添加成功', 'none', 1000)
+						setTimeout(function() {
+							uni.navigateBack({
+								delta:1
+							})
+						}, 1000);
+					} else {
+						uni.setStorageSync('canClick', true);
+						self.$Utils.showToast(data.msg, 'none', 1000)
+					}
+				};
+				self.$apis.userInfoUpdate(postData, callback);
+			},
+			
+			getMainData() {
+				const self = this;
+				const postData = {};
+				postData.searchItem = {
+					id:self.id
+				};
+				const callback = (res) => {
+					if (res.info.data.length > 0) {
+						self.labelData = res.info.data[0];
+						self.getSkuLabelData()
+					}
+				};
+				self.$apis.labelGet	(postData, callback);
+			},
+			
+			getSkuLabelData() {
+				const self = this;
+				const postData = {};
+				postData.searchItem = {
+					id:['in',self.labelData.spu_array]
+				};
+				postData.getAfter = {
+					child:{
+						tableName:'SkuLabel',
+						middleKey:'id',
+						key:'parentid',
+						searchItem:{
+							status:1
+						},
+						condition:'in',
+						order:{
+							listorder:'desc'
+						}
+					}
+				};
+				postData.order = {
+					listorder:'desc'
+				};
+				const callback = (res) => {
+					if (res.info.data.length > 0) {
+						for (var i = 0; i < res.info.data.length; i++) {
+							if (self.mainData.length > 0) {
+								var hasone = false;
+								for (var j = 0; j < self.mainData.length; j++) {
+									if (res.info.data[i].group == self.mainData[j].menu) {
+										self.mainData[j].data.push(res.info.data[i]);
+										hasone = true;
+									};
+								};
+								if (!hasone) {
+									self.mainData.push({
+										menu: res.info.data[i].group,
+										data: [res.info.data[i]],
+						
+									});
+								};
+							} else {
+								self.mainData.push({
+									menu: res.info.data[i].group,
+									data: [res.info.data[i]],
+								})
+							};
+						};
+						console.log('mainData',self.mainData)
+					}
+					self.$Utils.finishFunc('getMainData');
+				};
+				self.$apis.skuLabelGet(postData, callback);
+			},
+			
+			upLoadImg(type) {
+				const self = this;	
+				if (self.submitData[type].length > 8) {
+					api.showToast('仅限9张', 'fail');
+					return;
+				};
+				wx.showLoading({
+					mask: true,
+					title: '上传中',
+				});
+				const callback = (res) => {
+					console.log('res', res)
+					if (res.solely_code == 100000) {
+						self.submitData[type].push({url:res.info.url,type:'image'})
+						console.log('type',type)
+						console.log(self.submitData)
+						wx.hideLoading()
+					} else {
+						self.$Utils.showToast('网络故障', 'none')
+					}
+				};				
+				wx.chooseImage({
+					count: 9,
+					success: function(res) {
+						console.log(res);
+						var tempFilePaths = res.tempFilePaths;
+						console.log(callback)
+						for (var i = 0; i < tempFilePaths.length; i++) {
+							var file = res.tempFiles[i];
+							var obj = res.tempFiles[i].path.lastIndexOf(".");
+							var ext = res.tempFiles[i].path.substr(obj+1);
+							self.$Utils.uploadFile(tempFilePaths[i], 'file', {
+								tokenFuncName: 'getProjectToken',ext:ext,md5:'md5',totalSize:file.size,start:0,chunkSize:file.size,originName:'img'
+							}, callback)
+						}
+					},
+					fail: function(err) {
+						wx.hideLoading();
+					},			
+				})			
+			},
+			
 		}
 	};
 </script>
@@ -237,5 +351,21 @@
 <style>
 	@import "../../assets/style/editInfor.css";
 	@import "../../assets/style/canDo.css";	
+	.w200{width: 200rpx;position: relative;}
+	.editLine .item .w200 input{padding-right:50rpx;}
+	.w200 input:after{content: '万';font-size: 24rpx;color: #999;position: absolute; right: 20rpx;top: 2rpx;}
+	
+	
+	.editLine .item .ll{text-align: left;}
+	.editLine .item .ll .red{margin-right: 10rpx;}
+	.canDoList.hotLable .lis{padding-right: 40rpx;width: 45%;}
+	.canDoList.hotLable .lis:nth-of-type(2n){padding-right: 0;}
+	
+	.editLine .item.whether{line-height: 40rpx;}
+	.editLine .item.whether .ll{width: 45%;}
+	.editLine .item.whether .rr{width: 55%;}
+	.editLine .item.whether .canDoList .lis{padding: 0;}
+	
+	.setIcon{width: 20rpx;height: 20rpx;display: block;margin-right: 10rpx;}
 	.uni-hello-addfile{width: 100%;height: 100%;}
 </style>

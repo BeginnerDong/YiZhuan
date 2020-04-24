@@ -4,21 +4,24 @@
 			"path": "pages/index/index",
 			"style": {
 				"navigationBarTitleText": "找公司",//设置页面标题文字
-				"onReachBottomDistance":100
+				"onReachBottomDistance":100,
+				"enablePullDownRefresh": true
 			}
 		},
 		{
 			"path": "pages/buy/buy",
 			"style": {
 				"navigationBarTitleText": "求购",//设置页面标题文字
-				"onReachBottomDistance":100
+				"onReachBottomDistance":100,
+				"enablePullDownRefresh": true
 			}
 		},
 		{
 			"path": "pages/service/service",
 			"style": {
 				"navigationBarTitleText": "服务大厅",//设置页面标题文字
-				"onReachBottomDistance":100
+				"onReachBottomDistance":100,
+				"enablePullDownRefresh": true
 			}
 		},
 		{

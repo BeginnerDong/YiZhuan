@@ -7,10 +7,10 @@
 				<view class="item flexRowBetween">
 					<view class="ll flexRowBetween">求购需求：</view>
 					<view class="rr selt-R flex">
-						<textarea value="" placeholder="请详情描述求购的公司要求,限100字以内!" />
+						<textarea v-model="submitData.title" placeholder="请详情描述求购的公司要求,限100字以内!" />
 					</view>
 				</view>
-				<view class="item flexRowBetween">
+				<!-- <view class="item flexRowBetween">
 					<view class="ll flexRowBetween">公司类型：</view>
 					<view class="rr flex canDoList hotLable">
 						<view class="lis flexEnd" v-for="(item,index) in typeData" :key="index" @click="typeChange(index)">
@@ -18,12 +18,12 @@
 							<view class="color6">{{item.title}}</view>
 						</view>
 					</view>
-				</view>
+				</view> -->
 				<view class="item flexRowBetween">
 					<view class="ll flexRowBetween">求购区域：</view>
 					<view class="rr selt-R flexEnd">
-						<picker mode="region" >
-							<view>请选择</view>
+						<picker mode="region" @change="chooseAddress">
+							<view>{{submitData.province!=''?submitData.province+submitData.city+submitData.country:'请选择'}}</view>
 						</picker>
 					</view>
 				</view>
@@ -37,45 +37,13 @@
 				<view class="item flexRowBetween">
 					<view class="ll flexRowBetween">联系电话：</view>
 					<view class="rr flex">
-						<input type="text" value="" placeholder="" placeholder-class="placeholder" />
+						<input type="text" v-model="submitData.phone" placeholder="请输入" placeholder-class="placeholder" />
 					</view>
 				</view>
 				<view class="item flexRowBetween">
 					<view class="ll flexRowBetween">联系人：</view>
 					<view class="rr flex">
-						<input type="text" value="" placeholder="" placeholder-class="placeholder" />
-					</view>
-				</view>
-			</view>
-		</view>
-		<view class="f5H5"></view>
-		
-		<view class="">
-			<view class="pdtb15 ftw mglr4">悬赏设置</view>
-			<view class="editLine fs13">
-				<view class="item flexRowBetween">
-					<view class="ll flexRowBetween" style="width: 35%;">是否设置悬赏：</view>
-					<view class="rr flexEnd canDoList">
-						<view class="lis flexEnd" @click="seltCurr('1')">
-							<image class="setIcon" :src="curr==1?'../../static/images/add-icon1.png':'../../static/images/add-icon.png'" mode=""></image>
-							<view>是</view>
-						</view>
-						<view class="lis flexEnd" @click="seltCurr('2')">
-							<image class="setIcon" :src="curr==2?'../../static/images/add-icon1.png':'../../static/images/add-icon.png'" mode=""></image>
-							<view>否</view>
-						</view>
-					</view>
-				</view>
-				<view class="item flexRowBetween">
-					<view class="ll flexRowBetween">悬赏金额：</view>
-					<view class="rr flex">
-						<input type="number" value="" placeholder="请输入悬赏金额(每次分享的金额)" placeholder-class="placeholder" />
-					</view>
-				</view>
-				<view class="item flexRowBetween">
-					<view class="ll flexRowBetween">悬赏次数：</view>
-					<view class="rr flex">
-						<input type="text" value="" placeholder="请输入悬赏次数" placeholder-class="placeholder" />
+						<input type="text" v-model="submitData.name" placeholder="请输入" placeholder-class="placeholder" />
 					</view>
 				</view>
 			</view>
@@ -83,11 +51,9 @@
 		<view class="f5H5"></view>
 		
 		<view class="submitbtn pdb25" style="margin-top: 80rpx;">
-			<button class="btn" type="button">确定</button>
+			<button class="btn" type="button" open-type="getUserInfo"  @getuserinfo="Utils.stopMultiClick(submit)">确定</button>
 		</view>
-		
 	</view>
-	
 </template>
 
 <script>
@@ -95,6 +61,7 @@
 		data() {
 			return {
 				Router:this.$Router,
+				Utils:this.$Utils,
 				showView: false,
 				wx_info:{},
 				is_show:false,
@@ -110,19 +77,65 @@
 					{check:false,title:'实体公司'},
 					{check:false,title:'空壳公司'},
 				],
+				submitData:{
+					title:'',
+					name:'',
+					phone:'',
+					
+					province:'',
+					city:'',
+					country:'',
+					
+				},
 			}
 		},
 		
-		onLoad() {
+		onLoad(options) {
 			const self = this;
+			self.id = options.id;
+			self.submitData.menu_id = self.id;
 			// self.$Utils.loadAll(['getMainData'], self);
 		},
+		
 		methods: {
-			seltCurr(curr){
+			
+			
+			submit() {
 				const self = this;
-				if(curr!=self.curr){
-					self.curr = curr
-				}
+				uni.setStorageSync('canClick', false);
+				var newObject = self.$Utils.cloneForm(self.submitData);
+				const pass = self.$Utils.checkComplete(newObject);
+				console.log('pass', pass);
+				console.log('self.submitData',self.submitData)
+				if (pass) {	
+					const callback = (user, res) => {
+						console.log(res)
+						self.articleAdd();
+					};
+					self.$Utils.getAuthSetting(callback);
+				} else {
+					uni.setStorageSync('canClick', true);
+					self.$Utils.showToast('请补全信息', 'none')
+				};
+			},
+			
+			articleAdd() {
+				const self = this;
+				
+				const postData = {};
+				postData.tokenFuncName = 'getProjectToken';
+				postData.data = self.$Utils.cloneForm(self.submitData);
+				const callback = (res) => {
+					uni.setStorageSync('canClick',true);
+				};
+				self.$apis.articleAdd(postData, callback);
+			},
+			
+			chooseAddress(e){
+				const self = this;
+				self.submitData.province = e.detail.value[0];
+				self.submitData.city = e.detail.value[1];
+				self.submitData.country = e.detail.value[2];
 			},
 			
 			typeChange(i){
@@ -130,13 +143,7 @@
 				self.typeDate[i].check = !self.typeDate[i].check
 			},
 			
-			getMainData() {
-				const self = this;
-				console.log('852369')
-				const postData = {};
-				postData.tokenFuncName = 'getProjectToken';
-				self.$apis.orderGet(postData, callback);
-			}
+			
 		}
 	};
 </script>

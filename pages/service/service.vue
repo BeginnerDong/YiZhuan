@@ -26,34 +26,26 @@
 		
 		
 		<view class="mglr4  serviceList pdtb15">
-			<view class="item radius10 whiteBj" v-for="(item,index) in mainData" 
-			@click="Router.navigateTo({route:{path:'/pages/serviceDetail/serviceDetail'}})">
-				<view class="fs14 color2">西安纯粹云信息科技有限公司</view>
+			<view class="item radius10 whiteBj" v-for="(item,index) in mainData" :data-id="item.id"
+			@click="Router.navigateTo({route:{path:'/pages/serviceDetail/serviceDetail?id='+$event.currentTarget.dataset.id}})">
+				<view class="fs14 color2">{{item.title}}</view>
 				<view class="flex tip">
-					<view class="tip-item fs12 color6" style="background-color: #fff0f0;">空壳</view>
-					<view class="tip-item fs12 color6" style="background-color: #f0f3ff;">买过保险</view>
-					<view class="tip-item fs12 color6" style="background-color: #e4fff0;">小规模</view>
-					<view class="tip-item fs12 color6" style="background-color: #fff0f0;">空壳</view>
-					<view class="tip-item fs12 color6" style="background-color: #f0f3ff;">买过保险</view>
-					<view class="tip-item fs12 color6" style="background-color: #e4fff0;">小规模</view>
-					<view class="tip-item fs12 color6" style="background-color: #fff0f0;">空壳</view>
-					<view class="tip-item fs12 color6" style="background-color: #f0f3ff;">买过保险</view>
-					<view class="tip-item fs12 color6" style="background-color: #e4fff0;">小规模</view>
+					<view class="tip-item fs12 color6" v-for="(c_item,c_index) in item.spu">{{c_item.title}}</view>
 				</view>
 				<view class="imgbox">
 					<view class="lisThree">
-						<image src="../../static/images/service-img.png" mode="aspectFill"></image>
+						<image v-for="c_item in item.mainImg" :src="c_item.url" mode="aspectFill"></image>
 					
 					</view>
 				</view>
 				<view class="flex info">
 					<view class="phone flex">
 						<image src="../../static/images/service-icon.png">
-						<view class="fs13 color6">15623234567</view>
+						<view class="fs13 color6">{{item.phone}}</view>
 					</view>
 					<view  class="address flex">
 						<image src="../../static/images/service-icon1.png">
-						<view class="fs13 color6">广东·深圳市</view>
+						<view class="fs13 color6">{{item.province}}·{{item.city}}</view>
 					</view>
 				</view>
 			</view>
@@ -88,7 +80,7 @@
 			</view>
 		</view>
 		<!--底部tab键 end-->
-		<view class="fx-fabubtn" @click="Router.navigateTo({route:{path:'/pages/service-apply/service-apply'}})">
+		<view class="fx-fabubtn" @click="Router.navigateTo({route:{path:'/pages/service-IcanDo/service-IcanDo?id=10'}})">
 			<image class="icon" src="../../static/images/fabu.png" mode=""></image>
 		</view>
 	</view>
@@ -109,17 +101,19 @@
 				],
 				productData:[{},{},{},{},{},{}],
 				sliderData:{},
-				mainData:[{},{}],
+				mainData:[],
 				searchItem:{
 					thirdapp_id:2
-				}
+				},
+				getBefore:{},
+				itemArray:[]
 			}
 		},
 		
 		onLoad() {
 			const self = this;
 			self.paginate = self.$Utils.cloneForm(self.$AssetsConfig.paginate);
-			//self.$Utils.loadAll(['getSliderData','getMainData','getUserInfoData'], self);
+			//self.$Utils.loadAll(['getMainData'], self);
 		},
 		
 		onReachBottom() {
@@ -131,38 +125,54 @@
 			};
 		},
 		
+		onPullDownRefresh() {
+			const self = this;
+			console.log('start pulldown');
+			self.titleArray = [];
+			self.itemArray = [];
+			self.mainData = [];
+			self.getBefore = {};
+			uni.setStorageSync('serviceSearch',self.itemArray);
+			uni.setStorageSync('serviceTitle',self.titleArray);
+			self.getLabelData()
+		},
+		
+		onShow() {
+			const self = this;
+			if(uni.getStorageSync('serviceSearch')&&uni.getStorageSync('serviceSearch').length>0){
+				self.titleArray = uni.getStorageSync('serviceTitle');
+				self.itemArray = uni.getStorageSync('serviceSearch');
+				self.getBefore = {
+					article:{
+						tableName:'SkuRelation',
+						middleKey:'id',
+						key:'relation_id',
+						searchItem:{
+							sku_item:['in',self.itemArray]
+						},
+						condition:'in'
+					}
+				};
+				
+			}else{
+				self.getBefore = {}
+			};
+			self.getMainData(true)
+		},
+		
 		methods: {
 			
-			getUserInfoData() {
+			deleteChoose(index){
 				const self = this;
-				const postData = {};
-				postData.tokenFuncName = 'getProjectToken';
-				postData.searchItem = {
-					user_no:uni.getStorageSync('user_info').user_no
+				var position = index;
+				self.itemArray.splice(position, 1);
+				self.titleArray.splice(position, 1);
+				if(self.itemArray.length==0){
+					self.getBefore = {}
 				};
-				const callback = (res) => {
-					if (res.info.data.length > 0) {
-						self.userInfoData = res.info.data[0];
-					}
-					console.log('self.userInfoData', self.userInfoData)
-					self.$Utils.finishFunc('getUserInfoData');
-				};
-				self.$apis.userInfoGet(postData, callback);
-			},
-			
-			getSliderData() {
-				const self = this;
-				const postData = {};
-				postData.searchItem = {
-					title:'首页轮播',
-				};
-				const callback = (res) => {
-					if (res.info.data.length > 0) {
-						self.sliderData = res.info.data[0]
-					}
-					self.$Utils.finishFunc('getSliderData');
-				};
-				self.$apis.labelGet(postData, callback);
+				self.getMainData(true)
+				uni.setStorageSync('serviceSearch',self.itemArray);
+				uni.setStorageSync('serviceTitle',self.titleArray);
 			},
 			
 			getMainData(isNew) {
@@ -178,9 +188,19 @@
 				};
 				const postData = {};
 				postData.paginate = self.$Utils.cloneForm(self.paginate);
-				postData.searchItem = self.$Utils.cloneForm(self.searchItem);
-				postData.order = {
-					listorder:'desc'
+				postData.searchItem = {
+					menu_id:['in',10]
+				};
+				postData.getAfter = {
+					spu:{
+						tableName:'SkuLabel',
+						middleKey:'spu_item',
+						key:'id',
+						searchItem:{
+							status:1
+						},
+						condition:'in'
+					}
 				};
 				const callback = (res) => {
 					if (res.info.data.length > 0) {
@@ -188,7 +208,7 @@
 					}
 					self.$Utils.finishFunc('getMainData');
 				};
-				self.$apis.productGet(postData, callback);
+				self.$apis.articleGet(postData, callback);
 			},
 		}
 	};
@@ -199,5 +219,13 @@
 	@import "../../assets/style/top.css";
 	@import "../../assets/style/service.css";
 	page{padding-bottom: 140rpx;background: #F5F5F5;}
-
+	.tip-item:nth-child(n + 1) {
+	   background-color: #fff0f0;
+	 }
+	 .tip-item:nth-child(2n + 1) {
+	    background-color: #f0f3ff;
+	 }
+	 .tip-item:nth-child(3n + 1) {
+			  background-color: #e4fff0;
+	 }
 </style>

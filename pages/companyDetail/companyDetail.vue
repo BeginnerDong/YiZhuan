@@ -2,7 +2,7 @@
 	<view>
 		<view class="banner-box">
 			<swiper style="width: 100%;height: 400rpx;" class="swiper-box" indicator-dots="true" autoplay="true" interval="3000" duration="1000" indicator-active-color="#757575">
-				<block v-for="(item,index) in bannerImg" :key="index">
+				<block v-for="(item,index) in mainData.bannerImg" :key="index">
 					<swiper-item class="swiper-item">
 						<image style="width: 100%;height: 400rpx;" :src="item.url" class="slide-image" />
 					</swiper-item>
@@ -12,17 +12,17 @@
 		<view class="mglr4 pdtb15">
 			<view class="compayTit flex mgb10">
 				
-				<view class="text color2 fs16" style="font-weight: 700;">深圳市****教育有限公司</view>
+				<view class="text color2 fs16" style="font-weight: 700;">{{mainData.title?mainData.title:''}}</view>
 			</view>
-			<view class="fs12 color9 mgb20">公司编号：23143243</view>
+			<view class="fs12 color9 mgb20">公司编号：{{mainData.id?mainData.id:''}}</view>
 			<view class="flexRowBetween">
 				<view class="ll fs12">
 					<view >出售价：<text class="fs18 red">面议</text></view>
-					<view class="color9 mgt10 fs11">更新时间：<text>2019-12-19</text></view>
+					<view class="color9 mgt10 fs11">更新时间：<text>{{mainData.update_time}}</text></view>
 				</view>
 				<view class="reward flex">
 					<image src="../../static/images/qiugou-icon2.png"></image>
-					<view class="fs11 colorffad">赚2金币</view>
+					<view class="fs11 colorffad">赚{{share}}金币</view>
 				</view>
 			</view>
 		</view>
@@ -31,7 +31,7 @@
 		<view class="buyPeople flex mglr4">
 			
 			<view class="phone center">
-				<button class="flexCenter">
+				<button class="flexCenter" @click="conact">
 					<image class="icon" src="../../static/images/qiugou-icon.png"></image>
 					<view class="fs14 white">联系他</view>
 				</button>
@@ -53,113 +53,54 @@
 				<view class="flexRowBetween">
 					<view class="item">
 						<text class="color6">注册资本：</text>
-						<text>1000万人民币</text>
+						<text>{{mainData.registered_capital}}万人民币</text>
 					</view>
 					<view class="item">
 						<text class="color6">实缴资本：</text>
-						<text>1000万人民币</text>
+						<text>{{mainData.paid_in_capital}}万人民币</text>
 					</view>
 				</view>
 				
 				<view class="item">
 					<text class="color6">成立时间：</text>
-					<text>2015-03-12</text>
+					<text>{{mainData.establish_time}}</text>
 				</view>
 				<view class="item">
 					<text class="color6">注册地址：</text>
-					<text>上海 上海市 杨浦******</text>
+					<text>{{mainData.province}} {{mainData.city}} {{mainData.country}}******</text>
 				</view>
 				<view class="item flexY">
-					<view class="color6" style="width: 21%;">经营范围：</view>
-					<view style="width: 100%;">广告设计、制作。代理、发布、灯饰设计、展览展示服务、会议服务、图文设计制作、绿化养护、礼仪服务、动漫设计、计算机软硬件、园林古建筑工程专业施工、建筑装饰建设工程专项设计。</view>
+					<view class="color6" style="width: 22%;">经营范围：</view>
+					<view style="width: 100%;">
+						{{mainData.business_scope}}
+					</view>
 				</view>
 			</view>
 		</view>
 		<view class="f5H5"></view>
 		
-		<view class="mglr4 pdtb15">
-			<view class="flex fs14 ftw"><image class="TitIcon" src="../../static/images/the-company-details-icon1.png" mode=""></image><text>税务信息</text></view>
-			<view class="msgInfor fs12">
-				<view class="flex">
-					<view class="item">
-						<text class="color6">纳税类型：</text>
-						<text>小规模</text>
+		<view class="" v-for="(item,index) in array" :key="index">
+			<view class="mglr4 pdtb15">
+				<view class="flex fs14 ftw"><image class="TitIcon" src="../../static/images/the-company-details-icon1.png" mode=""></image><text>税务信息</text></view>
+				<view class="msgInfor fs12">
+					<view class="flex" style="flex-wrap: wrap;">
+						<view class="item" v-for="(c_item,c_index) in item.data" :key="c_index">
+							<text class="color6">{{c_item.title}}：</text>
+							<text>小规模</text>
+						</view>
 					</view>
-					<view class="item" style="margin-left: 180rpx;">
-						<text class="color6">报税情况：</text>
-						<text>正常</text>
-					</view>
-				</view>
-				
-				<view class="item">
-					<text class="color6">申领发票：</text>
-					<text>未申领</text>
+	
 				</view>
 			</view>
+			<view class="f5H5"></view>
 		</view>
-		<view class="f5H5"></view>
 		
-		<view class="mglr4 pdtb15">
-			<view class="flex fs14 ftw"><image class="TitIcon" src="../../static/images/the-company-details-icon2.png" mode=""></image><text>银行信息</text></view>
-			<view class="msgInfor fs12">
-				<view class="flex">
-					<view class="item">
-						<text class="color6">银行账户：</text>
-						<text>已开票本户</text>
-					</view>
-					<view class="item" style="margin-left: 180rpx;">
-						<text class="color6">账户是否正常：</text>
-						<text>正常</text>
-					</view>
-				</view>
-				
-				<view class="item">
-					<text class="color6">开通网银：</text>
-					<text>未开通</text>
-				</view>
-			</view>
-		</view>
-		<view class="f5H5"></view>
-		
-		<view class="mglr4 pdtb15">
-			<view class="flex fs14 ftw"><image class="TitIcon" src="../../static/images/the-company-details-icon3.png" mode=""></image><text>其他信息</text></view>
-			<view class="msgInfor fs12">
-				<view class="item">
-					<text class="color6">其他信息：</text>
-					<text>还有家一般纳税人</text>
-				</view>
-			</view>
-		</view>
-		<view class="f5H5"></view>
-		
-		<view class="mglr4 pdtb15">
-			<view class="flex fs14 ftw"><image class="TitIcon" src="../../static/images/the-company-details-icon4.png" mode=""></image><text>悬赏信息</text></view>
-			<view class="msgInfor fs12">
-				<view class="item">
-					<text class="color6">悬赏信息：</text>
-					<text>分享一次可得10金币(只有三个名额哟~)</text>
-				</view>
-			</view>
-		</view>
-		<view class="f5H5"></view>
-		<view class="mglr4 pdtb15">
-			<view class="flex fs14 ftw"><image class="TitIcon" src="../../static/images/the-company-details-icon5.png" mode=""></image><text>公司图集</text></view>
-			<view class="msgInfor fs12">
-				<view class="item">
-					<image class="img" src="../../static/images/service-details-img1.png"></image>
-					<image class="img" src="../../static/images/service-details-img1.png"></image>
-					<image class="img" src="../../static/images/service-details-img1.png"></image>
-				</view>
-			</view>
-		</view>
 		<view class="f5H5"></view>
 		<view class="mglr4 pdtb15">
 			<view class="flex fs14 ftw"><image class="TitIcon" src="../../static/images/the-company-details-icon5.png" mode=""></image><text>执照资质</text></view>
 			<view class="msgInfor fs12">
 				<view class="item">
-					<image class="img" src="../../static/images/service-details-img2.png"></image>
-					<image class="img" src="../../static/images/service-details-img2.png"></image>
-					<image class="img" src="../../static/images/service-details-img2.png"></image>
+					<image class="img" v-for="item in mainData.bannerImg" :src="item.url"></image>
 				</view>
 			</view>
 		</view>
@@ -200,15 +141,179 @@
 				is_xuzhiShow:false,
 				bannerImg:[
 					{url:'../../static/images/service-details-img1.png'}
-				]
+				],
+				mainData:{},
+				share:0,
+				array:[]
 			}
 		},
 		
-		onLoad() {
+		onLoad(options) {
 			const self = this;
-			// self.$Utils.loadAll(['getMainData'], self);
+			self.id = options.id;
+			self.share = uni.getStorageSync('user_info').thirdApp.share;
+			self.$Utils.loadAll(['getMainData','getUserInfoData'], self);
 		},
+		
 		methods: {
+			
+			getLabelData() {
+				const self = this;
+				const postData = {};
+				postData.searchItem = {
+					id:self.mainData.menu_id
+				};
+				const callback = (res) => {
+					if (res.info.data.length > 0) {
+						self.labelData = res.info.data[0];
+						self.getSkuLabelData()
+					}
+				};
+				self.$apis.labelGet	(postData, callback);
+			},
+			
+			getSkuLabelData() {
+				const self = this;
+				const postData = {};
+				postData.searchItem = {
+					id:['in',self.labelData.spu_array]
+				};
+				postData.getAfter = {
+					child:{
+						tableName:'SkuLabel',
+						middleKey:'id',
+						key:'parentid',
+						searchItem:{
+							status:1
+						},
+						condition:'in',
+						order:{
+							listorder:'desc'
+						}
+					}
+				};
+				postData.order = {
+					listorder:'desc'
+				};
+				const callback = (res) => {
+					if (res.info.data.length > 0) {
+						/* for (var i = 0; i < res.info.data.length; i++) {
+							Things[i]
+						} */
+						for (var i = 0; i < res.info.data.length; i++) {
+							if (self.array.length > 0) {
+								var hasone = false;
+								for (var j = 0; j < self.array.length; j++) {
+									if (res.info.data[i].group == self.array[j].menu) {
+										self.array[j].data.push(res.info.data[i]);
+										hasone = true;
+									};
+								};
+								if (!hasone) {
+									self.array.push({
+										menu: res.info.data[i].group,
+										data: [res.info.data[i]],
+						
+									});
+								};
+							} else {
+								self.array.push({
+									menu: res.info.data[i].group,
+									data: [res.info.data[i]],
+								})
+							};
+						};
+						console.log('array',self.array)
+					}
+					self.$Utils.finishFunc('getMainData');
+				};
+				self.$apis.skuLabelGet(postData, callback);
+			},
+			
+			getUserInfoData() {
+				const self = this;
+				const postData = {};
+				postData.tokenFuncName = 'getProjectToken';
+				postData.searchItem = {
+					thirdapp_id:2
+				};
+				const callback = (res) => {
+					if (res.info.data.length > 0) {
+						self.userInfoData = res.info.data[0]
+					};
+					self.$Utils.finishFunc('getUserInfoData');
+				};
+				self.$apis.userInfoGet(postData, callback);
+			},
+			
+			conact(){
+				const self = this;
+				uni.showModal({
+					title:'提示',
+					content:'联系他将花费您'+uni.getStorageSync('user_info').thirdApp.cost+'金币',
+					success(res) {
+						if(res.confirm){
+							self.flowLogAdd()
+						}
+					}
+				});
+			},
+			
+			flowLogAdd() {
+				const self = this;
+				if(parseFloat(uni.getStorageSync('user_info').thirdApp.cost)>parseFloat(self.userInfoData.score)){
+					uni.showModal({
+						title:'提示',
+						content:'您的金币不足',
+						showCancel:false,
+						success(res) {
+							if(res.confirm){
+								
+							}
+						}
+					});
+					return
+				};
+				const postData = {};
+				postData.tokenFuncName = 'getProjectToken';
+				postData.data = {
+					count: -parseFloat(uni.getStorageSync('user_info').thirdApp.cost),
+					thirdapp_id:2,
+					status:1,
+					trade_info:'联系',
+					type:3,
+					account:1,
+				};
+				const callback = (data) => {				
+					if (data.solely_code == 100000) {					
+						uni.makePhoneCall({
+							phoneNumber:self.mainData.phone
+						})
+					} else {
+						uni.setStorageSync('canClick', true);
+						self.$Utils.showToast(data.msg, 'none', 1000)
+					}	
+				};
+				self.$apis.flowLogAdd(postData, callback);
+			},
+			
+			getMainData() {
+				const self = this;
+				const postData = {};
+				postData.searchItem = {
+					id:self.id
+				};
+				
+				const callback = (res) => {
+					if (res.info.data.length > 0) {
+						self.mainData = res.info.data[0]
+						self.getLabelData()
+					}
+					
+				};
+				self.$apis.articleGet(postData, callback);
+			},
+			
 			agrren(){
 				const self = this;
 				self.num = !self.num
@@ -222,13 +327,7 @@
 					phoneNumber: '15623455454',
 				})
 			},
-			getMainData() {
-				const self = this;
-				console.log('852369')
-				const postData = {};
-				postData.tokenFuncName = 'getProjectToken';
-				self.$apis.orderGet(postData, callback);
-			}
+			
 		}
 	};
 </script>

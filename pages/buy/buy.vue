@@ -14,11 +14,8 @@
 				
 			</view>
 			<view class="companyType flex">
-				<view class="item color6 fs11">空壳公司
-					<image src="../../static/images/1.png"></image>
-				</view>
-				<view class="item color6 fs11">买过保险
-					<image src="../../static/images/1.png"></image>
+				<view class="item color6 fs11" v-for="(item,index) in titleArray" :key="index">{{item}}
+					<image src="../../static/images/1.png" @click="deleteChoose(index)"></image>
 				</view>
 			</view>
 		</view>
@@ -27,7 +24,7 @@
 		
 		<view class="mglr4 buyList pdtb15">
 			<view class="item radius10 whiteBj" v-for="(item,index) in mainData">
-				<view class="title avoidOverflow3 fs14">业务急需收购几家香港贸易公司业务急需收购几家香港贸易公司业务急需收购几家香港贸易公司业务急需收购几家香港贸易公司业务急需收购几家香港贸易公司</view>
+				<view class="title avoidOverflow3 fs14">{{item.title}}</view>
 				<view class="flexRowBetween tip">
 					<view class="flex">
 						<view class="tip-item fs12 color6" style="background-color: #fff0f0;">空壳</view>
@@ -57,7 +54,7 @@
 						
 					</view>
 				</view>
-				<view class="fs12 color9 mgt10">发布人位置：西安市</view>
+				<view class="fs12 color9 mgt10">发布人位置：{{item.city}}</view>
 			</view>
 			 
 		</view>
@@ -90,7 +87,7 @@
 			</view>
 		</view>
 		<!--底部tab键 end-->
-		<view class="fx-fabubtn" @click="Router.navigateTo({route:{path:'/pages/wantBuy-buy/wantBuy-buy'}})">
+		<view class="fx-fabubtn" @click="Router.navigateTo({route:{path:'/pages/wantBuy-buy/wantBuy-buy?id=8'}})">
 			<image class="icon" src="../../static/images/fabu.png" mode=""></image>
 		</view>
 	</view>
@@ -111,17 +108,20 @@
 				],
 				productData:[{},{},{},{},{},{}],
 				sliderData:{},
-				mainData:[{},{}],
+				mainData:[],
 				searchItem:{
 					thirdapp_id:2
-				}
+				},
+			
+				getBefore:{},
+				itemArray:[]
 			}
 		},
 		
 		onLoad() {
 			const self = this;
 			self.paginate = self.$Utils.cloneForm(self.$AssetsConfig.paginate);
-			//self.$Utils.loadAll(['getSliderData','getMainData','getUserInfoData'], self);
+			//self.$Utils.loadAll(['getMainData'], self);
 		},
 		
 		onReachBottom() {
@@ -133,38 +133,54 @@
 			};
 		},
 		
+		onPullDownRefresh() {
+			const self = this;
+			console.log('start pulldown');
+			self.titleArray = [];
+			self.itemArray = [];
+			self.mainData = [];
+			self.getBefore = {};
+			uni.setStorageSync('buySearch',self.itemArray);
+			uni.setStorageSync('buyTitle',self.titleArray);
+			self.getLabelData()
+		},
+		
+		onShow() {
+			const self = this;
+			if(uni.getStorageSync('buySearch')&&uni.getStorageSync('buySearch').length>0){
+				self.titleArray = uni.getStorageSync('buyTitle');
+				self.itemArray = uni.getStorageSync('buySearch');
+				self.getBefore = {
+					article:{
+						tableName:'SkuRelation',
+						middleKey:'id',
+						key:'relation_id',
+						searchItem:{
+							sku_item:['in',self.itemArray]
+						},
+						condition:'in'
+					}
+				};
+				
+			}else{
+				self.getBefore = {}
+			};
+			self.getMainData(true)
+		},
+		
 		methods: {
 			
-			getUserInfoData() {
+			deleteChoose(index){
 				const self = this;
-				const postData = {};
-				postData.tokenFuncName = 'getProjectToken';
-				postData.searchItem = {
-					user_no:uni.getStorageSync('user_info').user_no
+				var position = index;
+				self.itemArray.splice(position, 1);
+				self.titleArray.splice(position, 1);
+				if(self.itemArray.length==0){
+					self.getBefore = {}
 				};
-				const callback = (res) => {
-					if (res.info.data.length > 0) {
-						self.userInfoData = res.info.data[0];
-					}
-					console.log('self.userInfoData', self.userInfoData)
-					self.$Utils.finishFunc('getUserInfoData');
-				};
-				self.$apis.userInfoGet(postData, callback);
-			},
-			
-			getSliderData() {
-				const self = this;
-				const postData = {};
-				postData.searchItem = {
-					title:'首页轮播',
-				};
-				const callback = (res) => {
-					if (res.info.data.length > 0) {
-						self.sliderData = res.info.data[0]
-					}
-					self.$Utils.finishFunc('getSliderData');
-				};
-				self.$apis.labelGet(postData, callback);
+				self.getMainData(true)
+				uni.setStorageSync('buySearch',self.itemArray);
+				uni.setStorageSync('buyTitle',self.titleArray);
 			},
 			
 			getMainData(isNew) {
@@ -180,17 +196,27 @@
 				};
 				const postData = {};
 				postData.paginate = self.$Utils.cloneForm(self.paginate);
-				postData.searchItem = self.$Utils.cloneForm(self.searchItem);
-				postData.order = {
-					listorder:'desc'
+				postData.searchItem = {
+					menu_id:['in',8]
 				};
+				/* postData.getAfter = {
+					spu:{
+						tableName:'SkuLabel',
+						middleKey:'spu_item',
+						key:'id',
+						searchItem:{
+							status:1
+						},
+						condition:'in'
+					}
+				}; */
 				const callback = (res) => {
 					if (res.info.data.length > 0) {
 						self.mainData.push.apply(self.mainData,res.info.data)
 					}
 					self.$Utils.finishFunc('getMainData');
 				};
-				self.$apis.productGet(postData, callback);
+				self.$apis.articleGet(postData, callback);
 			},
 		}
 	};
