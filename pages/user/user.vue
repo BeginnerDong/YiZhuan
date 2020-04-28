@@ -1,76 +1,72 @@
 <template>
 	<view>
-		<view class="userInfo pubBj flexRowBetween">
-			<view class="ll flex">
-				<view class="headImg">
-					<view class="headImg"  style="overflow: hidden;border-radius: 50%;"><open-data type="userAvatarUrl"></open-data></view>
-				</view>
-				<view style="margin-left: 20rpx;">
-					<view class="name fs15"><open-data type="userNickName"></open-data></view>
-					
+		<view class="userInfo pubBj d-flex j-sb a-center">
+			<view class="ll d-flex a-center">
+				<view class="headImg rounded-circle overflow-h border"><open-data type="userAvatarUrl"></open-data></view>
+				<view class="ml-2">
+					<view class="name font-30 text-white"><open-data type="userNickName"></open-data></view>
 				</view>
 			</view>
-			
 		</view>
-		<button class="flexCenter" 
-		style="width: 140rpx;height: 50rpx;position: absolute;top: 10%;right: 0%;background-color: #5bcdff;border-radius: 25rpx 0 0 25rpx;">
+		<button class="d-flex j-center a-center px-1" 
+		style="width: 120rpx;height: 50rpx;position: absolute;top: 10%;right: 0%;background-color: #5bcdff;border-radius: 30rpx 0 0 30rpx;">
 			<image src="../../static/images/icon.png" style="width:30rpx;height: 30rpx;"></image>
-			<view class="fs12 white" style="margin-left: 10rpx;">分享</view>
+			<view class="font-24 text-white ml-1">分享</view>
 		</button>
-		<view class="gold flexRowBetween" 
-		style="height: 130rpx;width: 84%;margin: 0 auto;background-color: #fff;position: absolute;top: 21%;left: 4%;padding: 0 4%;border-radius: 10rpx;">
-			<view class="ll flex">
+		<view class="gold d-flex j-sb a-center mx-3 px-3 bg-white rounded20" style="height: 130rpx; margin-top: -60rpx;">
+			<view class="ll d-flex a-center">
 				<image style="width: 50rpx;height: 50rpx;" src="../../static/images/icon1.png"></image>
-				<view class="fs13 color2" style="margin-left: 20rpx;">金币：<span style="color: #fdc72f;font-size: 34rpx;font-weight: bold;">
-				{{userInfoData.score?userInfoData.score:'0.00'}}</span></view>
+				<view class="font-26 color2 ml-2">金币：</view>
+				<view class="font-34 font-weight" style="color: #fdc72f;">
+				{{userInfoData.score?userInfoData.score:'0.00'}}</view>
 			</view>
-			<view><button @click="Router.navigateTo({route:{path:'/pages/user-recharge/user-recharge'}})" style="width: 150rpx;height: 60rpx;line-height: 60rpx;color: #fff;border-radius: 50rpx;" class="fs14  pubBj">充值</button></view>
+			<view><button @click="Router.navigateTo({route:{path:'/pages/user-recharge/user-recharge'}})" style="width: 150rpx;height: 60rpx;line-height: 60rpx;color: #fff;border-radius: 50rpx; background-color: #36b6ee;font-size: 28rpx;">充值</button></view>
 		</view>
-		<view class="" style="margin: 100rpx 4%;">
-			<view class="menu flexRowBetween" style="border-radius: 10rpx;">
+		<view class="mx-3 my-3">
+			<view class="menu d-flex j-sb a-center text-center font-26 color2 rounded20 bg-white">
 				<view class="item" @click="Router.navigateTo({route:{path:'/pages/user-myInfor/user-myInfor'}})">
-					<view class="flexCenter">
+					<view class="d-flex j-center a-center">
 						<image src="../../static/images/about-icon0.png"></image>
 					</view>
-					<view class="fs13 color2" style="text-align: center;margin-top: 30rpx;">基本信息</view>
+					<view class="mt-3">基本信息</view>
 				</view>
 				<view class="item" @click="Router.navigateTo({route:{path:'/pages/user-myGold/user-myGold'}})">
-					<view class="flexCenter">
+					<view class="d-flex j-center a-center">
 						<image src="../../static/images/about-icon.png"></image>
 					</view>
-					<view class="fs13 color2" style="text-align: center;margin-top: 30rpx;">我的金币</view>
+					<view class="mt-3">我的金币</view>
 				</view>
 				<view class="item" @click="Router.navigateTo({route:{path:'/pages/user-myFaBu/user-myFaBu'}})">
-					<view  class="flexCenter">
+					<view  class="d-flex j-center a-center">
 						<image src="../../static/images/about-icon1.png"></image>
 					</view>
-					<view class="fs13 color2" style="text-align: center;margin-top: 30rpx;">我的发布</view>
+					<view class="mt-3">我的发布</view>
 				</view>
 				<view class="item" @click="viewOradd">
-					<view  class="flexCenter">
+					<view  class="d-flex j-center a-center">
 						<image src="../../static/images/about-icon2.png"></image>
 					</view>
 					<view class="fs13 color2" style="text-align: center;margin-top: 30rpx;">我的企业</view>
 				</view>
 			</view>
-			<view class="pdt15">
-				<view class="boxShaow question" style="border-radius: 10rpx;">
-					<view class="flexRowBetween title">
-						<view class="fs15 color2">常见问题</view>
-						<view class="flex" @click="Router.navigateTo({route:{path:'/pages/question/question'}})">
-							<view class="fs12 color9 mgr5">查看全部</view>
+			<view class="pt-3">
+				<view class="boxShaow question bg-white px-4 rounded20">
+					<view class="d-flex j-sb a-center title pt-4 pb-1">
+						<view class="font-30 color2">常见问题</view>
+						<view class="d-flex a-center" @click="Router.navigateTo({route:{path:'/pages/question/question'}})">
+							<view class="font-24 color9 mr-2">查看全部</view>
 							<view><image src="../../static/images/about-icon3.png"></image></view>
 						</view>
 					</view>
 					
-					<view class="item" v-for="(item,index) in mainData" :key="index">
-						<view class="flexRowBetween pdtb15">
-							<view class="fs13 color2">{{index+1}}.{{item.title}}</view>
+					<view class="item border-bottom" v-for="(item,index) in mainData" :key="index">
+						<view class="d-flex j-sb a-center py-3">
+							<view class="font-26 color2">{{index+1}}.{{item.title}}</view>
 							<view @click="viewThis(index)"><image :src="viewIndex==index?'../../static/images/about-icon4.png':'../../static/images/about-icon3.png'" mode="">
 							</image></view>
 						</view>
 						
-						<view class="fs12 color6 pdb15" v-if="viewIndex==index">{{item.description}}</view>
+						<view class="font-24 pb-3 color6" v-if="viewIndex==index">{{item.description}}</view>
 					</view>
 					
 				</view>
@@ -231,74 +227,39 @@
 	button::after{
 		border: none;
 	}
-	.button-hover{
+	/* .button-hover{
 		color: #000000;
 		background: none;
-	}
+	} */
 	.userInfo{
-		width: 92%;
+		width: 100%;
 		height: 320rpx;
 		padding: 0 4%;
+		box-sizing: border-box;
+		background-color: #36b6ee;
 	}
 	.userInfo .headImg{
 		width: 120rpx;
 		height: 120rpx;
 	}
-	.userInfo .name{
-		color: #fff;
-	}
-	.userInfo .jinbi{
-		color: #666;
-		background-color: #fff;
-		width: 140rpx;
-		height: 40rpx;
-		line-height: 40rpx;
-		text-align: center;
-		border-radius:10rpx
-	}
-	.userInfo .chongzhi{
-		
-		background-color: #fff;
-		width: 120rpx;
-		height: 50rpx;
-		line-height: 50rpx;
-		text-align: center;
-		border-radius:20rpx
-	}
 	.userInfo .headImg image{
 		width: 100%;
 		height: 100%;
+		display: block;
 	}
 	.menu{
 		width: 100%;
 		height: 200rpx;
-		background-color: #fff;
 	}
-	.menu .item{
-		width: 33.3%;
-		
-	}
+	.menu .item{flex: 1;}
 	.menu .item image{
 		width: 50rpx;
 		height: 50rpx;
 	}
-	.question{
-		width: 92%;
-		background-color: #fff;
-		padding:0 4%
-	}
-	.question .title{
-		padding-top: 40rpx;
-	}
-	.question .item{
-		width: 100%;
-		/* height:100rpx;
-		line-height:100rpx; */
-		border-bottom: 1px solid #f5f5f5;
-	}
+	.question .item:last-child{border-bottom: 0;}
 	.question image{
-		width: 20rpx;
-		height:20rpx;
+		width: 14rpx;
+		height:23rpx;
 		
 	}
 </style>

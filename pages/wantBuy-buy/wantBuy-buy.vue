@@ -1,17 +1,17 @@
 <template>
 	<view>
 		<view class="">
-			<view class="pdtb15 ftw mglr4">求购信息</view>
+			<view class="py-3 font-30 font-weight mx-3">求购信息</view>
 			
-			<view class="editLine fs13">
-				<view class="item flexRowBetween">
-					<view class="ll flexRowBetween">求购需求：</view>
-					<view class="rr selt-R flex">
+			<view class="editLine font-26">
+				<view class="item d-flex j-sb a-start">
+					<view class="ll">求购需求：</view>
+					<view class="rr selt-R d-flex">
 						<textarea v-model="submitData.title" placeholder="请详情描述求购的公司要求,限100字以内!" />
 					</view>
 				</view>
-				<!-- <view class="item flexRowBetween">
-					<view class="ll flexRowBetween">公司类型：</view>
+				<!-- <view class="item d-flex j-sb a-center">
+					<view class="ll d-flex j-sb a-center">公司类型：</view>
 					<view class="rr flex canDoList hotLable">
 						<view class="lis flexEnd" v-for="(item,index) in typeData" :key="index" @click="typeChange(index)">
 							<image class="setIcon" :src="item.check==true?'../../static/images/add-icon1.png':'../../static/images/add-icon.png'" mode=""></image>
@@ -19,38 +19,39 @@
 						</view>
 					</view>
 				</view> -->
-				<view class="item flexRowBetween">
-					<view class="ll flexRowBetween">求购区域：</view>
-					<view class="rr selt-R flexEnd">
+				<view class="item d-flex j-sb a-center">
+					<view class="ll">求购区域：</view>
+					<view class="rr selt-R d-flex j-end a-center color6 font-26">
 						<picker mode="region" @change="chooseAddress">
 							<view>{{submitData.province!=''?submitData.province+submitData.city+submitData.country:'请选择'}}</view>
 						</picker>
+						<image class="arrowR" src="../../static/images/about-icon3.png" mode=""></image>
 					</view>
 				</view>
 			</view>
 		</view>
-		<view class="f5H5"></view>
+		<view class="f5Bj-H10"></view>
 		
 		<view class="">
-			<view class="pdtb15 ftw mglr4">联系方式</view>
-			<view class="editLine fs13">
-				<view class="item flexRowBetween">
-					<view class="ll flexRowBetween">联系电话：</view>
-					<view class="rr flex">
+			<view class="pt-3 font-30 font-weight mx-3">联系方式</view>
+			<view class="editLine font-26">
+				<view class="item d-flex j-sb a-center">
+					<view class="ll">联系电话：</view>
+					<view class="rr">
 						<input type="text" v-model="submitData.phone" placeholder="请输入" placeholder-class="placeholder" />
 					</view>
 				</view>
-				<view class="item flexRowBetween">
-					<view class="ll flexRowBetween">联系人：</view>
-					<view class="rr flex">
+				<view class="item d-flex j-sb a-center">
+					<view class="ll">联系人：</view>
+					<view class="rr">
 						<input type="text" v-model="submitData.name" placeholder="请输入" placeholder-class="placeholder" />
 					</view>
 				</view>
 			</view>
 		</view>
-		<view class="f5H5"></view>
+		<view class="f5Bj-H10"></view>
 		
-		<view class="submitbtn pdb25" style="margin-top: 80rpx;">
+		<view class="submitbtn pb-5" style="margin-top: 80rpx;">
 			<button class="btn" type="button" open-type="getUserInfo"  @getuserinfo="Utils.stopMultiClick(submit)">确定</button>
 		</view>
 	</view>

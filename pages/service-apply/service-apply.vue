@@ -2,29 +2,29 @@
 	<view>
 		
 		<view class="editLine">
-			<view class="item flexRowBetween fs13">
+			<view class="item d-flex j-sb a-center">
 				<view class="ll">企业名称：</view>
 				<view class="rr">
 					<input type="text" value="" placeholder="请输入企业名称" placeholder-class="placeholder"/>
 				</view>
 			</view>
-			<view class="item flexRowBetween">
+			<view class="item d-flex j-sb a-center">
 				<view class="ll">联系方式：</view>
 				<view class="rr">
 					<input type="text" value="" placeholder="请输入联系方式" placeholder-class="placeholder"/>
 				</view>
 			</view>
-			<view class="item flexRowBetween">
+			<view class="item d-flex j-sb a-center">
 				<view class="ll">登录密码：</view>
 				<view class="rr">
 					<input type="text" value="" placeholder="请输入登录密码" placeholder-class="placeholder"/>
 				</view>
 			</view>
-			<view class="item flexRowBetween">
+			<view class="item d-flex j-sb a-center">
 				<view class="ll">验证码：</view>
-				<view class="rr flex">
-					<input style="width: 70%;" type="text" value="" placeholder="请输入验证码" placeholder-class="placeholder"/>
-					<view class="pubColor" style="margin-left:22rpx;">获取验证码</view>
+				<view class="rr d-flex j-end a-center">
+					<input style="width: 50%;" type="text" value="" placeholder="请输入验证码" placeholder-class="placeholder"/>
+					<view class="main-text-color ml-3">获取验证码</view>
 				</view>
 			</view>
 		</view>

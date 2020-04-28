@@ -1,23 +1,23 @@
 <template>
 	<view>
 		<view class="loginEdit">
-			<view style="font-size:26px;font-weight: 700;margin-top: 50px;">注册账号</view>
+			<view class="font-weight mt-5 pt-5" style="font-size:52rpx;">注册账号</view>
 		</view>
 		
 		<view style="margin-top: 50px;">
 			<view class="loginEdit">
-				<view class="item flex">
+				<view class="item d-flex a-center">
 					
 					<view class="rr">
 						<input type="text" value="" placeholder="请输入手机号" placeholder-class="placeholder" />
 					</view>
 				</view>
-				<view class="item flex">
+				<view class="item d-flex a-center">
 					
 					<view class="rr" style="width: 76%;">
 						<input type="text" value="" placeholder="请输入验证码" placeholder-class="placeholder" />
 					</view>
-					<view class="pubColor">获取验证码</view>
+					<view class="main-text-color">获取验证码</view>
 				</view>
 				
 			</view>
@@ -60,7 +60,7 @@
 <style>
 
 .loginEdit{padding: 0 10%;}
-.loginEdit .item{padding:40rpx 0rpx 0 0rpx;border-bottom: 1px solid #eee;line-height: 60rpx;box-sizing: border-box;}
+.loginEdit .item{padding:40rpx 0rpx 0 0rpx;border-bottom: 1px solid #eee;line-height: 80rpx;box-sizing: border-box;}
 .loginEdit .item .ll{width: 20%;font-size: 30rpx;}
 .loginEdit .item .icon{width: 44rpx; height: 44rpx;}
 .loginEdit .item .rr{width: 80%;font-size: 26rpx;}

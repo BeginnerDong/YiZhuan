@@ -1,19 +1,19 @@
 <template>
 	<view>
-		<view class="mglr4">
+		<view class="mx-3">
 			<view class="">
-				<view class="myExtendTop white" style="position: relative;display: flex;">
+				<view class="myExtendTop text-white d-flex position-relative mt-3 mb-4 rounded20 overflow-h">
 					<image src="../../static/images/img.png" style="position: absolute;width: 100%;height:300rpx"></image>
-					<view class="" style="z-index: 999;margin-left: 50rpx;">
-						<view class="fs15 mgt30">金币：</view>
-						<view class="money mgt20">{{mainData.score}}</view>
+					<view class="mx-4 w-100 " style="z-index: 10;box-sizing: ;">
+						<view class="font-30 mt-5 pt-3">金币：</view>
+						<view class="money mt-3">{{mainData.score}}</view>
 					</view>
 				</view>
 				<view class="fs14 color2 mgb25" style="font-weight: bold;">充值金额</view>
 				<viwe v-if="curr==5">
-					<input v-model="price" style="border-bottom: 1px solid #848484;width: 100%;color: red;font-weight: bold;" class="fs15" value="100"/>
+					<input type="number" v-model="price" style="width: 100%;color: red;font-weight: bold;" class="font-30 py-2 border-bottom" value="100"/>
 				</viwe>
-				<view class="gold  flexRowBetween">
+				<view class="gold d-flex j-sb a-center flex-wrap">
 					<view class="item fs16" :class="curr==index?'on':''" @click="changeCurr(index)"
 					v-for="(item,index) in goldDate" :key="index">
 						{{item}}元
@@ -24,8 +24,12 @@
 				</view>
 			</view>
 		</view>
-		<button @click="addOrder()" style="border-radius: 10rpx;width: 600rpx;margin: 200rpx auto 0 auto;background-color: #36b6ee;height: 80rpx;line-height: 80rpx;text-align: center;color: #fff;font-size:28rpx">
-			支付</button>
+		
+		<view class="submitbtn" style="margin-top: 200rpx;">
+			<button class="btn" type="default" style="border-radius: 10rpx;"  @click="addOrder()">支付</button>
+		</view>
+		<!-- <button style="border-radius: 10rpx;width: 600rpx;margin: 200rpx auto 0 auto;background-color: #36b6ee;height: 80rpx;line-height: 80rpx;text-align: center;color: #fff;font-size:28rpx">
+			支付</button> -->
 		
 	</view>
 </template>
@@ -192,12 +196,12 @@
 	button::after{
 		border: none;
 	}
-	.button-hover{
+	/* .button-hover{
 		color: #000000;
 		background: none;
-	}
-	.myExtendTop{width: 100%;margin-top: 30rpx;height: 370rpx;}
-	.myExtendTop .money{font-size: 80rpx; line-height:88rpx;}
+	} */
+	.myExtendTop{width: 100%;height: 300rpx;}
+	.myExtendTop .money{font-size: 78rpx; line-height:88rpx;}
 	.gold{margin-top: 20rpx;flex-wrap: wrap;}
 	.gold .item{width:210rpx;height: 100rpx;line-height: 100rpx;border: 1px solid #c0c0c0;text-align: center;margin-top: 30rpx;border-radius: 10rpx;}
 	.gold .on{border: 1px solid #36b6ee;color: #36b6ee;}

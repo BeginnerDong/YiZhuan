@@ -1,8 +1,8 @@
 <template>
 	<view>
 		<view v-if="!isEdit">
-			<view class="center" style="margin-top: 110rpx;">
-				<image style="width:260rpx;height: 340rpx;" src="../../static/images/icon2.png"></image>
+			<view class="text-center" style="margin-top: 110rpx;">
+				<image style="width:174rpx;height: 222rpx;margin: 0 auto;" src="../../static/images/icon2.png"></image>
 				<view class="fs14 color2" style="margin-top: 70rpx;">绑定手机号：{{mainData.phone}}</view>
 			</view>
 			
@@ -15,20 +15,21 @@
 		
 		
 		<view v-if="isEdit">
-			<view class="editLine">
-				<view class="item flexRowBetween">
+			<view class="editLine"  style="margin-top: 110rpx;">
+				<view class="pb-5"><image style="width:138rpx;height: 222rpx;margin: 0 auto;" src="../../static/images/icon3.png"></image></view>
+				<view class="item d-flex a-center j-sb">
 					
 					<view class="rr">
 						<input type="number" maxlength="11" v-model="submitData.phone" placeholder="请输入手机号" placeholder-class="placeholder" />
 					</view>
 				</view>
-				<view class="item flexRowBetween">
+				<view class="item d-flex a-center j-sb">
 					
-					<view class="rr flexRowBetween" style="width: 100%;">
+					<view class="rr d-flex a-center j-sb" style="width: 100%;">
 						<view style="width: 50%;">
 							<input type="number" value="" placeholder="请输入验证码" placeholder-class="placeholder" />
 						</view>
-						<view class="pubColor mgl10">获取验证码</view>
+						<view class="main-text-color ml-2">获取验证码</view>
 					</view>
 				</view>
 			</view>

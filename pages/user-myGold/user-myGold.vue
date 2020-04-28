@@ -1,20 +1,20 @@
 <template>
 	<view>
 		<view class="">
-			<view class="myExtendTop white flexCenter center">
+			<view class="myExtendTop text-white d-flex j-center a-center text-center">
 				<view class="">
 					<view class="money">{{userInfoData.score?userInfoData.score:'0.00'}}</view>
-					<view class="fs14">总金币(个)</view>
+					<view class="font-28 pt-1">总金币(个)</view>
 				</view>
 			</view>
 			
-			<view class="myRowBetween pdlr4">
-				<view class="item flexRowBetween" v-for="(item,index) in mainData" :key="index">
+			<view class="myRowBetween px-3">
+				<view class="item d-flex j-sb a-center" v-for="(item,index) in mainData" :key="index">
 					<view class="ll">
 						<view>{{item.trade_info}}</view>
-						<view class="fs12 color6 pdt15">{{item.create_time}}</view>
+						<view class="font-24 color6 pt-3">{{item.create_time}}</view>
 					</view>
-					<view class="rr red fs18">{{item.count}}</view>
+					<view class="rr red font-32">{{item.count}}</view>
 				</view>
 			</view>
 			

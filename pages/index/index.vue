@@ -1,48 +1,43 @@
 <template>
 	<view>
 		
-		<view class="pdlr4 whiteBj pdt15 pdb15 topBox">
-			<view class="address flexRowBetween">
-				<view class="flexRowBetween">
-					<view class="fs12">陕西省·西安市</view>
+		<view class="px-3 bg-white py-3 topBox">
+			<view class="address d-flex j-sb a-center font-26">
+				<view class="d-flex a-center">
+					<view>陕西省·西安市</view>
 					<image class="icon" src="../../static/images/home-icon.png" mode=""></image>
 				</view>
-				<view class="flexRowBetween"  @click="Router.navigateTo({route:{path:'/pages/screen/screen?id=9'}})">
+				<view class="d-flex a-center"  @click="Router.navigateTo({route:{path:'/pages/screen/screen?id=9'}})">
 					<image class="icon1" src="../../static/images/home-icon0.png" mode=""></image>
-					<view class="fs12">筛选</view>
+					<view>筛选</view>
 				</view>
-				
 			</view>
-			<view class="companyType flex">
-				<view class="item color6 fs11" v-for="(item,index) in titleArray" :key="index">{{item}}
+			<view class="companyType d-flex a-center">
+				<view class="item color6 font-24" v-for="(item,index) in titleArray" :key="index">{{item}}
 					<image src="../../static/images/1.png" @click="deleteChoose(index)"></image>
 				</view>
 			</view>
 		</view>
 		
-		
-		
-		<view class="mglr4  companyList pdtb15">
-			<view class="item radius10 whiteBj" v-for="(item,index) in mainData" :key="index" :data-id="item.id"
+		<view class="mx-3 companyList py-3">
+			<view class="item rounded20 bg-white" v-for="(item,index) in mainData" :key="index" :data-id="item.id"
 			@click="Router.navigateTo({route:{path:'/pages/companyDetail/companyDetail?id='+$event.currentTarget.dataset.id}})">
-				<view class="no fs11 color9">公司编号：{{item.id}}</view>
-				<view class="name fs15 pubColor center">{{item.title}}</view>
-				<view class="text fs13 color2">成立时间:<span class="fs13 color6">{{item.establish_time}}</span></view>
-				<view class="text fs13 color2">注册资本:<span class="fs13 color6">{{item.registered_capital}}万元</span></view>
-				<view class="text fs13 color2">实缴资本:<span class="fs13 color6">{{item.paid_in_capital}}万元</span></view>
-				<view class="flex tip">
-					<view class="tip-item fs12 color6" v-for="(c_item,c_index) in item.spu">{{c_item.title}}</view>
+				<view class="no font-22 color9">公司编号：{{item.id}}</view>
+				<view class="name font-30 main-text-color text-center">{{item.title}}</view>
+				<view class="text font-26 color2">成立时间:<span class="color6">{{item.establish_time}}</span></view>
+				<view class="text font-26 color2">注册资本:<span class="color6">{{item.registered_capital}}万元</span></view>
+				<view class="text font-26 color2">实缴资本:<span class="color6">{{item.paid_in_capital}}万元</span></view>
+				<view class="d-flex a-center tip text-center font-24 color6">
+					<view class="tip-item" v-for="(c_item,c_index) in item.spu">{{c_item.title}}</view>
 				</view>
-				<view class="type">
+				<view class="type text-center">
 					<image class="icon" src="../../static/images/2.png" mode=""></image>
-					<view class="text fs11 white">{{item.label&&item.label[item.menu_id]?item.label[item.menu_id].title:''}}</view>
+					<view class="text font-22 text-white">{{item.label&&item.label[item.menu_id]?item.label[item.menu_id].title:''}}</view>
 				</view>
-				<view class="button">
-					<view class="underBtn flexCenter">
-						<view class="midBtn flexCenter">
-							<view class="upBtn flexCenter white">
-								面议
-							</view>
+				<view class="button text-white">
+					<view class="underBtn d-flex j-center a-center">
+						<view class="midBtn d-flex j-center a-center">
+							<view class="upBtn d-flex j-center a-center text-center font-26">面议</view>
 						</view>
 					</view>
 				</view>

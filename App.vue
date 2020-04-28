@@ -14,8 +14,13 @@
 </script>
 
 <style>
-	@import "/assets/style/style.css";
+	/* @import "/assets/style/style.css"; */
 	@import "/assets/style/quill.css";
+	
+	/* 公共样式 */
+	@import "/common/css/common.css";
+	/* 公共样式 */
+	@import "/common/css/zcm-main.css";
 	
 	uni-swiper .uni-swiper-dots-horizontal{line-height: 16rpx;bottom: 5px;}
 	

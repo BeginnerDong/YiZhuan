@@ -2,56 +2,55 @@
 	<view>
 		<view class="">
 			
-			
-			<view class="editLine fs13">
-				
-				<view class="item flexRowBetween">
-					<view class="ll flexRowBetween">企业名称：</view>
-					<view class="rr flex">
+			<view class="editLine font-26">
+				<view class="item d-flex j-sb a-center">
+					<view class="ll">企业名称：</view>
+					<view class="rr d-flex a-center">
 						<input type="text" v-model="submitData.title" placeholder="请输入企业的名称" placeholder-class="placeholder" />
 					</view>
 				</view>
 				
-				<view class="item flexRowBetween">
-					<view class="ll flexRowBetween">服务区域：</view>
-					<view class="rr selt-R flexEnd">
+				<view class="item d-flex j-sb a-center">
+					<view class="ll">服务区域：</view>
+					<view class="rr selt-R d-flex j-end a-center color6 font-26">
 						<picker mode="region" @change="chooseAddress">
 							<view>{{submitData.province!=''?submitData.province+submitData.city+submitData.country:'请选择'}}</view>
 						</picker>
+						<image class="arrowR" src="../../static/images/about-icon3.png" mode=""></image>
 					</view>
 				</view>
 				
 				
 				<view class="" v-for="(item,index) in mainData" :key="index">
-					<view class="pdtb15 ftw mglr4">{{item.menu}}</view>
-					<view class="editLine fs13">
-						<view class="item flexRowBetween whether" v-for="(c_item,c_index) in item.data" :key="c_index">
+					<view class="py-3 font-weight mx-3">{{item.menu}}</view>
+					<view class="editLine font-26">
+						<view class="item d-flex j-sb whether a-start" v-for="(c_item,c_index) in item.data" :key="c_index">
 							<view class="ll">{{c_item.title}}：</view>
-							<view class="rr flexEnd canDoList">
-								<view class="lis flexEnd"  v-if="cc_item.style==1" v-for="(cc_item,cc_index) in c_item.child" :key="cc_index">
+							<view class="rr selt-R  canDoList d-flex j-end flex-wrap a-start">
+								<view class="lis selt-R d-flex j-end ml-4 a-start"  v-if="cc_item.style==1" v-for="(cc_item,cc_index) in c_item.child" :key="cc_index">
 									<!-- <view>{{cc_item.style}}</view> -->
-									<image class="setIcon" :data-id="c_item.id" :data-c_id="cc_item.id" 
+									<image class="setIcon mr-1" :data-id="c_item.id" :data-c_id="cc_item.id" 
 									@click="choose($event.currentTarget.dataset.id,$event.currentTarget.dataset.c_id)"
 									:src="Utils.inArray(cc_item.id,submitData.spu_item)>-1?'../../static/images/add-icon1.png':'../../static/images/add-icon.png'" mode=""></image>
 									<view>{{cc_item.title}}</view>
 								</view>
-								<view class="lis  flexEnd"  v-if="cc_item.style==2" v-for="(cc_item,cc_index) in c_item.child" :key="cc_index">
+								<view class="lis selt-R d-flex j-end"  v-if="cc_item.style==2" v-for="(cc_item,cc_index) in c_item.child" :key="cc_index">
 									<input type="text" v-model="text" @blur="inputIn($event.currentTarget.dataset.id)" :data-id="cc_item.id"   placeholder-class="placeholder" />
 								</view>
-								<view class="rr flexEnd" style="width: 100%;"  v-if="cc_item.style==4" v-for="(cc_item,cc_index) in c_item.child" :key="cc_index">
+								<view class="rr selt-R d-flex j-end" style="width: 100%;"  v-if="cc_item.style==4" v-for="(cc_item,cc_index) in c_item.child" :key="cc_index">
 									<textarea v-model="text" @blur="inputIn($event.currentTarget.dataset.id)" :data-id="cc_item.id"  placeholder="请填写" placeholder-class="placeholder" />
 								</view>
 							</view>
 						</view>
 					</view>	
-					<view class="f5H5"></view>
+					<view class="f5Bj-H10"></view>
 				</view>
 			</view>
 		</view>
 		<view class="">
-			<view class="pdtb15 ftw mglr4">公司图集</view>
-			<view class="mglr4 flex pdb10">
-				<view class="upImg flex" style="justify-content: center;">
+			<view class="py-3 font-weight mx-3">公司图集</view>
+			<view class="mx-3 d-flex a-center pb-2">
+				<view class="upImg d-flex j-center a-center overflow-h mr-2 f5bj">
 					<view class="" style="width: 100%;height: 100%;" v-for="(item,index) in submitData.mainImg" :key="index">
 						<image :src="item.url" mode=""></image>
 					</view>
@@ -59,17 +58,17 @@
 						<image src="../../static/images/release-icon.png" mode=""></image>
 					</view>
 				</view>
-				<view class="fs11 color9" v-if="submitData.mainImg.length==0">可上传多张</view>
+				<view class="font-24 color9" v-if="submitData.mainImg.length==0">可上传多张</view>
 			</view>
 		</view>
-		<view class="f5H5"></view>
+		<view class="f5Bj-H10"></view>
 		
 		
 		
 		<view class="">
-			<view class="pdtb15 ftw mglr4">执照资质</view>
-			<view class="mglr4 flex pdb10">
-				<view class="upImg flex" style="justify-content: center;"> 
+			<view class="py-3 font-weight mx-3">执照资质</view>
+			<view class="mx-3 d-flex a-center pb-2">
+				<view class="upImg d-flex a-center" style="justify-content: center;"> 
 					<view class="" style="width: 100%;height: 100%;" v-for="(item,index) in submitData.bannerImg" :key="index">
 						<image :src="item.url" mode=""></image>
 					</view>
@@ -77,31 +76,31 @@
 						<image src="../../static/images/release-icon.png" mode=""></image>
 					</view>
 				</view>
-				<view class="fs11 color9" v-if="submitData.bannerImg.length==0">可上传多张</view>
+				<view class="font-24 color9" v-if="submitData.bannerImg.length==0">可上传多张</view>
 			</view>
 		</view>
-		<view class="f5H5"></view>
+		<view class="f5Bj-H10"></view>
 
 		<view class="">
-			<view class="pdtb15 ftw mglr4">联系方式</view>
-			<view class="editLine fs13">
-				<view class="item flexRowBetween">
-					<view class="ll flexRowBetween">联系电话：</view>
-					<view class="rr flex">
+			<view class="py-3 font-weight mx-3">联系方式</view>
+			<view class="editLine font-26">
+				<view class="item d-flex j-sb a-center">
+					<view>联系电话：</view>
+					<view class="rr">
 						<input type="text" v-model="submitData.phone" placeholder="请填写" placeholder-class="placeholder" />
 					</view>
 				</view>
-				<view class="item flexRowBetween">
-					<view class="ll flexRowBetween">联系人：</view>
-					<view class="rr flex">
+				<view class="item d-flex j-sb a-center">
+					<view>联系人：</view>
+					<view class="rr">
 						<input type="text" v-model="submitData.name" placeholder="请填写" placeholder-class="placeholder" />
 					</view>
 				</view>
 			</view>
 		</view>
-		<view class="f5H5"></view>
+		<view class="f5Bj-H10"></view>
 		
-		<view class="submitbtn pdb25" style="margin-top: 80rpx;">
+		<view class="submitbtn pb-5" style="margin-top: 80rpx;">
 			<button class="btn" type="button" open-type="getUserInfo"  @getuserinfo="Utils.stopMultiClick(submit)">确定</button>
 		</view>
 		
@@ -362,10 +361,10 @@
 	.canDoList.hotLable .lis:nth-of-type(2n){padding-right: 0;}
 	
 	.editLine .item.whether{line-height: 40rpx;}
-	.editLine .item.whether .ll{width: 45%;}
-	.editLine .item.whether .rr{width: 55%;}
+	.editLine .item.whether .ll{width: 25%;}
+	.editLine .item.whether .rr{width: 70%;}
 	.editLine .item.whether .canDoList .lis{padding: 0;}
 	
-	.setIcon{width: 20rpx;height: 20rpx;display: block;margin-right: 10rpx;}
+	.setIcon{width: 30rpx;height: 30rpx;display: block;margin-right: 10rpx;}
 	.uni-hello-addfile{width: 100%;height: 100%;}
 </style>

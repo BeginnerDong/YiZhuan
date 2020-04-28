@@ -1,21 +1,21 @@
 <template>
 	<view>
 		
-		<view class="pdlr4 paswd">
-			<view class="item flexRowBetween">
-				<view class="ll fs14">原密码</view>
+		<view class="px-3 paswd">
+			<view class="item d-flex j-sb a-center">
+				<view class="ll font-28">原密码</view>
 				<view class="rr">
 					<input type="password" v-model="submitData.o_password" placeholder="填写原密码" placeholder-class="placeholder">
 				</view>
 			</view>
-			<view class="item flexRowBetween">
-				<view class="ll fs14">新密码</view>
+			<view class="item d-flex j-sb a-center">
+				<view class="ll font-28">新密码</view>
 				<view class="rr">
 					<input type="password" v-model="submitData.n_password" placeholder="填写新密码" placeholder-class="placeholder">
 				</view>
 			</view>
-			<view class="item flexRowBetween">
-				<view class="ll fs14">确认密码</view>
+			<view class="item d-flex j-sb a-center">
+				<view class="ll font-28">确认密码</view>
 				<view class="rr">
 					<input type="password" v-model="submitData.passwordCopy" placeholder="再次填写新密码" placeholder-class="placeholder">
 				</view>
@@ -25,7 +25,7 @@
 		
 		
 		<view class="submitbtn" style="margin-top: 360rpx;">
-			<button class="btn" type="submint" @click="Utils.stopMultiClick(submit)">确定</button>
+			<button class="btn" type="submint" @click="Utils.stopMultiClick(submit)">完成</button>
 		</view>
 		
 	</view>
@@ -116,7 +116,7 @@
 
 <style>
 	/* .paswd .item{} */
-	.paswd .item .ll{width: 20%;}
-	.paswd .item .rr{width: 80%;border-bottom: 1px solid #eee;padding: 30rpx 0;}
+	.paswd .item .ll{width: 22%;}
+	.paswd .item .rr{width: 78%;border-bottom: 1px solid #eee;padding: 30rpx 0;}
 	.placeholder{font-size: 26rpx;}
 </style>

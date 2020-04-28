@@ -1,12 +1,8 @@
-.buyList{flex-wrap: wrap;align-items: flex-start;}
-.buyList .item{width: 92%;margin-bottom: 30rpx;background: #fff;padding: 4%;position: relative;}
-.buyList .tip{margin: 20rpx 0;}
-.buyList .reward image{width: 20rpx;height:20rpx;margin-right: 10rpx;}
-.buyList .tip .tip-item{padding:10rpx;border-radius: 25rpx;margin-right: 30rpx;}
-.buyPeople{border-top: 1px solid #f5f5f5;padding-top: 20rpx;}
+
+.buyList .reward image{width: 30rpx;height:30rpx;}
+.buyList .tip .tip-item{padding:0 10rpx;line-height: 48rpx;border-radius: 30rpx;margin:0 30rpx 20rpx 0;line-height: 48rpx;min-width: 80rpx;}
 .buyPeople .headImg{width: 25%}
 .buyPeople .headImg image{width: 120rpx;height: 120rpx;}
 .buyPeople .phone button{background-color: #f55b5b;}
-.buyPeople .name{margin-left: 35rpx;}
 .buyPeople .name button{background-color: #36b6ee;}
-.buyPeople .icon{width: 25rpx;height:25rpx;margin-right: 10rpx;}
+.buyPeople .icon{width: 30rpx;height:30rpx;}

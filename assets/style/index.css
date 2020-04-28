@@ -3,14 +3,14 @@
 
 /* 产品列表 */
 .companyList{flex-wrap: wrap;align-items: flex-start;}
-.companyList .item{width: 92%;margin-bottom: 30rpx;background: #fff;padding: 4%;position: relative;}
+.companyList .item{width: 100%;margin-bottom: 30rpx;background: #fff;padding: 4%;position: relative;box-sizing: border-box;}
 .companyList .name{line-height: 60rpx;font-weight: 600;}
 .companyList .text{margin-bottom: 20rpx;}
-.companyList .tip .tip-item{padding:10rpx;border-radius: 25rpx;margin-right: 30rpx;}
+.companyList .tip .tip-item{padding:10rpx;border-radius: 25rpx;margin-right: 30rpx;min-width: 80rpx;}
 .companyList .type{position: absolute;top: -10rpx;right: 2%;}
 .companyList .type .icon{width: 100rpx;height: 100rpx;}
-.companyList .type .text{position: absolute;top: 22rpx;right: 15%;}
+.companyList .type .text{position: absolute;top: 22rpx;left: 0;right: 0;}
 .companyList .button{position: absolute;top: 50%;right: 5%;}
 .companyList .button .underBtn{width:200rpx;height: 80rpx;background-color: #fccdcd;z-index: 1;border-radius: 40rpx;}
 .companyList .button .midBtn{width:190rpx;height: 70rpx;background-color: #f89494;z-index: 2;border-radius: 40rpx;}
-.companyList .button .upBtn{line-hieght:55rpx;width:180rpx;height: 55rpx;background-color: #f55b5b;z-index: 3;border-radius: 40rpx;}
+.companyList .button .upBtn{line-height:55rpx;width:180rpx;height: 55rpx;background-color: #f55b5b;z-index: 3;border-radius: 40rpx;}

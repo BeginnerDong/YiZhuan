@@ -1,6 +1,6 @@
 	
 	.editLine .item{border-bottom: 0;padding: 20rpx 4% 20rpx 4%;line-height: 60rpx;border-bottom: 1px solid #f5f5f5;}
-	.editLine .item .ll{color: #222; text-align: right;box-sizing: border-box; padding-right: 16rpx;font-size:28rpx}
+	.editLine .item .ll{color: #222; /* text-align: right; */box-sizing: border-box; padding-right: 16rpx;font-size:28rpx}
 	.editLine .item .rr{font-size: 26rpx;}
 	.editLine .item input{height: 60rpx;line-height: 56rpx;box-sizing: border-box;width: 100%;box-sizing: border-box;font-size: 26rpx;color: #222;text-align: right;}
 	.editLine .item .placeholder{font-size: 24rpx;}
@@ -15,7 +15,7 @@
 	.selt-R .adrs .arrIcon{width: 18rpx;height: 12rpx;display: block;}
 	
 	.canDoList{flex-wrap: wrap;align-items: flex-start;}
-	.canDoList .setIcon{width: 20rpx;height: 20rpx;margin:6rpx 10rpx 0 0;display: block;}
+	.canDoList .setIcon{width:30rpx;height: 30rpx;margin-right:10rpx;display: block;}
 	.canDoList .lis{margin-left: 40rpx;padding:14rpx 20rpx 14rpx 0;line-height: 32rpx;align-items: flex-start;}
 	.canDoList .lis:nth-of-type(3n){margin-right: 0;}
 	.canDoList .lis .tit{width: 110rpx;text-align: center;}

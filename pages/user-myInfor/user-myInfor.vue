@@ -1,40 +1,40 @@
 <template>
 	<view>
 
-		<view class="myRowBetween fs13 mglr4">
-			<view class="item flexRowBetween">
-				<view class="ll flex color6">头像</view>
+		<view class="myRowBetween fs13 mx-3">
+			<view class="item d-flex j-sb a-center">
+				<view class="ll color6">头像</view>
 				<view class="rr">
-					<view class="userPhoto">
+					<view class="userPhoto border">
 						<open-data type="userAvatarUrl"></open-data>
 					</view>
 				</view>
 			</view>
-			<view class="item flexRowBetween">
+			<view class="item d-flex j-sb a-center">
 				<view class="ll flex color6">昵称</view>
 				<view class="rr">
 					<open-data type="userNickName"></open-data>
 				</view>
 			</view>
-			<!-- <view class="item flexRowBetween" >
+			<!-- <view class="item d-flex j-sb a-center" >
 				<view class="ll flex color6">账号</view>
 				<view class="rr"><input type="text" v-model="submitData.wechat" placeholder="请输入微信号" placeholder-class="placeholder"></view>
 			</view> -->
-			<view class="item flexRowBetween" v-if="mainData.phone&&mainData.phone!=''" @click="Router.navigateTo({route:{path:'/pages/user-phone/user-phone'}})">
-				<view class="ll flex color6">绑定手机号</view>
-				<view class="rr flexEnd">
+			<view class="item d-flex j-sb a-center" v-if="mainData.phone&&mainData.phone!=''" @click="Router.navigateTo({route:{path:'/pages/user-phone/user-phone'}})">
+				<view class="ll color6">绑定手机号</view>
+				<view class="rr">
 					{{mainData.phone}}
 					<image class="arrowR" src="../../static/images/about-icon3.png" mode=""></image>
 				</view>
 			</view>
 
-			<view class="item flexRowBetween" v-else>
-				<view class="ll flex color6">绑定手机号</view>
-				<button class="rr flexEnd" open-type="getPhoneNumber" @getphonenumber="getPhoneNumber">
+			<view class="item d-flex j-sb a-center" v-else>
+				<view class="ll color6">绑定手机号</view>
+				<button class="rr" open-type="getPhoneNumber" @getphonenumber="getPhoneNumber">
 					点击绑定手机号
 				</button>
 			</view>
-			<!-- <view class="item flexRowBetween" @click="Router.navigateTo({route:{path:'/pages/user-setUp-password/user-setUp-password'}})">
+			<!-- <view class="item d-flex j-sb a-center" @click="Router.navigateTo({route:{path:'/pages/user-setUp-password/user-setUp-password'}})">
 				<view class="ll flex color6">密码</view>
 				<view class="rr flexEnd">
 			

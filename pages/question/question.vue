@@ -1,14 +1,14 @@
 <template>
 	<view>
 		
-		<view class="mglr4">
+		<view class="mx-3">
 			<view class="">
-				<view class="item" style="border-bottom: 1px solid #f5f5f5" v-for="(item,index) in mainData" :key="index">
-					<view class="flexRowBetween pdtb15">
-						<view class="fs13 color2">{{index+1}}.{{item.title}}</view>
+				<view class="item border-bottom" v-for="(item,index) in mainData" :key="index">
+					<view class="d-flex j-sb a-center py-3">
+						<view class="font-28 color2">{{index+1}}.{{item.title}}</view>
 						<view @click="viewThis(index)"><image class="qimage" :src="viewIndex==index?'../../static/images/about-icon4.png':'../../static/images/about-icon3.png'" mode=""></image></view>
 					</view>
-					<view class="fs12 color6 pdb15" v-if="viewIndex==index">{{item.description}}</view>
+					<view class="font-26 pb-3 color6 pdb15" v-if="viewIndex==index">{{item.description}}</view>
 				</view>
 				
 			</view>
@@ -26,12 +26,6 @@
 				showView: false,
 				wx_info:{},
 				is_show:false,
-				labelData: [
-					"../../static/images/home-banner.png",
-					"../../static/images/home-banner.png"
-				],
-				productData:[{},{},{},{},{},{}],
-				sliderData:{},
 				mainData:[],
 				searchItem:{
 					thirdapp_id:2

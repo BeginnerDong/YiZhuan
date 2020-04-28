@@ -1,20 +1,20 @@
 <template>
 	<view>
 		
-		<view class="pdlr4 whiteBj pdt15 pdb15 topBox">
-			<view class="address flexRowBetween" @click="Router.navigateTo({route:{path:'/pages/seach/seach'}})">
-				<view class="flexRowBetween">
-					<view class="fs12">陕西省·西安市</view>
+		<view class="topBox px-3 bg-white py-3">
+			<view class="address  d-flex j-sb a-center" @click="Router.navigateTo({route:{path:'/pages/seach/seach'}})">
+				<view class="d-flex j-sb a-center font-26">
+					<view>陕西省·西安市</view>
 					<image class="icon" src="../../static/images/home-icon.png" mode=""></image>
 				</view>
-				<view class="flexRowBetween">
+				<view class="d-flex j-sb a-center">
 					<image class="icon1" src="../../static/images/home-icon0.png" mode=""></image>
-					<view class="fs12">筛选</view>
+					<view>筛选</view>
 				</view>
 				
 			</view>
-			<view class="companyType flex">
-				<view class="item color6 fs11" v-for="(item,index) in titleArray" :key="index">{{item}}
+			<view class="companyType d-flex a-center">
+				<view class="item color6 font-24" v-for="(item,index) in titleArray" :key="index">{{item}}
 					<image src="../../static/images/1.png" @click="deleteChoose(index)"></image>
 				</view>
 			</view>
@@ -22,39 +22,37 @@
 		
 		
 		
-		<view class="mglr4 buyList pdtb15">
-			<view class="item radius10 whiteBj" v-for="(item,index) in mainData">
-				<view class="title avoidOverflow3 fs14">{{item.title}}</view>
-				<view class="flexRowBetween tip">
-					<view class="flex">
-						<view class="tip-item fs12 color6" style="background-color: #fff0f0;">空壳</view>
-						<view class="tip-item fs12 color6" style="background-color: #f0f3ff;">买过保险</view>
-						<view class="tip-item fs12 color6" style="background-color: #e4fff0;">小规模</view>
+		<view class="mx-3 py-3 buyList">
+			<view class="item rounded20 bg-white mb-3 p-3 position-relative" v-for="(item,index) in mainData">
+				<view class="title avoidOverflow3 font-28">{{item.title}}</view>
+				<view class="d-flex j-sb a-center tip py-3">
+					<view class="d-flex a-center flex-wrap font-24 color6" style="width: 60%;">
+						<view class="tip-item" style="background-color: #fff0f0;">空壳</view>
+						<view class="tip-item" style="background-color: #f0f3ff;">买过保险</view>
+						<view class="tip-item " style="background-color: #e4fff0;">小规模</view>
 					</view>
-					<view class="reward flex">
-						<image src="../../static/images/qiugou-icon2.png"></image>
-						<view class="fs10 colorffad">赚2金币</view>
-					</view>
-				</view>
-				<view class="buyPeople flex">
 					
-					<view class="phone center">
-						<button class="flexCenter">
-							<image class="icon" src="../../static/images/qiugou-icon.png"></image>
-							<view class="fs12 white">联系他</view>
-						</button>
-						
-					</view>
-					<view class="name center">
-						<button class="flexCenter">
-							<image class="icon" src="../../static/images/qiugou-icon1.png"></image>
-							<view class="fs12 white">担保交易</view>
-							
-						</button>
-						
+					<view class="reward d-flex a-center">
+						<image src="../../static/images/qiugou-icon2.png"></image>
+						<view class="font-22 colorffad ml-1">赚2金币</view>
 					</view>
 				</view>
-				<view class="fs12 color9 mgt10">发布人位置：{{item.city}}</view>
+				<view class="buyPeople d-flex j-sb a-center border-top pt-3">
+					
+					<view class="phone text-center">
+						<button class="d-flex a-center j-center">
+							<image class="icon mr-1" src="../../static/images/qiugou-icon.png"></image>
+							<view class="font-28 text-white">联系他</view>
+						</button>
+					</view>
+					<view class="name text-center">
+						<button class="d-flex a-center j-center">
+							<image class="icon mr-1" src="../../static/images/qiugou-icon1.png"></image>
+							<view class="font-28 text-white">担保交易</view>
+						</button>
+					</view>
+				</view>
+				<view class="font-24 color9 mt-2">发布人位置：{{item.city}}</view>
 			</view>
 			 
 		</view>
@@ -87,9 +85,11 @@
 			</view>
 		</view>
 		<!--底部tab键 end-->
+		
 		<view class="fx-fabubtn" @click="Router.navigateTo({route:{path:'/pages/wantBuy-buy/wantBuy-buy?id=8'}})">
 			<image class="icon" src="../../static/images/fabu.png" mode=""></image>
 		</view>
+		
 	</view>
 	
 </template>
@@ -234,11 +234,6 @@
 		padding: 10rpx 50rpx;
 		width: 300rpx;
 	}
-	button::after{
-		border: none;
-	}
-	.button-hover{
-		color: #000000;
-		background: none;
-	}
+	.colorffad{color: #ffad42;}
+	
 </style>
