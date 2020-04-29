@@ -70,7 +70,7 @@
         }
     },
     "h5" : {
-        "title" : "中医理疗",
+        "title" : "易转",
         "devServer" : {
             "https" : false
         },
