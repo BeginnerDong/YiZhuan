@@ -1,43 +1,45 @@
 <template>
 	<view>
-		<view class="orderNav pdlr4 d-flex j-sb a-center bg-white">
+		<view class="orderNav pdlr4 flexRowBetween whiteBj">
 			<view class="tt" :class="curr==1?'on':''" @click="changeCurr('1')">我要买</view>
 			<view class="tt" :class="curr==2?'on':''" @click="changeCurr('2')">我要卖</view>
 			<view class="tt" :class="curr==3?'on':''" @click="changeCurr('3')">我能办</view>
 		</view>
 		
-		<view class="mx-3">
+		<view class="mglr4">
 			
-			<view class="companyList py-3"  v-show="curr==1">
-				<view class="item rounded20 bg-white" v-for="(item,index) in mainData" @click="Router.navigateTo({route:{path:'/pages/companyDetail/companyDetail'}})">
-					<view class="no font-24 color9">公司编号：{{item.id}}</view>
-					<view class="name font-30 main-text-color text-center">{{item.title}}</view>
-					<view class="text font-26 color2">成立时间:<span class="color6">{{item.establish_time}}</span></view>
-					<view class="text font-26 color2">注册资本:<span class="color6">{{item.registered_capital}}万元</span></view>
-					<view class="text font-26 color2">实缴资本:<span class="color6">{{item.paid_in_capital}}万元</span></view>
-					<!-- <view class="d-flex a-center tip">
-						<view class="tip-item font-24 color6" style="background-color: #fff0f0;">空壳</view>
-						<view class="tip-item font-24 color6" style="background-color: #f0f3ff;">买过保险</view>
-						<view class="tip-item font-24 color6" style="background-color: #e4fff0;">小规模</view>
+			<view class="companyList pdtb15"  v-show="curr==1">
+				<view class="item radius10 whiteBj" v-for="(item,index) in mainData" >
+					<view class="no fs11 color9">公司编号：{{item.id}}</view>
+					<view class="name fs15 pubColor center">{{item.title}}</view>
+					<view class="text fs13 color2">成立时间:<span class="fs13 color6">{{item.establish_time}}</span></view>
+					<view class="text fs13 color2">注册资本:<span class="fs13 color6">{{item.registered_capital}}万元</span></view>
+					<view class="text fs13 color2">实缴资本:<span class="fs13 color6">{{item.paid_in_capital}}万元</span></view>
+					<!-- <view class="flex tip">
+						<view class="tip-item fs12 color6" style="background-color: #fff0f0;">空壳</view>
+						<view class="tip-item fs12 color6" style="background-color: #f0f3ff;">买过保险</view>
+						<view class="tip-item fs12 color6" style="background-color: #e4fff0;">小规模</view>
 					</view> -->
-					<view class="d-flex j-end a-center">
-						<view class="d-flex a-center mr-5">
-							<view class="mr-1"><image style="width: 25rpx;height:25rpx;" src="../../static/images/irelease-icon.png"></image></view>
-							<view class="font-26 color6">编辑</view>
+					<view class="flexEnd">
+						<view class="flex mgr25">
+							<view class="mgr5"><image style="width: 25rpx;height:25rpx;" src="../../static/images/irelease-icon.png"></image>
+							</view>
+							<view class="fs13 color6">编辑</view>
 						</view>
-						<view class="d-flex a-center">
-							<view class="mr-1"><image style="width: 25rpx;height:25rpx;" src="../../static/images/irelease-icon1.png"></image></view>
-							<view class="font-26 color6">删除</view>
+						<view class="flex">
+							<view class="mgr5"><image style="width: 25rpx;height:25rpx;" src="../../static/images/irelease-icon1.png"></image>
+							</view>
+							<view class="fs13 color6">删除</view>
 						</view>
 					</view>
 					<view class="type">
 						<image class="icon" src="../../static/images/2.png" mode=""></image>
-						<view class="text font-24 text-white">{{item.label&&item.label[item.menu_id]?item.label[item.menu_id].title:''}}</view>
+						<view class="text fs11 white">{{item.label&&item.label[item.menu_id]?item.label[item.menu_id].title:''}}</view>
 					</view>
 					<view class="button">
-						<view class="underBtn d-flex a-center j-center">
-							<view class="midBtn d-flex a-center j-center">
-								<view class="upBtn d-flex a-center j-center text-white">
+						<view class="underBtn flexCenter">
+							<view class="midBtn flexCenter">
+								<view class="upBtn flexCenter white">
 									面议
 								</view>
 							</view>
@@ -45,90 +47,91 @@
 					</view>
 				</view>
 			</view>
-			<view class=" buyList py-3"  v-show="curr==2">
-				<view class="item rounded20 bg-white" v-for="(item,index) in mainData">
-					<view class="title avoidOverflow3 font-28">{{item.title}}</view>
-					<view class="d-flex j-sb a-center tip">
-						<view class="d-flex a-center">
-							<view class="tip-item font-24 color6" style="background-color: #fff0f0;">空壳</view>
-							<view class="tip-item font-24 color6" style="background-color: #f0f3ff;">买过保险</view>
-							<view class="tip-item font-24 color6" style="background-color: #e4fff0;">小规模</view>
+			<view class=" buyList pdtb15"  v-show="curr==2">
+				<view class="item radius10 whiteBj" v-for="(item,index) in mainData">
+					<view class="title avoidOverflow3 fs14">{{item.title}}</view>
+					<view class="flexRowBetween tip">
+						<view class="flex">
+							<view class="tip-item fs12 color6" style="background-color: #fff0f0;">空壳</view>
+							<view class="tip-item fs12 color6" style="background-color: #f0f3ff;">买过保险</view>
+							<view class="tip-item fs12 color6" style="background-color: #e4fff0;">小规模</view>
 						</view>
-						<view class="reward d-flex a-center">
+						<view class="reward flex">
 							<image src="../../static/images/qiugou-icon2.png"></image>
-							<view class="font-24 colorffad" style="color: #ffad42;">赚2金币</view>
+							<view class="fs10 colorffad">赚2金币</view>
 						</view>
 					</view>
-					<view class="buyPeople d-flex a-center">
+					<view class="buyPeople flex">
 						
-						<view class="phone text-center">
-							<button class="d-flex a-center j-center">
+						<view class="phone center">
+							<button class="flexCenter">
 								<image class="icon" src="../../static/images/qiugou-icon.png"></image>
-								<view class="font-24 text-white">联系他</view>
+								<view class="fs12 white">联系他</view>
 							</button>
 							
 						</view>
-						<view class="name text-center">
-							<button class="d-flex a-center j-center">
+						<view class="name center">
+							<button class="flexCenter">
 								<image class="icon" src="../../static/images/qiugou-icon1.png"></image>
-								<view class="font-24 text-white">担保交易</view>
+								<view class="fs12 white">担保交易</view>
 								
 							</button>
 							
 						</view>
 					</view>
-					<view class="font-24 color9 mgt10">发布人位置：{{item.city}}</view>
-					<view class="d-flex j-end a-center">
-						<view class="d-flex a-center mr-5">
-							<view class="mr-1"><image style="width: 25rpx;height:25rpx;" src="../../static/images/irelease-icon.png"></image></view>
-							<view class="font-26 color6">编辑</view>
+					<view class="fs12 color9 mgt10">发布人位置：{{item.city}}</view>
+					<view class="flexEnd">
+						<view class="flex mgr25">
+							<view class="mgr5"><image style="width: 25rpx;height:25rpx;" src="../../static/images/irelease-icon.png"></image></view>
+							<view class="fs13 color6">编辑</view>
 						</view>
-						<view class="d-flex a-center">
-							<view class="mr-1"><image style="width: 25rpx;height:25rpx;" src="../../static/images/irelease-icon1.png"></image></view>
-							<view class="font-26 color6">删除</view>
+						<view class="flex">
+							<view class="mgr5"><image style="width: 25rpx;height:25rpx;" src="../../static/images/irelease-icon1.png"></image></view>
+							<view class="fs13 color6">删除</view>
 						</view>
 					</view>
 				</view>
 			</view>
 		
-			<view class="serviceList py-3"  v-show="curr==3">
-				<view class="item rounded20 bg-white" v-for="(item,index) in mainData" 
+			<view class="serviceList pdtb15"  v-show="curr==3">
+				<view class="item radius10 whiteBj" v-for="(item,index) in mainData" 
 				@click="Router.navigateTo({route:{path:'/pages/serviceDetail/serviceDetail'}})">
-					<view class="font-28 color2">西安纯粹云信息科技有限公司</view>
-					<view class="d-flex a-center tip font-24 color6">
-						<view class="tip-item" style="background-color: #fff0f0;">空壳</view>
-						<view class="tip-item" style="background-color: #f0f3ff;">买过保险</view>
-						<view class="tip-item" style="background-color: #e4fff0;">小规模</view>
-						<view class="tip-item" style="background-color: #fff0f0;">空壳</view>
-						<view class="tip-item" style="background-color: #f0f3ff;">买过保险</view>
-						<view class="tip-item" style="background-color: #e4fff0;">小规模</view>
-						<view class="tip-item" style="background-color: #fff0f0;">空壳</view>
-						<view class="tip-item" style="background-color: #f0f3ff;">买过保险</view>
-						<view class="tip-item" style="background-color: #e4fff0;">小规模</view>
+					<view class="fs14 color2">西安纯粹云信息科技有限公司</view>
+					<view class="flex tip">
+						<view class="tip-item fs12 color6" style="background-color: #fff0f0;">空壳</view>
+						<view class="tip-item fs12 color6" style="background-color: #f0f3ff;">买过保险</view>
+						<view class="tip-item fs12 color6" style="background-color: #e4fff0;">小规模</view>
+						<view class="tip-item fs12 color6" style="background-color: #fff0f0;">空壳</view>
+						<view class="tip-item fs12 color6" style="background-color: #f0f3ff;">买过保险</view>
+						<view class="tip-item fs12 color6" style="background-color: #e4fff0;">小规模</view>
+						<view class="tip-item fs12 color6" style="background-color: #fff0f0;">空壳</view>
+						<view class="tip-item fs12 color6" style="background-color: #f0f3ff;">买过保险</view>
+						<view class="tip-item fs12 color6" style="background-color: #e4fff0;">小规模</view>
 					</view>
-					<view class="imgbox d-flex a-start flex-wrap">
+					<view class="imgbox">
 						<view class="lisThree">
 							<image src="../../static/images/service-img.png" mode="aspectFill"></image>
+						
 						</view>
 					</view>
-					<view class="d-flex a-center info">
-						<view class="phone d-flex a-center">
+					<view class="flex info">
+						<view class="phone flex">
 							<image src="../../static/images/service-icon.png">
-							<view class="font-26 color6">15623234567</view>
+							<view class="fs13 color6">15623234567</view>
 						</view>
-						<view  class="address d-flex a-center">
+						<view  class="address flex">
 							<image src="../../static/images/service-icon1.png">
-							<view class="font-26 color6">广东·深圳市</view>
+							<view class="fs13 color6">广东·深圳市</view>
 						</view>
 					</view>
-					<view class="d-flex j-end a-center">
-						<view class="d-flex a-center mr-5">
-							<view class="mr-1"><image style="width: 25rpx;height:25rpx;" src="../../static/images/irelease-icon.png"></image></view>
-							<view class="font-26 color6">编辑</view>
+					<view class="flexEnd">
+						<view class="flex mgr25">
+							<view class="mgr5"><image style="width: 25rpx;height:25rpx;" src="../../static/images/irelease-icon.png"></image></view>
+							<view class="fs13 color6">编辑</view>
 						</view>
-						<view class="d-flex a-center">
-							<view class="mr-1"><image style="width: 25rpx;height:25rpx;" src="../../static/images/irelease-icon1.png"></image></view>
-							<view class="font-26 color6">删除</view>
+						<view class="flex">
+							<view class="mgr5"><image style="width: 25rpx;height:25rpx;" src="../../static/images/irelease-icon1.png"></image></view>
+							<view class="fs13 color6">删除</view>
 						</view>
 					</view>
 				</view>

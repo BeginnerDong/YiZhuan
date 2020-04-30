@@ -1,9 +1,9 @@
 <template>
 	<view>
-		<view class="screenList font-26 pt-3 mx-3">
-			<view class="item d-flex j-sb a-start" v-for="(item,index) in mainData" :key="index"  v-if="item.style==1">
+		<view class="screenList fs12 pdt15" style="margin-left: 15px;">
+			<view class="item flexRowBetween" v-for="(item,index) in mainData" :key="index"  v-if="item.style==1">
 				<view class="ll">{{item.title}}：</view>
-				<view class="rr d-flex a-start">
+				<view class="rr flex">
 					<view class="btn"  :class="item.chooseStatus==-1?'on':''"
 					@click="choose(index,-1)">不限</view>
 					<view class="btn" v-for="(c_item,c_index) in item.children" :key="c_index" 
@@ -11,15 +11,15 @@
 					@click="choose(index,c_index)">{{c_item.title}}</view>
 				</view>
 			</view>
-			<!-- <view class="item d-flex j-sb a-start">
+			<!-- <view class="item flexRowBetween">
 				<view class="ll">注册年限：</view>
-				<view class="rr d-flex a-start">
+				<view class="rr flex">
 					<view class="btn" v-for="(item,index) in registerReg" :key="index" :class="currRegisterReg == index?'on':''" @click="seltRegisterReg(index)">{{item}}</view>
 				</view>
 			</view>
-			<view class="item d-flex j-sb a-start">
+			<view class="item flexRowBetween">
 				<view class="ll">注册资本：</view>
-				<view class="rr  d-flex a-start">
+				<view class="rr flex">
 					<view class="btn" v-for="(item,index) in registerCapital" :key="index" :class="currRegisterCapital == index?'on':''" @click="seltRegisterCapital(index)">{{item}}</view>
 				</view>
 			</view> -->
@@ -159,9 +159,11 @@
 							self.mainData[i].chooseStatus = -1
 						}
 						for (var i = 0; i < self.mainData.length; i++) {
-							for (var j = 0; j < self.mainData[i].children.length; j++) {
-								if(self.itemArray.indexOf(self.mainData[i].children[j].id)>=0){
-									self.mainData[i].chooseStatus = 1
+							if(self.mainData[i].children){
+								for (var j = 0; j < self.mainData[i].children.length; j++) {
+									if(self.itemArray.indexOf(self.mainData[i].children[j].id)>=0){
+										self.mainData[i].chooseStatus = 1
+									}
 								}
 							}
 						}
@@ -177,9 +179,9 @@
 <style>
 	
 	page{padding-bottom: 60rpx;}
-	.screenList .item{align-items: flex-start;margin-bottom: 30rpx;}
-	.screenList .ll{width: 22%;box-sizing: border-box;}
-	.screenList .rr{width: 78%; flex-wrap: wrap;font-size: 26rpx;}
-	.screenList .rr .btn{padding: 0 20rpx;line-height: 50rpx;border-radius: 30rpx;background: #eee;margin:0 30rpx 30rpx 0;}
+	.screenList .item{align-items: flex-start;margin-bottom: 10rpx;}
+	.screenList .ll{width: 27%;box-sizing: border-box;}
+	.screenList .rr{width: 73%; flex-wrap: wrap;}
+	.screenList .rr .btn{padding: 0 16rpx;line-height: 40rpx;border-radius: 20rpx;background: #eee;margin:0 30rpx 30rpx 0;}
 	.screenList .rr .btn.on{background: #0FA2E5; color: #fff;}
 </style>

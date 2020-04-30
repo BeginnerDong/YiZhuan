@@ -9,47 +9,48 @@
 				</block>
 			</swiper>
 		</view>
-		<view class="mx-3 py-3">
-			<view class="compayTit d-flex a-center mb-2">
-				<view class="text color2 font-32 font-weight">{{mainData.title?mainData.title:''}}</view>
+		<view class="mglr4 pdtb15">
+			<view class="compayTit flex mgb10">
+				
+				<view class="text color2 fs16" style="font-weight: 700;">{{mainData.title?mainData.title:''}}</view>
 			</view>
-			<view class="font-24 mb-2 color9">公司编号：{{mainData.id?mainData.id:''}}</view>
-			<view class="d-flex j-sb a-center">
-				<view class="ll font-26">
-					<view >出售价：<text class="font-36 red">面议</text></view>
-					<view class="color9 mt-2 font-24">更新时间：<text>{{mainData.update_time}}</text></view>
+			<view class="fs12 color9 mgb20">公司编号：{{mainData.id?mainData.id:''}}</view>
+			<view class="flexRowBetween">
+				<view class="ll fs12">
+					<view >出售价：<text class="fs18 red">面议</text></view>
+					<view class="color9 mgt10 fs11">更新时间：<text>{{mainData.update_time}}</text></view>
 				</view>
-				<view class="reward d-flex a-center">
+				<view class="reward flex">
 					<image src="../../static/images/qiugou-icon2.png"></image>
-					<view class="font-24" style="color: #ffad42;">赚{{share}}金币</view>
+					<view class="fs11 colorffad">赚{{share}}金币</view>
 				</view>
 			</view>
 		</view>
-		<view class="f5Bj-H10"></view>
+		<view class="f5H5"></view>
 		
-		<view class="buyPeople d-flex a-center mx-3">
+		<view class="buyPeople flex mglr4">
 			
-			<view class="phone text-center">
-				<button class="d-flex j-center a-center" @click="conact">
+			<view class="phone center">
+				<button class="flexCenter" @click="conact">
 					<image class="icon" src="../../static/images/qiugou-icon.png"></image>
-					<view class="font-28 text-white">联系他</view>
+					<view class="fs14 white">联系他</view>
 				</button>
 				
 			</view>
-			<view class="name text-center">
-				<button class="d-flex j-center a-center">
+			<view class="name center">
+				<button class="flexCenter">
 					<image class="icon" src="../../static/images/qiugou-icon1.png"></image>
-					<view class="font-28 text-white">担保交易</view>
+					<view class="fs14 white">担保交易</view>
 					
 				</button>
 				
 			</view>
 		</view>
-		<view class="f5Bj-H10"></view>
-		<view class="mx-3 py-3">
-			<view class="d-flex a-center font-28 font-weight"><image class="TitIcon" src="../../static/images/the-company-details-icon.png" mode=""></image><text>基本信息</text></view>
-			<view class="msgInfor font-26">
-				<view class="d-flex j-sb a-center">
+		<view class="f5H5"></view>
+		<view class="mglr4 pdtb15">
+			<view class="flex fs14 ftw"><image class="TitIcon" src="../../static/images/the-company-details-icon.png" mode=""></image><text>基本信息</text></view>
+			<view class="msgInfor fs12">
+				<view class="flexRowBetween">
 					<view class="item">
 						<text class="color6">注册资本：</text>
 						<text>{{mainData.registered_capital}}万人民币</text>
@@ -68,21 +69,24 @@
 					<text class="color6">注册地址：</text>
 					<text>{{mainData.province}} {{mainData.city}} {{mainData.country}}******</text>
 				</view>
-				<view class="item d-flex a-start">
-					<view class="color6" style="width: 20%;">经营范围：</view>
-					<view style="width:80%;">
+				<view class="item flexY">
+					<view class="color6" style="width: 22%;">经营范围：</view>
+					<view style="width: 100%;">
 						{{mainData.business_scope}}
 					</view>
 				</view>
 			</view>
 		</view>
-		<view class="f5Bj-H10"></view>
+		<view class="f5H5"></view>
 		
 		<view class="" v-for="(item,index) in array" :key="index">
-			<view class="mx-3 py-3">
-				<view class="d-flex a-center font-28 font-weight"><image class="TitIcon" src="../../static/images/the-company-details-icon1.png" mode=""></image><text>税务信息</text></view>
-				<view class="msgInfor font-26">
-					<view class="d-flex a-center" style="flex-wrap: wrap;">
+			<view class="mglr4 pdtb15">
+				<view class="flex fs14 ftw">
+					<image class="TitIcon" src="../../static/images/the-company-details-icon1.png" mode=""></image>
+					<text>{{item.menu}}</text>
+				</view>
+				<view class="msgInfor fs12">
+					<view class="flex" style="flex-wrap: wrap;">
 						<view class="item" v-for="(c_item,c_index) in item.data" :key="c_index">
 							<text class="color6">{{c_item.title}}：</text>
 							<text>小规模</text>
@@ -94,20 +98,20 @@
 			<view class="f5H5"></view>
 		</view>
 		
-		<view class="f5H5 "></view>
-		<view class="mx-3 py-3">
-			<view class="d-flex a-center font-28 font-weight"><image class="TitIcon" src="../../static/images/the-company-details-icon5.png" mode=""></image><text>执照资质</text></view>
-			<view class="msgInfor font-26">
+		<view class="f5H5"></view>
+		<view class="mglr4 pdtb15">
+			<view class="flex fs14 ftw"><image class="TitIcon" src="../../static/images/the-company-details-icon5.png" mode=""></image><text>执照资质</text></view>
+			<view class="msgInfor fs12">
 				<view class="item">
 					<image class="img" v-for="item in mainData.bannerImg" :src="item.url"></image>
 				</view>
 			</view>
 		</view>
 		<!-- 
-		<view class="submitbtn fx-subBtn py-3 bg-white shadow-sm">
+		<view class="submitbtn fx-subBtn pdtb15 whiteBj boxShaow">
 			<button class="btn" type="button" @click="Router.navigateTo({route:{path:'/pages/companyDetail-orderMsg/companyDetail-orderMsg'}})">发起交易</button>
-			<view class="agreeSel mt-10 font-24 color9 d-flex a-center">
-				<view class="selt mr-10" @click="agrren"><image class="icon" :src="num==true?'../../static/images/company-details-icon9.png':'../../static/images/company-details-icon8.png'" mode=""></image></view>
+			<view class="agreeSel pdt5 fs12 color9 flex">
+				<view class="selt mgr5" @click="agrren"><image class="icon" :src="num==true?'../../static/images/company-details-icon9.png':'../../static/images/company-details-icon8.png'" mode=""></image></view>
 				<view @click="xuzhiShow">交易须知</view>
 			</view>
 		</view>
@@ -115,8 +119,8 @@
 		<view class="xieyiAlert" v-show="is_xuzhiShow">
 			<view class="infor">
 				<view class="closeBtn" style="top: auto;bottom: 30rpx;"  @click="xuzhiShow">×</view>
-				<view class="center font-28 pb-2">交易须知</view>
-				<view class="cont font-24">
+				<view class="center fs14 pdb10">交易须知</view>
+				<view class="cont fs12">
 					<view>1、个人粉色发挥二十五后覅二姑夫规划局咖啡店是逻辑回归公交卡廊坊市开了个会；</view>
 					<view>2、公交卡发生过了人生观估计快了发的是赶快来发过来好几个粉红色的洛凯股份股份深加工和发的是来了个；</view>
 					<view>3、股份的股份上来看家给开发商老大哥就感觉分离的金盾股份了解公司和过分的话刚发的刚发的刚发的赛挂电话通过话的他回个话超凡大师；</view>
