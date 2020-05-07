@@ -1,20 +1,20 @@
 <template>
 	<view>
 		
-		<view class="pdlr4 whiteBj pdt15 pdb15 topBox">
-			<view class="address flexRowBetween">
-				<view class="flexRowBetween">
-					<view class="fs12">陕西省·西安市</view>
+		<view class="topBox px-3 bg-white py-3">
+			<view class="address  d-flex j-sb a-center">
+				<view class="d-flex j-sb a-center">
+					<view>陕西省·西安市</view>
 					<image class="icon" src="../../static/images/home-icon.png" mode=""></image>
 				</view>
-				<view class="flexRowBetween"  @click="Router.navigateTo({route:{path:'/pages/screen/screen'}})">
+				<view class="d-flex j-sb a-center"  @click="Router.navigateTo({route:{path:'/pages/screen/screen'}})">
 					<image class="icon1" src="../../static/images/home-icon0.png" mode=""></image>
-					<view class="fs12">筛选</view>
+					<view>筛选</view>
 				</view>
 				
 			</view>
-			<view class="companyType flex">
-				<view class="item color6 fs11" v-for="(item,index) in titleArray" :key="index">{{item}}
+			<view class="companyType d-flex a-center">
+				<view class="item color6 font-22" v-for="(item,index) in titleArray" :key="index">{{item}}
 					<image src="../../static/images/1.png" @click="deleteChoose(index)"></image>
 				</view>
 			</view>
@@ -22,27 +22,27 @@
 		
 		
 		
-		<view class="mglr4  serviceList pdtb15">
-			<view class="item radius10 whiteBj" v-for="(item,index) in mainData" :data-id="item.id"
+		<view class="mx-3  serviceList py-3">
+			<view class="item rounded20 bg-white mb-3 p-3 bg-white position-relative" v-for="(item,index) in mainData" :data-id="item.id"
 			@click="Router.navigateTo({route:{path:'/pages/serviceDetail/serviceDetail?id='+$event.currentTarget.dataset.id}})">
-				<view class="fs14 color2">{{item.title}}</view>
-				<view class="flex tip">
-					<view class="tip-item fs12 color6" v-for="(c_item,c_index) in item.spu">{{c_item.title}}</view>
+				<view class="font-28 color2">{{item.title}}</view>
+				<view class="d-flex a-center tip pt-2 flex-wrap">
+					<view class="tip-item font-24 color6" v-for="(c_item,c_index) in item.spu">{{c_item.title}}</view>
 				</view>
-				<view class="imgbox">
+				<view class="imgbox d-flex a-center">
 					<view class="lisThree">
 						<image v-for="c_item in item.mainImg" :src="c_item.url" mode="aspectFill"></image>
 					
 					</view>
 				</view>
-				<view class="flex info">
-					<view class="phone flex">
+				<view class="d-flex a-center info mt-2 font-26 color6">
+					<view class="phone d-flex a-center mr-5">
 						<image src="../../static/images/service-icon.png">
-						<view class="fs13 color6">{{item.phone}}</view>
+						<view class="ml-1">{{item.phone}}</view>
 					</view>
-					<view  class="address flex">
+					<view  class="address d-flex a-center">
 						<image src="../../static/images/service-icon1.png">
-						<view class="fs13 color6">{{item.province}}·{{item.city}}</view>
+						<view class="ml-1">{{item.province}}·{{item.city}}</view>
 					</view>
 				</view>
 			</view>

@@ -1,20 +1,20 @@
 <template>
 	<view>
 		
-		<view class="pdlr4 whiteBj pdt15 pdb15 topBox">
-			<view class="address flexRowBetween" @click="Router.navigateTo({route:{path:'/pages/seach/seach'}})">
-				<view class="flexRowBetween">
-					<view class="fs12">陕西省·西安市</view>
+		<view class="px-3 bg-white py-3 topBox">
+			<view class="address d-flex j-sb a-center" @click="Router.navigateTo({route:{path:'/pages/seach/seach'}})">
+				<view class="d-flex j-sb a-center">
+					<view class="font-24">陕西省·西安市</view>
 					<image class="icon" src="../../static/images/home-icon.png" mode=""></image>
 				</view>
-				<view class="flexRowBetween">
+				<view class="d-flex j-sb a-center">
 					<image class="icon1" src="../../static/images/home-icon0.png" mode=""></image>
-					<view class="fs12">筛选</view>
+					<view class="font-24">筛选</view>
 				</view>
 				
 			</view>
-			<view class="companyType flex">
-				<view class="item color6 fs11" v-for="(item,index) in titleArray" :key="index">{{item}}
+			<view class="companyType d-flex a-center">
+				<view class="item color6 font-22" v-for="(item,index) in titleArray" :key="index">{{item}}
 					<image src="../../static/images/1.png" @click="deleteChoose(index)"></image>
 				</view>
 			</view>
@@ -22,35 +22,35 @@
 		
 		
 		
-		<view class="mglr4 buyList pdtb15">
-			<view class="item radius10 whiteBj" v-for="(item,index) in mainData">
-				<view class="title avoidOverflow3 fs14">{{item.title}}</view>
-				<view class="flexRowBetween tip">
-					<view class="flex">
-						<view class="tip-item fs12 color6" v-for="(c_item,c_index) in item.spu">{{item.title}}</view>
+		<view class="mx-3 py-3 buyList">
+			<view class="item rounded20 bg-white mb-3 p-3 position-relative" v-for="(item,index) in mainData">
+				<view class="title avoidOverflow3 font-28">{{item.title}}</view>
+				<view class="d-flex j-sb a-center tip py-3">
+					<view class="d-flex a-center">
+						<view class="d-flex a-center flex-wrap font-24 color6" v-for="(c_item,c_index) in item.spu">{{item.title}}</view>
 					</view>
-					<view class="reward flex">
+					<view class="reward d-flex a-center ">
 						<image src="../../static/images/qiugou-icon2.png"></image>
-						<view class="fs10 colorffad">赚{{share}}金币</view>
+						<view class="font-22 colorffad  ml-1">赚{{share}}金币</view>
 					</view>
 				</view>
-				<view class="buyPeople flex">
+				<view class="buyPeople d-flex j-sb a-center border-top pt-3">
 					
 					<view class="phone center">
-						<button class="flexCenter" @click="conact(index)">
-							<image class="icon" src="../../static/images/qiugou-icon.png"></image>
-							<view class="fs12 white">联系他</view>
+						<button class="d-flex j-center a-center" @click="conact(index)">
+							<image class="icon  mr-1" src="../../static/images/qiugou-icon.png"></image>
+							<view class="font-28 text-white">联系他</view>
 						</button>
 						
 					</view>
 					<view class="name center">
-						<button class="flexCenter">
-							<image class="icon" src="../../static/images/qiugou-icon1.png"></image>
-							<view class="fs12 white">担保交易</view>
+						<button class="d-flex j-center a-center">
+							<image class="icon  mr-1" src="../../static/images/qiugou-icon1.png"></image>
+							<view class="font-28 text-white">担保交易</view>
 						</button>
 					</view>
 				</view>
-				<view class="fs12 color9 mgt10">发布人位置：{{item.city}}</view>
+				<view class="font-24 mt-2 color9">发布人位置：{{item.city}}</view>
 			</view>
 			 
 		</view>
