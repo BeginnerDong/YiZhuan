@@ -284,6 +284,20 @@ export default {
 		};
 		http.HTTP(allParams);
 	},
+	
+	articleUpdate(param, callback) {
+		
+		var allParams = {
+			url: 'Common/Article/update',
+			type: 'post',
+			noToken: true,
+			data: param,
+			sCallback: function(data) {
+				callback && callback(data);
+			}
+		};
+		http.HTTP(allParams);
+	},
 
 	userGet(param, callback) {
 		var allParams = {

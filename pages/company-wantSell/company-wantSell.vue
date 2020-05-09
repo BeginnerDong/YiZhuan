@@ -182,10 +182,42 @@
 			const self = this;
 			self.id = options.id;
 			self.submitData.menu_id = self.id;
+			if(options.art_id){
+				self.getArtData(options.art_id)
+			}
 			self.$Utils.loadAll(['getMainData'], self);
 		},
 		
 		methods: {
+			
+			getArtData(id) {
+				const self = this;
+				const postData = {};
+				postData.searchItem = {
+					id: id
+				};
+				const callback = (res) => {
+					if (res.info.data.length > 0) {
+						self.artData = res.info.data[0]
+						self.submitData.title = self.artData.title;
+						self.submitData.name = self.artData.name;
+						self.submitData.phone = self.artData.phone;
+						self.submitData.mainImg = self.artData.mainImg;
+						self.submitData.bannerImg = self.artData.bannerImg;
+						self.submitData.registered_capital = self.artData.registered_capital;
+						self.submitData.paid_in_capital = self.artData.paid_in_capital;
+						self.submitData.establish_time = self.artData.establish_time;
+						self.submitData.city = self.artData.city;
+						self.submitData.province = self.artData.province;
+						self.submitData.country = self.artData.country;
+						self.submitData.address = self.artData.address;
+						self.submitData.business_scope = self.artData.business_scope;
+						self.submitData.spu_item = self.artData.spu_item;
+						self.submitData.spu_content = self.artData.spu_content;
+					}
+				};
+				self.$apis.articleGet(postData, callback);
+			},
 			
 			chooseAddress(e){
 				const self = this;
