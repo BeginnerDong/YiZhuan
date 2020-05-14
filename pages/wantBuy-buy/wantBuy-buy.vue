@@ -1,4 +1,3 @@
-<template>
 	<view>
 		<view class="">
 			<view class="py-3 font-30 font-weight mx-3">求购信息</view>
@@ -95,10 +94,33 @@
 			const self = this;
 			self.id = options.id;
 			self.submitData.menu_id = self.id;
+			if(options.art_id){
+				self.getArtData(options.art_id)
+			}
 			// self.$Utils.loadAll(['getMainData'], self);
 		},
 		
 		methods: {
+			
+			getArtData(id) {
+				const self = this;
+				const postData = {};
+				postData.searchItem = {
+					id: id
+				};
+				const callback = (res) => {
+					if (res.info.data.length > 0) {
+						self.artData = res.info.data[0]
+						self.submitData.title = self.artData.title;
+						self.submitData.name = self.artData.name;
+						self.submitData.phone = self.artData.phone;
+						self.submitData.province = self.artData.province;
+						self.submitData.city = self.artData.city;
+						self.submitData.country = self.artData.country;
+					}
+				};
+				self.$apis.articleGet(postData, callback);
+			},
 			
 			
 			submit() {

@@ -19,7 +19,7 @@
 					</view>
 					<view class="d-flex j-end a-center">
 						<view class="d-flex a-center mr-5" :data-art_id="item.id"  :data-id="item.menu_id"
-						@click="Router.navigateTo({route:{path:'/pages/company-wantSell/company-wantSell?id='+$event.currentTarget.dataset.id+'&art_id'+event.currentTarget.dataset.art_id}})">
+						@click="Router.navigateTo({route:{path:'/pages/company-wantSell/company-wantSell?id='+$event.currentTarget.dataset.id+'&art_id='+$event.currentTarget.dataset.art_id}})">
 							<view class="mr-1">
 								<image style="width: 25rpx;height:25rpx;" src="../../static/images/irelease-icon.png"></image>
 							</view>
@@ -76,7 +76,8 @@
 					</view>
 					<view class="font-24 color9 mt-2">发布人位置：{{item.city}}</view>
 					<view class="d-flex j-end a-center">
-						<view class="d-flex a-center mr-5">
+						<view class="d-flex a-center mr-5" :data-art_id="item.id"  :data-id="item.menu_id"
+						@click="Router.navigateTo({route:{path:'/pages/wantBuy-buy/wantBuy-buy?id='+$event.currentTarget.dataset.id+'&art_id='+$event.currentTarget.dataset.art_id}})">
 							<view class="mr-1">
 								<image style="width: 25rpx;height:25rpx;" src="../../static/images/irelease-icon.png"></image>
 							</view>
@@ -115,8 +116,9 @@
 							<view class="ml-1">{{item.province}}·{{item.city}}</view>
 						</view>
 					</view>
-					<view class="d-flex j-end a-center">
-						<view class="d-flex a-center mr-5">
+					<view class="d-flex j-end a-center" >
+						<view class="d-flex a-center mr-5" :data-art_id="item.id"  :data-id="item.menu_id"
+						@click="Router.navigateTo({route:{path:'/pages/service-IcanDo/service-IcanDo?id='+$event.currentTarget.dataset.id+'&art_id='+$event.currentTarget.dataset.art_id}})">
 							<view class="mr-1">
 								<image style="width: 25rpx;height:25rpx;" src="../../static/images/irelease-icon.png"></image>
 							</view>

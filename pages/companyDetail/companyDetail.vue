@@ -20,10 +20,10 @@
 					<view>出售价：<text class="font-36 red">面议</text></view>
 					<view class="color9 mt-2 font-24">更新时间：<text>{{mainData.update_time}}</text></view>
 				</view>
-				<view class="reward d-flex a-center">
+				<button class="reward d-flex a-center" open-type="share" style="margin: 0;width:auto;padding: 0;">
 					<image src="../../static/images/qiugou-icon2.png"></image>
 					<view class="font-24" style="color: #ffad42;">赚{{share}}金币</view>
-				</view>
+				</button>
 			</view>
 		</view>
 		<view class="f5Bj-H10"></view>
@@ -137,8 +137,46 @@
 		onLoad(options) {
 			const self = this;
 			self.id = options.id;
+			if(options.user_no){
+				self.user_no = options.user_no
+			};
 			self.share = uni.getStorageSync('user_info').thirdApp.share;
 			self.$Utils.loadAll(['getMainData', 'getUserInfoData'], self);
+		},
+		
+		onShareAppMessage(ops) {
+			const self = this;
+			if (ops.from === 'button') {
+				
+				return {
+					title: '出售-'+self.mainData.title,
+					path: '/pages/companyDetail/companyDetail?user_no='+uni.getStorageSync('user_info').user_no+'&id='+self.id, //点击分享的图片进到哪一个页面
+					imageUrl:self.mainData.mainImg[0].url,
+					success: function(res) {
+						// 转发成功
+						
+						console.log("转发成功:" + JSON.stringify(res));
+					},
+					fail: function(res) {
+						// 转发失败
+						console.log("转发失败:" + JSON.stringify(res));
+					}
+				}
+			}else{
+				return {
+					title: '出售-'+self.mainData.title,
+					path: '/pages/companyDetail/companyDetail?user_no='+uni.getStorageSync('user_info').user_no+'&id='+self.id, //点击分享的图片进到哪一个页面
+					imageUrl:self.mainData.mainImg[0].url,
+					success: function(res) {
+						// 转发成功
+						console.log("转发成功:" + JSON.stringify(res));
+					},
+					fail: function(res) {
+						// 转发失败
+						console.log("转发失败:" + JSON.stringify(res));
+					}
+				}
+			}
 		},
 
 		methods: {
@@ -223,13 +261,70 @@
 				postData.searchItem = {
 					thirdapp_id: 2
 				};
+				if(self.user_no){
+					postData.getAfter = {
+						log:{
+							tableName:'Log',
+							middleKey:'user_no',
+							key:'user_no',
+							searchItem:{
+								type:1,
+								status:1,
+								relation_id:self.id
+							},
+							condition:'='
+						}
+					}
+				};
 				const callback = (res) => {
+					console.log('res',res)
 					if (res.info.data.length > 0) {
-						self.userInfoData = res.info.data[0]
-					};
-					self.$Utils.finishFunc('getUserInfoData');
+						self.userInfoData = res.info.data[0];
+						if(self.userInfoData.log&&self.userInfoData.log.length==0){
+							self.logAdd()
+						}else{
+							self.$Utils.finishFunc('getUserInfoData');
+						}
+					}
 				};
 				self.$apis.userInfoGet(postData, callback);
+			},
+			
+			logAdd() {
+				const self = this;
+				const postData = {};
+				postData.tokenFuncName = 'getProjectToken';
+				postData.data = {
+					type: 1,
+					thirdapp_id: 2,
+					status: 1,
+					relation_table: 'Article',
+					relation_id: self.id,
+					relation_user: self.user_no,
+				};
+				postData.saveAfter = [{
+					tableName: 'FlowLog',
+					FuncName: 'add',
+					data: {
+						type:3,
+						count:uni.getStorageSync('user_info').thirdApp.share,
+						trade_info:'分享奖励金币',
+						account:1,
+						thirdapp_id: 2,
+						status:1,
+						user_no:self.user_no,
+						user_type:0
+					},
+				}];
+				const callback = (data) => {
+					if (data.solely_code == 100000) {
+						self.$Utils.finishFunc('getUserInfoData')
+					} else {
+						uni.setStorageSync('canClick', true);
+						self.$Utils.showToast(data.msg, 'none', 1000)
+					}
+				};
+				self.$apis.logAdd(postData, callback);
 			},
 
 			conact() {
@@ -269,6 +364,7 @@
 					trade_info: '联系',
 					type: 3,
 					account: 1,
+					user_no:uni.getStorageSync('user_info').user_no
 				};
 				const callback = (data) => {
 					if (data.solely_code == 100000) {
@@ -291,6 +387,7 @@
 				};
 
 				const callback = (res) => {
+					console.log('res',res)
 					if (res.info.data.length > 0) {
 						self.mainData = res.info.data[0]
 						self.getLabelData()

@@ -7,7 +7,7 @@
 					<view>陕西省·西安市</view>
 					<image class="icon" src="../../static/images/home-icon.png" mode=""></image>
 				</view>
-				<view class="d-flex j-sb a-center"  @click="Router.navigateTo({route:{path:'/pages/screen/screen'}})">
+				<view class="d-flex j-sb a-center"  @click="Router.navigateTo({route:{path:'/pages/screen/screen?id=10'}})">
 					<image class="icon1" src="../../static/images/home-icon0.png" mode=""></image>
 					<view>筛选</view>
 				</view>
@@ -103,7 +103,8 @@
 					thirdapp_id:2
 				},
 				getBefore:{},
-				itemArray:[]
+				itemArray:[],
+				titleArray:[]
 			}
 		},
 		
@@ -131,7 +132,7 @@
 			self.getBefore = {};
 			uni.setStorageSync('serviceSearch',self.itemArray);
 			uni.setStorageSync('serviceTitle',self.titleArray);
-			self.getLabelData()
+			self.getMainData(true)
 		},
 		
 		onShow() {
@@ -172,6 +173,8 @@
 				uni.setStorageSync('serviceTitle',self.titleArray);
 			},
 			
+			
+			
 			getMainData(isNew) {
 				const self = this;
 				if (isNew) {
@@ -199,10 +202,14 @@
 						condition:'in'
 					}
 				};
+				if(JSON.stringify(self.getBefore)!='{}'){
+					postData.getBefore = self.getBefore
+				};
 				const callback = (res) => {
 					if (res.info.data.length > 0) {
 						self.mainData.push.apply(self.mainData,res.info.data)
 					}
+					uni.stopPullDownRefresh();
 					self.$Utils.finishFunc('getMainData');
 				};
 				self.$apis.articleGet(postData, callback);

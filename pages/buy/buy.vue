@@ -29,10 +29,10 @@
 					<view class="d-flex a-center">
 						<view class="d-flex a-center flex-wrap font-24 color6" v-for="(c_item,c_index) in item.spu">{{item.title}}</view>
 					</view>
-					<view class="reward d-flex a-center ">
+					<button class="reward d-flex a-center " open-type="share" :data-index="index" style="margin: 0;width:auto;padding: 0;">
 						<image src="../../static/images/qiugou-icon2.png"></image>
-						<view class="font-22 colorffad  ml-1">赚{{share}}金币</view>
-					</view>
+						<view class="font-22 colorffad ml-1" style="color: #ffad42;">赚{{share}}金币</view>
+					</button>
 				</view>
 				<view class="buyPeople d-flex j-sb a-center border-top pt-3">
 					
@@ -115,11 +115,16 @@
 			}
 		},
 		
-		onLoad() {
+		onLoad(options) {
 			const self = this;
 			self.paginate = self.$Utils.cloneForm(self.$AssetsConfig.paginate);
 			//self.$Utils.loadAll(['getMainData'], self);
 			self.share = uni.getStorageSync('user_info').thirdApp.share;
+			if(options.user_no){
+				self.user_no = options.user_no;
+				self.id = options.id;
+			};
+			self.$Utils.loadAll(['getUserInfoData'], self);
 		},
 		
 		onReachBottom() {
@@ -164,7 +169,43 @@
 				self.getBefore = {}
 			};
 			self.getMainData(true)
-			self.$Utils.loadAll(['getUserInfoData'], self);
+		
+		},
+		
+		onShareAppMessage(ops) {
+			const self = this;
+			console.log('ops',ops)
+			var index = ops.target.dataset.index
+			if (ops.from === 'button') {
+				
+				return {
+					title: '出售-'+self.mainData[index].title,
+					path: '/pages/companyDetail/companyDetail?user_no='+uni.getStorageSync('user_info').user_no+'&id='+self.mainData[index].id, //点击分享的图片进到哪一个页面
+					imageUrl:self.mainData[index].mainImg[0].url,
+					success: function(res) {
+						// 转发成功
+						
+						console.log("转发成功:" + JSON.stringify(res));
+					},
+					fail: function(res) {
+						// 转发失败
+						console.log("转发失败:" + JSON.stringify(res));
+					}
+				}
+			}else{
+				return {
+					title: '易转小程序',
+					path: '/pages/buy/buy', //点击分享的图片进到哪一个页面
+					success: function(res) {
+						// 转发成功
+						console.log("转发成功:" + JSON.stringify(res));
+					},
+					fail: function(res) {
+						// 转发失败
+						console.log("转发失败:" + JSON.stringify(res));
+					}
+				}
+			}
 		},
 		
 		methods: {
@@ -176,13 +217,65 @@
 				postData.searchItem = {
 					thirdapp_id:2
 				};
+				if(self.user_no){
+					postData.getAfte = {
+						log:{
+							tableName:'Log',
+							middleKey:'user_no',
+							key:'user_no',
+							searchItem:{
+								type:1,
+								status:1
+							},
+							condition:'='
+						}
+					}
+				};
 				const callback = (res) => {
-					if (res.info.data.length > 0) {
-						self.userInfoData = res.info.data[0]
-					};
-					self.$Utils.finishFunc('getUserInfoData');
+					self.userInfoData = res.info.data[0];
+					if(userInfoData.log&&userInfoData.log.length==0){
+						self.logAdd()
+					}else{
+						self.$Utils.finishFunc('getUserInfoData');
+					}
 				};
 				self.$apis.userInfoGet(postData, callback);
+			},
+			
+			logAdd() {
+				const self = this;
+				const postData = {};
+				postData.tokenFuncName = 'getProjectToken';
+				postData.data = {
+					type: 1,
+					thirdapp_id: 2,
+					status: 1,
+					relation_table: 'Article',
+					relation_id: self.id,
+					relation_user: self.user_no,
+				};
+				postData.saveAfter = [{
+					tableName: 'FlowLog',
+					FuncName: 'add',
+					data: {
+						type:3,
+						count:uni.getStorageSync('user_info').thirdApp.share,
+						trade_info:'分享奖励金币',
+						account:1,
+						thirdapp_id: 2,
+						status:1,
+						user_no:self.user_no
+					},
+				}];
+				const callback = (data) => {
+					if (data.solely_code == 100000) {
+						self.$Utils.finishFunc('getUserInfoData')
+					} else {
+						uni.setStorageSync('canClick', true);
+						self.$Utils.showToast(data.msg, 'none', 1000)
+					}
+				};
+				self.$apis.flowLogAdd(postData, callback);
 			},
 			
 			conact(index){

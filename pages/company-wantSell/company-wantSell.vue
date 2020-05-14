@@ -90,10 +90,12 @@
 		<view class="">
 			<view class="py-3 font-weight mx-4">公司图集</view>
 			<view class="mx-4 d-flex a-center pdb10">
-				<view class="upImg d-flex a-center" style="justify-content: center;">
+				<view class="upImg d-flex a-center" style="justify-content: center;" v-if="submitData.mainImg&&submitData.mainImg.length>0">
 					<view class="" style="width: 100%;height: 100%;" v-for="(item,index) in submitData.mainImg" :key="index">
 						<image :src="item.url" mode=""></image>
 					</view>
+				</view>
+				<view class="upImg d-flex a-center" style="justify-content: center;" >
 					<view class="uni-hello-addfile" style="width: 50%;height: 50%;" @click="upLoadImg('mainImg')">
 						<image src="../../static/images/release-icon.png" mode=""></image>
 					</view>
@@ -108,10 +110,13 @@
 		<view class="">
 			<view class="py-3 font-weight mx-4">执照资质</view>
 			<view class="mx-4 d-flex a-center pb-2">
-				<view class="upImg d-flex a-center" style="justify-content: center;"> 
+				<view class="upImg d-flex a-center" v-if="submitData.bannerImg&&submitData.bannerImg.length>0"> 
 					<view class="" style="width: 100%;height: 100%;" v-for="(item,index) in submitData.bannerImg" :key="index">
 						<image :src="item.url" mode=""></image>
 					</view>
+				
+				</view>
+				<view class="upImg d-flex a-center" style="justify-content: center;">
 					<view class="uni-hello-addfile" style="width: 50%;height: 50%;" @click="upLoadImg('bannerImg')">
 						<image src="../../static/images/release-icon.png" mode=""></image>
 					</view>
@@ -182,6 +187,7 @@
 			const self = this;
 			self.id = options.id;
 			self.submitData.menu_id = self.id;
+			console.log('options',options)
 			if(options.art_id){
 				self.getArtData(options.art_id)
 			}
